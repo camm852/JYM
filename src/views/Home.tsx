@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Carousel images={images} autoPlay showButtons={false} />
+      <Carousel images={images} autoPlay showButtons />
     </>
   );
 }

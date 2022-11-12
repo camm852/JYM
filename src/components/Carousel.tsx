@@ -154,49 +154,51 @@ export default function Carousel(props: Props) {
       {/*
       //**Buttons
       */}
-      <div className="absolute left-6 bottom-2  md:left-14 xl:bottom-8 xl:left-32 flex">
-        <button onClick={() => previousIndex()}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5  md:w-8 md:h-8 text-gray-500 text-opacity-60"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-          </svg>
-        </button>
-        {images.map((image, i) => (
-          <div className="p-1 mx-1" key={image}>
+      {showButtons ? (
+        <div className="absolute left-6 bottom-2  md:left-14 xl:bottom-8 xl:left-32 flex">
+          <button onClick={() => previousIndex()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={`${selectedIndex === i ? '#818181' : '#dcdcdc44'}`}
+              fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-5 h-5 text-gray-500 text-opacity-20 ${
-                selectedIndex === i ? 'text-white text-opacity-100' : ''
-              } `}
-              key={image}
+              className="w-5 h-5  md:w-8 md:h-8 text-gray-500 text-opacity-60"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
-          </div>
-        ))}
-        <button onClick={() => nextIndex()}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5  md:w-8 md:h-8 text-gray-500 text-opacity-60"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-          </svg>
-        </button>
-      </div>
+          </button>
+          {images.map((image, i) => (
+            <div className="p-1 mx-1" key={image}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill={`${selectedIndex === i ? '#818181' : '#dcdcdc44'}`}
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className={`w-5 h-5 text-gray-500 text-opacity-20 ${
+                  selectedIndex === i ? 'text-white text-opacity-100' : ''
+                } `}
+                key={image}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+              </svg>
+            </div>
+          ))}
+          <button onClick={() => nextIndex()}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-5  md:w-8 md:h-8 text-gray-500 text-opacity-60"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      ) : null}
       <div className="absolute left-6  w-2/3 xl:w-2/5 2xl:w-1/5 top-3 lg:top-10 xl:top-14   md:left-14  xl:left-32 ">
         {Object.values(informationImages[selectedIndex])}
       </div>
