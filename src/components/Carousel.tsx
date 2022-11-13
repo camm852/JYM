@@ -1,12 +1,7 @@
 import React from 'react';
+import { PropsCarousel } from '../types';
 
-interface Props {
-  images: string[];
-  showButtons?: boolean;
-  autoPlay?: boolean;
-}
-
-export default function Carousel(props: Props) {
+export default function Carousel(props: PropsCarousel) {
   const { images, showButtons, autoPlay } = props;
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -31,7 +26,7 @@ export default function Carousel(props: Props) {
   };
 
   React.useEffect(() => {
-    if (autoPlay && !showButtons) {
+    if (autoPlay) {
       const interval = setInterval(() => {
         setNewImage(selectedIndex, images);
       }, 2500);

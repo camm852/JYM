@@ -19,6 +19,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "object-curly-newline": "off",
     "@typescript-eslint/comma-dangle": "off",
     "import/no-dynamic-require": "off",
     "no-nested-ternary": "off",

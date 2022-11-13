@@ -1,10 +1,7 @@
 import React from 'react';
-import FormLoginSignUp from '../components/FormLorginSignUp';
+import FormLoginSingUp from '../components/FormLorginSignUp';
 
-export default function Login() {
-  // const handleChangeE = (e: React.SyntheticEvent<EventTarget>) => {
-  //   console.log(e);
-  // };
+export default function SignUp() {
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   React.useEffect(() => setLoaded(true), []);
@@ -14,7 +11,7 @@ export default function Login() {
       className={`opacity-0 transition-all duration-1000 ${loaded ? 'opacity-100' : ''}`}
       style={{ transition: '1.6s' }}
     >
-      <FormLoginSignUp isLogin />
+      <FormLoginSingUp isLogin={false} />
     </div>
   );
 }
