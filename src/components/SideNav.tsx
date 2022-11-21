@@ -36,7 +36,6 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
       </div>
       <div className="m-4">
         {routesLayaout.map(({ icon, name, path }, key) => (
-          // eslint-disable-next-line react/no-array-index-key
           <ul key={key} className="mb-4 flex flex-col gap-1">
             <li key={name}>
               <NavLink to={`/dashboard${path}`}>

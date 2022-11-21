@@ -1,4 +1,3 @@
-import React from 'react';
 import FacebookIcon from './IconsSocial/FacebookIcon';
 import InstagramIcon from './IconsSocial/InstagramIcon';
 import WhatsAppIcon from './IconsSocial/WhatsAppIcon';
@@ -7,8 +6,7 @@ import { LOGO } from '../assets/assests';
 export default function Footer(): JSX.Element {
   const style = {
     anchor:
-      // eslint-disable-next-line quotes
-      "inline-block relative pl-7 text-lg mb-2 hover:text-white after:absolute after:content-[''] after:w-1 after:h-1 after:left-0  after:top-3  after:border after:border-red-500 after:rounded-full  after:transition-all after:duration-200 after:hover:w-2 after:hover:h-2 after:hover:top-2 after:hover:bg-red-500"
+      'inline-block relative pl-7 text-lg mb-2 hover:text-white after:absolute after:content-[""] after:w-1 after:h-1 after:left-0  after:top-3  after:border after:border-red-500 after:rounded-full  after:transition-all after:duration-200 after:hover:w-2 after:hover:h-2 after:hover:top-2 after:hover:bg-red-500'
   };
 
   return (

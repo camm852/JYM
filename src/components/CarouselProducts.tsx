@@ -58,7 +58,6 @@ export default function CarouselProducts(props: Props): JSX.Element {
         {...settings}
       >
         {products.map((product, i) => (
-          // eslint-disable-next-line react/no-array-index-key
           <CardProduct image={product} key={i} />
         ))}
       </Slider>

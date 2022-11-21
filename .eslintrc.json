@@ -19,6 +19,8 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "import/prefer-default-export": "off",
+    "react/no-array-index-key": "off",
     "no-confusing-arrow": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
