@@ -1,14 +1,14 @@
 import React from 'react';
-import { PropsCarousel } from '../types';
+import { PropsCarousel } from '../vite-env';
 
 export default function Carousel(props: PropsCarousel) {
   const { images, showButtons, autoPlay } = props;
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [selectedImage, setSelectedImage] = React.useState(images[0]);
-  const [loaded, setLoaded] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
+  const [selectedImage, setSelectedImage] = React.useState<string>(images[0]);
+  const [loaded, setLoaded] = React.useState<boolean>(false);
 
-  const setNewImage = (index: number, imagesArray: Array<string>, next = true) => {
+  const setNewImage = (next = true) => {
     setLoaded(false);
     setTimeout(() => {
       const condition = next ? selectedIndex < images.length - 1 : selectedIndex > 0;
@@ -28,19 +28,19 @@ export default function Carousel(props: PropsCarousel) {
   React.useEffect(() => {
     if (autoPlay) {
       const interval = setInterval(() => {
-        setNewImage(selectedIndex, images);
+        setNewImage();
       }, 2500);
       return () => clearInterval(interval);
     }
     return () => {};
   });
 
-  const previousIndex = () => {
-    setNewImage(selectedIndex, images, false);
+  const previousIndex = (): void => {
+    setNewImage(false);
   };
 
-  const nextIndex = () => {
-    setNewImage(selectedIndex, images);
+  const nextIndex = (): void => {
+    setNewImage();
   };
 
   const informationImages = [
@@ -140,7 +140,7 @@ export default function Carousel(props: PropsCarousel) {
       <img
         src={selectedImage}
         style={{ width: '100%', height: '85vh' }}
-        className={`object-cover lg:object-fill opacity-0 transition-opacity  duration-1000 ${
+        className={`object-cover opacity-0 transition-opacity  duration-1000 ${
           loaded ? 'opacity-100' : ''
         }`}
         alt=""

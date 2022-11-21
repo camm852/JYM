@@ -1,7 +1,7 @@
 import React from 'react';
-import FormLoginSignUp from '../components/FormLorginSignUp';
+import FormLoginSignUp from '../components/formAuth/FormLorginSignUp';
 
-export default function Login() {
+export default function Login(): JSX.Element {
   // const handleChangeE = (e: React.SyntheticEvent<EventTarget>) => {
   //   console.log(e);
   // };
