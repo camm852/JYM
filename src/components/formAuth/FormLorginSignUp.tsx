@@ -6,10 +6,7 @@ import { Link } from 'react-router-dom';
 import { JYMLOGO } from '../../assets/assests';
 import FormSignUp from './FormSignUp.';
 import FormLogin from './FormLogin';
-
-interface Props {
-  isLogin: boolean;
-}
+import { PropsLogin as Props } from '../../vite-env';
 
 export default function FormLoginSingUp(props: Props) {
   const { isLogin } = props;

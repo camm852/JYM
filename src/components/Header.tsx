@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
 import { LOGO } from '../assets/assests';
 import ButtonMenu from './ButtonMenu';
-import NavBar from './navBar/NavBar';
+import NavBar from './NavBar';
 
 export default function Header() {
   const [navBar, setNavBar] = React.useState<boolean>(false);

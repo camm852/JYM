@@ -1,23 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-interface Links {
-  id: number;
-  to: string;
-  name: string;
-}
-
-interface Props {
-  openNavBar: boolean;
-}
+import { PropsNavBar as Props, LinksNavBar } from '../vite-env';
 
 export default function NavBar(props: Props): JSX.Element {
   const { openNavBar } = props;
 
   const [categories, setCategories] = React.useState<boolean>(false);
 
-  const links: Array<Links> = [
-
+  const links: Array<LinksNavBar> = [
     {
       id: 2,
       to: '/men',
@@ -32,7 +22,7 @@ export default function NavBar(props: Props): JSX.Element {
       id: 1,
       to: '/about-us',
       name: '¿quienes somos?'
-    },
+    }
   ];
 
   return (

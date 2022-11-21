@@ -1,5 +1,5 @@
 import React from 'react';
-import FormLoginSingUp from '../components/formAuth/FormLorginSignUp';
+import FormLoginSingUp from '../components/FormAuth/FormLorginSignUp';
 
 export default function SignUp(): JSX.Element {
   const [loaded, setLoaded] = React.useState<boolean>(false);

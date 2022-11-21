@@ -1,8 +1,5 @@
 import React from 'react';
-
-interface Props {
-  image: string;
-}
+import { PropsCardProduct as Props } from '../vite-env';
 
 export default function CardProduct(props: Props): JSX.Element {
   const { image } = props;
@@ -29,7 +26,7 @@ export default function CardProduct(props: Props): JSX.Element {
                 />
               </svg>
             </i>
-            <span className="absolute right-4 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-500 group-hover:delay-100 group-hover:ease-in capitalize font-semibold">
+            <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-100 group-hover:ease-in capitalize font-semibold">
               Agregar al carrito
             </span>
           </button>

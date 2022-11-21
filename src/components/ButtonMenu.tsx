@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface Props {
-  setNavBar: React.Dispatch<React.SetStateAction<boolean>>;
-  navBar: boolean;
-}
+import { PropsButtonMenu as Props } from '../vite-env';
 
 export default function ButtonMenu(props: Props): JSX.Element {
   const { setNavBar, navBar } = props;
