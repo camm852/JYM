@@ -1,8 +1,6 @@
 FROM node:16.17.1-alpine3.16 as build
 
-RUN mkdir -p /usr/src/app
-
-WORKDIR /app
+WORKDIR /usr/app
 
 COPY package*.json ./  
 
@@ -12,7 +10,11 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:1.23.1-alpine
+
+
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=build /usr/app/dist .
 EXPOSE 80
-COPY ./docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /usr/app/dist /usr/share/nginx/html
+# run nginx with global directives and daemon off
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

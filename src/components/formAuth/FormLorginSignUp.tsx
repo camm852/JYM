@@ -4,8 +4,9 @@ import 'yup-phone-lite';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { JYMLOGO } from '../../assets/assests';
-import FormSignUp from './FormSignUp.';
 import FormLogin from './FormLogin';
+import FormSignUp from './FormSignUp';
+
 import { PropsLogin as Props } from '../../vite-env';
 
 export default function FormLoginSingUp(props: Props) {
@@ -50,7 +51,7 @@ export default function FormLoginSingUp(props: Props) {
             }
       }
       validationSchema={schema}
-      onSubmit={(values, actions) => {
+      onSubmit={() => {
         setTimeout(() => {
           console.log('submit');
         }, 1000);
