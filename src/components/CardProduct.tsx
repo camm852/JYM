@@ -5,10 +5,10 @@ export default function CardProduct(props: Props): JSX.Element {
   const { image } = props;
 
   return (
-    <div className="w-56  md:w-64">
-      <div className="relative h-96">
+    <div className=" w-56 sm:w-48  md:w-52">
+      <div className="relative h-96 sm:h-80">
         <img src={image} alt={`${image}`} className="rounded-xl" />
-        <div className="absolute w-full bottom-14 md:bottom-1 right-0 pr-4 text-right">
+        <div className="absolute  w-full bottom-14 md:bottom-1 right-0 pr-2 text-right">
           <button className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-500 ease-in-out hover:w-48 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left">
             <i className="inline-block">
               <svg

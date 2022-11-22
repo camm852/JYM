@@ -20,20 +20,21 @@ export default function CarouselProducts(props: Props): JSX.Element {
     speed: 2000,
     autoplay: true,
     slidesToShow: 4,
+    centerMode: true,
     slidesToScroll: 4,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1279,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 3
         }
       },
       {
         breakpoint: 997,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 2,
           initialSlide: 2
         }
@@ -42,8 +43,8 @@ export default function CarouselProducts(props: Props): JSX.Element {
         breakpoint: 500,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
-          fade: true
+          slidesToScroll: 1
+          // fade: true
         }
       }
     ]
@@ -51,16 +52,18 @@ export default function CarouselProducts(props: Props): JSX.Element {
 
   return (
     <div className="overflow-x-hidden">
-      <Slider
-        ref={(c: Slider | null): void => {
-          setSlider(c);
-        }}
-        {...settings}
-      >
-        {products.map((product, i) => (
-          <CardProduct image={product} key={i} />
-        ))}
-      </Slider>
+      <div className="">
+        <Slider
+          ref={(c: Slider | null): void => {
+            setSlider(c);
+          }}
+          {...settings}
+        >
+          {products.map((product, i) => (
+            <CardProduct image={product} key={i} />
+          ))}
+        </Slider>
+      </div>
       <div className="flex gap-5 mt-8  justify-center">
         <button onClick={prev} className="p-1 border-2 border-gray-400 rounded-full bg-transparent">
           <svg
