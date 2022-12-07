@@ -9,7 +9,7 @@ import product3 from './photos/3.jpg.webp';
 import product4 from './photos/4.jpg.webp';
 import product5 from './photos/6.jpg.webp';
 import mastercard from './payments/Mastercard.svg';
-import visa from './payments/visa.svg';
+import visa from './payments/Visa.svg';
 import medida from './page/medida.webp';
 import woman from './page/woman.svg';
 import man from './page/man.svg';
