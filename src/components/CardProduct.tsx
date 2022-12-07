@@ -1,15 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PropsCardProduct as Props } from '../vite-env';
 
 export default function CardProduct(props: Props): JSX.Element {
   const { image } = props;
 
+  const navigate = useNavigate();
+
   return (
-    <div className=" w-56 sm:w-48  md:w-52">
+    <div className="w-56 sm:w-48  md:w-52">
       <div className="relative h-96 sm:h-80">
         <img src={image} alt={`${image}`} className="rounded-xl" />
         <div className="absolute  w-full bottom-14 md:bottom-1 right-0 pr-2 text-right">
-          <button className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-500 ease-in-out hover:w-48 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left">
+          <button
+            className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-500 ease-in-out hover:w-32 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left"
+            onClick={() => navigate('/product/1')}
+          >
             <i className="inline-block">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -22,12 +28,17 @@ export default function CardProduct(props: Props): JSX.Element {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
             </i>
             <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-100 group-hover:ease-in capitalize font-semibold">
-              Agregar al carrito
+              Visualizar
             </span>
           </button>
         </div>

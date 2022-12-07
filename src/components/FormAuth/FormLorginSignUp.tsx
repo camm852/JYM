@@ -9,7 +9,7 @@ import FormSignUp from './FormSignUp';
 
 import { PropsLogin as Props } from '../../vite-env';
 
-export default function FormLoginSingUp(props: Props) {
+export default function FormLoginSingUp(props: Props): JSX.Element {
   const { isLogin } = props;
 
   const schema = isLogin
@@ -58,8 +58,8 @@ export default function FormLoginSingUp(props: Props) {
       }}
     >
       {({ handleChange, handleSubmit, errors, values, touched }) => (
-        <div className="block lg:flex lg:justify-center">
-          <div className="w-full  lg:w-3/6 xl:w-3/6 px-4 mt-8 lg:mt-3 xl:mt-3">
+        <div className="block lg:flex 2xl:mt-24 lg:justify-center">
+          <div className="w-full lg:w-3/6 xl:w-3/6 px-4 pt-4 lg:pt-0 mt-8 lg:mt-3 xl:mt-3">
             <img src={JYMLOGO} alt="logo" className="m-auto mt-4 sm:mt-0 w-52" />
             <form
               onSubmit={handleSubmit}
@@ -90,7 +90,7 @@ export default function FormLoginSingUp(props: Props) {
               )}
               <button
                 type="submit"
-                className="w-4/6  lg:w-full xl:w-11/12 mt-8 p-2 border rounded-md bg-orange-200 hover:bg-orange-300 font-medium hover:text-white transition-all duration-300"
+                className="w-4/6  lg:w-full xl:w-11/12 mt-8 p-2 border rounded-md bg-blue-400 font-medium text-white transition-all duration-300"
               >
                 {isLogin ? 'Entrar' : 'Registrarse'}
               </button>
@@ -100,7 +100,7 @@ export default function FormLoginSingUp(props: Props) {
                 </p>
                 <Link
                   to={`/${isLogin ? 'signUp' : 'login'}`}
-                  className="underline hover:text-orange-300 transition-colors ease-out duration-300 "
+                  className="underline hover:text-blue-400 transition-colors ease-out duration-300 "
                 >
                   {!isLogin ? 'Entrar' : 'Registrarse'}
                 </Link>

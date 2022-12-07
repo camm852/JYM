@@ -26,14 +26,12 @@ export default function NavBar(props: Props): JSX.Element {
   ];
 
   return (
-    <div>
-      <div className="hidden md:block">
-        <div className="w-full flex gap-10 justify-center mb-2">
+    <div className="shadow-l py-1">
+      <div className="hidden md:block bg-blue-400">
+        <div className="w-full flex gap-10 justify-center h-10">
           {/* Categoriass */}
-          <div className="group flex items-center gap-1 rounded-xl p-2  text-left font-semibold hover:text-white hover:bg-orange-200   cursor-pointer transition-all duration-75 ease-linear  ">
-            <div>
-              <div>Categorias</div>
-            </div>
+          <div className="group flex items-center gap-1 rounded-md p-2  text-left font-semibold text-white cursor-pointer transition-all duration-75 ease-linear  ">
+            <div className="group-hover:text-lg">Categorias</div>
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,12 +49,12 @@ export default function NavBar(props: Props): JSX.Element {
               </svg>
             </div>
             {/* sub Categorias */}
-            <div className="absolute sm:mt-1  lg:-mt-1  z-0 group-hover:z-10 top-64 lg:top-36 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-black">
-              <div className="bg-white opacity-80 p-2 rounded-lg">
+            <div className="absolute w-48 hidden group-hover:block sm:mt-1  lg:-mt-1  z-0 group-hover:z-10 top-64 lg:top-36 transition-opacity duration-200 text-black">
+              <div className="bg-blue-400 p-2 rounded-lg">
                 {links.map((link) => (
                   <div
                     key={link?.id}
-                    className="rounded-xl hover:bg-orange-200 hover:text-white p-2 transition-all duration-200 ease-linear mb-4"
+                    className="rounded-xl text-white hover:text-lg p-2 transition-all duration-100 ease-linear mb-4"
                   >
                     <Link to={link.to} className="font-semibold capitalize">
                       {link.name}
@@ -69,7 +67,7 @@ export default function NavBar(props: Props): JSX.Element {
           {links.map((link) => (
             <div
               key={link?.id}
-              className="rounded-xl  p-2 hover:bg-orange-200 hover:text-white transition-all duration-75 ease-linear"
+              className="rounded-md p-2 text-white hover:text-lg  transition-all duration-75 ease-linear"
             >
               <Link to={link.to} className="font-semibold capitalize">
                 {link.name}

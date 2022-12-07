@@ -6,6 +6,7 @@ import DashBoardHome from '../views/DashBoardHome';
 import Gestion from '../views/Gestion';
 import Home from '../views/Home';
 import Login from '../views/Login';
+import Product from '../views/Product';
 import Profile from '../views/Profile';
 import Shopping from '../views/Shopping';
 import SignUp from '../views/SignUp';
@@ -18,6 +19,7 @@ export default function RouteApp() {
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
+          <Route path="/product/:id" element={<Product />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<Dashboard />} />

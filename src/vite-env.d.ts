@@ -35,3 +35,30 @@ export interface PropsLogin {
 export interface PropsIcons {
   className: string;
 }
+
+export interface PropsCart {
+  setActiveCart: React.Dispatch<React.SetStateAction<boolean>>;
+  activeCart: boolean;
+  products: CartProduct[];
+}
+
+export interface CartProduct {
+  image: string;
+  name: string;
+  price: number;
+  description: string;
+  mount: number;
+  color: string;
+  size: string;
+}
+
+export interface PropsCartProduct {
+  indexProduct: number;
+  product: CartProduct;
+}
+
+// Redux
+
+export interface CartState {
+  items: CartProduct[];
+}

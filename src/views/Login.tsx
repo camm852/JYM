@@ -11,8 +11,9 @@ export default function Login(): JSX.Element {
 
   return (
     <div
-      className={`opacity-0 transition-all duration-1000 ${loaded ? 'opacity-100' : ''}`}
-      style={{ transition: '1.6s' }}
+      className={`absolute w-full -left-full transition-all duration-500 overflow-hidden ${
+        loaded ? '-left-1' : ''
+      }`}
     >
       <FormLoginSignUp isLogin />
     </div>

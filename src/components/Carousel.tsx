@@ -48,37 +48,33 @@ export default function Carousel(props: PropsCarousel) {
       inform: (
         <div className={`opacity-0  ${loaded ? 'opacity-100' : 'none'} `}>
           <h2
-            className={`font-semibold text-white text-xl md:text-3xl X transition-all 
+            className={`font-semibold text-white text-xl md:text-3xl X transition-all duration-[1.5s]
               ${loaded ? 'translate-y-0' : '-translate-y-10'}
             }`}
-            style={{ transition: '1.5s' }}
           >
             New Jacket
           </h2>
           <h2
-            className={`font-bold text-white text-2xl md:text-6xl mb-3 transition-all
+            className={`font-bold text-white text-2xl md:text-6xl mb-3 transition-all duration-[1.5s]
             ${loaded ? 'translate-x-0' : 'translate-x-10'}
 
           `}
-            style={{ transition: '1.5s' }}
           >
             DENIM JACKET
           </h2>
           <p
-            className={`text-justify md:leading-7 text-white  transition-all
+            className={`text-justify md:leading-7 text-white  transition-all duration-[1.5s]
               ${loaded ? 'translate-y-0' : 'translate-y-10'}
             `}
-            style={{ transition: '1.5s' }}
           >
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deleniti, aspe riores? Veniam
             quos doloribus ad minima maxime, iure in quidem voluptates aspernatur laborum
             voluptatem, debitis, quo cum magnam vel at culpa!
           </p>
           <div
-            className={`flex gap-3 transtion-all
+            className={`flex gap-3 transtion-all duration-[1.8s]
           ${loaded ? 'translate-y-0' : 'translate-y-10'}
           `}
-            style={{ transition: '1.8s' }}
           >
             <button className="w-40 md:w-1/3 p-2 mt-4 md:mt-10 border rounded-lg text-white">
               View
@@ -139,8 +135,7 @@ export default function Carousel(props: PropsCarousel) {
       */}
       <img
         src={selectedImage}
-        style={{ width: '100%', height: '85vh' }}
-        className={`object-cover opacity-0 transition-opacity  duration-1000 ${
+        className={`w-full h-[85vh] object-cover opacity-0 transition-opacity  duration-1000 ${
           loaded ? 'opacity-100' : ''
         }`}
         alt=""

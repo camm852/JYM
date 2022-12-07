@@ -10,7 +10,7 @@ export default function FormSignUp({ handleChange, values, errors, touched }: an
           name="name"
           id="name"
           value={values.name}
-          className={`w-full text-slate-700  border-b border-gray-300 focus:outline-none mt-8 focus:border-orange-200 bg-transparent ${
+          className={`w-full text-slate-700  border-b border-gray-300 focus:outline-none mt-8 focus:border-blue-400 bg-transparent ${
             errors.name && touched.name ? 'border-b-red-600 mt-3' : ''
           } `}
           placeholder="Nombre Completo"
@@ -28,7 +28,7 @@ export default function FormSignUp({ handleChange, values, errors, touched }: an
           name="email"
           id="email"
           value={values.email}
-          className={`w-full  border-b text-slate-700 border-gray-300   focus:outline-none mt-8 focus:border-orange-200 bg-transparent ${
+          className={`w-full  border-b text-slate-700 border-gray-300   focus:outline-none mt-8 focus:border-blue-400 bg-transparent ${
             errors.email && touched.email ? 'border-b-red-600 mt-3' : ''
           } `}
           placeholder="Dirección Email"
@@ -46,7 +46,7 @@ export default function FormSignUp({ handleChange, values, errors, touched }: an
           name="phone"
           id="phone"
           value={values.phone}
-          className={`w-full border-b text-slate-700 border-gray-300  focus:outline-none mt-8 focus:border-orange-200 bg-transparent ${
+          className={`w-full border-b text-slate-700 border-gray-300  focus:outline-none mt-8 focus:border-blue-400 bg-transparent ${
             errors.phone && touched.phone ? 'border-b-red-600 mt-3' : ''
           } `}
           placeholder="Número de Teléfono"
@@ -64,7 +64,7 @@ export default function FormSignUp({ handleChange, values, errors, touched }: an
           name="address"
           id="address"
           value={values.address}
-          className={`w-full border-b  text-slate-700 border-gray-300  focus:outline-none mt-8 focus:border-orange-200 bg-transparent ${
+          className={`w-full border-b  text-slate-700 border-gray-300  focus:outline-none mt-8 focus:border-blue-400 bg-transparent ${
             errors.address && touched.address ? 'border-b-red-600 mt-3' : ''
           } `}
           placeholder="Dirección de Residencia"
@@ -82,10 +82,10 @@ export default function FormSignUp({ handleChange, values, errors, touched }: an
           name="password"
           id="password"
           value={values.password}
-          className={`w-full   text-slate-700 border-b border-gray-300  focus:outline-none mt-8 focus:border-orange-200 bg-transparent ${
+          className={`w-full   text-slate-700 border-b border-gray-300  focus:outline-none mt-8 focus:border-blue-400 bg-transparent ${
             errors.password && touched.password ? 'border-b-red-600 mt-1' : ''
           } `}
-          placeholder="**********************"
+          placeholder="Contraseña"
           onChange={handleChange}
         />
         {errors.password && touched.password ? (
@@ -100,10 +100,10 @@ export default function FormSignUp({ handleChange, values, errors, touched }: an
           name="confirmPassword"
           id="confirmPassword"
           value={values.confirmPassword}
-          className={`w-full text-slate-700  border-b border-gray-300   focus:outline-none mt-8 focus:border-orange-200 bg-transparent ${
+          className={`w-full text-slate-700  border-b border-gray-300   focus:outline-none mt-8 focus:border-blue-400 bg-transparent ${
             errors.confirmPassword && touched.confirmPassword ? 'border-b-red-600 mt-1' : ''
           } `}
-          placeholder="**********************"
+          placeholder="Confirmar contraseña"
           onChange={handleChange}
         />
         {errors.confirmPassword && touched.confirmPassword ? (

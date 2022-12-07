@@ -52,18 +52,16 @@ export default function CarouselProducts(props: Props): JSX.Element {
 
   return (
     <div className="overflow-x-hidden">
-      <div className="">
-        <Slider
-          ref={(c: Slider | null): void => {
-            setSlider(c);
-          }}
-          {...settings}
-        >
-          {products.map((product, i) => (
-            <CardProduct image={product} key={i} />
-          ))}
-        </Slider>
-      </div>
+      <Slider
+        ref={(c: Slider | null): void => {
+          setSlider(c);
+        }}
+        {...settings}
+      >
+        {products.map((product, i) => (
+          <CardProduct image={product} key={i} />
+        ))}
+      </Slider>
       <div className="flex gap-5 mt-8  justify-center">
         <button onClick={prev} className="p-1 border-2 border-gray-400 rounded-full bg-transparent">
           <svg

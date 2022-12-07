@@ -10,7 +10,7 @@ export default function FormLogin({ handleChange, values, errors, touched }: any
           name="email"
           id="email"
           value={values.email}
-          className={`w-full text-slate-700 border-b border-gray-300 mt-8 focus:outline-none  focus:border-orange-200 bg-transparent ${
+          className={`w-full text-slate-700 border-b border-gray-300 mt-8 focus:outline-none  focus:border-blue-400 bg-transparent ${
             errors.email && touched.email ? 'border-b-red-600 mt-3' : ''
           } `}
           placeholder="ejemplo@gmail.com"
@@ -28,10 +28,10 @@ export default function FormLogin({ handleChange, values, errors, touched }: any
           name="password"
           id="password"
           value={values.password}
-          className={`w-full text-slate-700  border-b border-gray-300  mt-4  focus:outline-none focus:border-orange-200 bg-transparent ${
+          className={`w-full text-slate-700  border-b border-gray-300  mt-4  focus:outline-none focus:border-blue-400 bg-transparent ${
             errors.password && touched.password ? 'border-b-red-600 mt-1' : ''
           } `}
-          placeholder="**********************"
+          placeholder="contraseña"
           onChange={handleChange}
         />
         {errors.password && touched.password ? (

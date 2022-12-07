@@ -56,7 +56,7 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
           </ul>
         ))}
         <button
-          className="absolute bottom-12 left-5 hover:text-sky-500 transition-all duration-200 text-slate-400"
+          className="group absolute bottom-12 left-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
           onClick={() => navigate('/')}
         >
           <svg

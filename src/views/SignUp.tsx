@@ -8,8 +8,7 @@ export default function SignUp(): JSX.Element {
 
   return (
     <div
-      className={`opacity-0 transition-all duration-1000 ${loaded ? 'opacity-100' : ''}`}
-      style={{ transition: '1.6s' }}
+      className={`absolute w-full -left-full transition-all duration-500 ${loaded ? 'left-1' : ''}`}
     >
       <FormLoginSingUp isLogin={false} />
     </div>
