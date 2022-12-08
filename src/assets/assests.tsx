@@ -4,6 +4,9 @@ import moda3 from './carousel/moda3.jpg';
 import JYMLOGO from './page/logo.png';
 import LOGO from './page/marca.png';
 import LOGOBLANCO from './page/marcab.png';
+import medida from './page/medida.webp';
+import woman from './page/woman.svg';
+import man from './page/man.svg';
 import product1 from './photos/1.jpg.webp';
 import product2 from './photos/2.jpg.webp';
 import product3 from './photos/3.jpg.webp';
@@ -11,9 +14,6 @@ import product4 from './photos/4.jpg.webp';
 import product5 from './photos/6.jpg.webp';
 import mastercard from './payments/Mastercard.svg';
 import visa from './payments/Visa.svg';
-import medida from './page/medida.webp';
-import woman from './page/woman.svg';
-import man from './page/man.svg';
 
 export {
   moda,
