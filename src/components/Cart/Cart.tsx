@@ -34,7 +34,7 @@ export default function Cart(props: PropsCart): JSX.Element {
             </svg>
           </button>
         </div>
-        <div className="mt-3 px-7 bg-slate-200 h-[540px] 2xl:h-[85vh]">
+        <div className="mt-3 px-7 bg-slate-200 h-[560px] 2xl:h-[91vh]">
           <div className="flex flex-col h-full">
             {/* Productos del carrito */}
             <div className="w-full flex-grow bg-white overflow-y-auto rounded-md">
