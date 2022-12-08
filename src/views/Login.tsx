@@ -5,17 +5,18 @@ export default function Login(): JSX.Element {
   // const handleChangeE = (e: React.SyntheticEvent<EventTarget>) => {
   //   console.log(e);
   // };
-  const [loaded, setLoaded] = React.useState<boolean>(false);
+  // const [loadedPage, setLoadedPage] = React.useState<boolean>(false);
+  const [loadedImage, setLoadedImage] = React.useState<boolean>(false);
 
-  React.useEffect(() => setLoaded(true), []);
+  // React.useEffect(() => setLoadedPage(true), []);
 
   return (
     <div
       className={`absolute w-full -left-full transition-all duration-500 overflow-hidden ${
-        loaded ? '-left-1' : ''
+        loadedImage ? '-left-1' : ''
       }`}
     >
-      <FormLoginSignUp isLogin />
+      <FormLoginSignUp isLogin setLoadedImage={setLoadedImage} />
     </div>
   );
 }

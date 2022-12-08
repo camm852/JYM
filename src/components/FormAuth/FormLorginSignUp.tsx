@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 import { JYMLOGO } from '../../assets/assests';
 import FormLogin from './FormLogin';
 import FormSignUp from './FormSignUp';
-
 import { PropsLogin as Props } from '../../vite-env';
 
 export default function FormLoginSingUp(props: Props): JSX.Element {
-  const { isLogin } = props;
+  const { isLogin, setLoadedImage } = props;
 
   const schema = isLogin
     ? Yup.object().shape({
@@ -60,7 +59,12 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
       {({ handleChange, handleSubmit, errors, values, touched }) => (
         <div className="block lg:flex 2xl:mt-24 lg:justify-center">
           <div className="w-full lg:w-3/6 xl:w-3/6 px-4 pt-4 lg:pt-0 mt-8 lg:mt-3 xl:mt-0">
-            <img src={JYMLOGO} alt="JYMLOGO" className="m-auto w-60" />
+            <img
+              src={JYMLOGO}
+              alt="JYMLOGO"
+              className="m-auto w-60"
+              onLoad={() => setLoadedImage(true)}
+            />
             <form
               onSubmit={handleSubmit}
               className={`p-4 flex ${

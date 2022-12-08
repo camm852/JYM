@@ -30,6 +30,7 @@ export interface PropsNavBar {
 }
 export interface PropsLogin {
   isLogin: boolean;
+  setLoadedImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface PropsIcons {

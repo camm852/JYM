@@ -1,16 +1,22 @@
 import React from 'react';
-import FormLoginSingUp from '../components/FormAuth/FormLorginSignUp';
+import FormLoginSignUp from '../components/FormAuth/FormLorginSignUp';
 
 export default function SignUp(): JSX.Element {
-  const [loaded, setLoaded] = React.useState<boolean>(false);
+  // const handleChangeE = (e: React.SyntheticEvent<EventTarget>) => {
+  //   console.log(e);
+  // };
+  // const [loadedPage, setLoadedPage] = React.useState<boolean>(false);
+  const [loadedImage, setLoadedImage] = React.useState<boolean>(false);
 
-  React.useEffect(() => setLoaded(true), []);
+  // React.useEffect(() => setLoadedPage(true), []);
 
   return (
     <div
-      className={`absolute w-full -left-full transition-all duration-500 ${loaded ? 'left-1' : ''}`}
+      className={`absolute w-full -left-full transition-all duration-500 overflow-hidden ${
+        loadedImage ? '-left-1' : ''
+      }`}
     >
-      <FormLoginSingUp isLogin={false} />
+      <FormLoginSignUp isLogin={false} setLoadedImage={setLoadedImage} />
     </div>
   );
 }
