@@ -1,6 +1,15 @@
 import React from 'react';
 import Carousel from '../components/Carousel';
-import { moda, moda2, product1, product2, product3, product4, product5 } from '../assets/assests';
+import {
+  moda,
+  moda2,
+  moda3,
+  product1,
+  product2,
+  product3,
+  product4,
+  product5
+} from '../assets/assests';
 import Information from '../components/Information';
 import Footer from '../components/Footer';
 import Spiner from '../components/Spinner/Spiner';
@@ -8,7 +17,7 @@ import Spiner from '../components/Spinner/Spiner';
 const CarouselProducts = React.lazy(() => import('../components/CarouselProducts'));
 
 export default function Home() {
-  const imagesCarouselInfo: Array<string> = [moda, moda2];
+  const imagesCarouselInfo: Array<string> = [moda, moda2, moda3];
   const imagesCarouselProducts: Array<string> = [product1, product2, product3, product4, product5];
 
   return (

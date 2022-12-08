@@ -190,7 +190,7 @@ export default function Carousel(props: PropsCarousel) {
         </div>
       ) : null}
       <div className="absolute left-6  w-2/3 xl:w-2/5 2xl:w-1/5 top-3 lg:top-10 xl:top-14   md:left-14  xl:left-32 ">
-        {Object.values(informationImages[selectedIndex])}
+        {Object.values(informationImages[0])}
       </div>
     </div>
   );

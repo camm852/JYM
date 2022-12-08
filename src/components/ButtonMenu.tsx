@@ -5,7 +5,7 @@ export default function ButtonMenu(props: Props): JSX.Element {
   const { setNavBar, navBar } = props;
 
   return (
-    <div className="absolute top-4 left-5 sm:left-16 transition-all duration-200 ease-out  rounded-full  p-1">
+    <div className="absolute top-1 left-5 sm:left-10 transition-all duration-200 ease-out  rounded-full  p-1">
       <button onClick={() => setNavBar(!navBar)}>
         {navBar ? (
           <svg

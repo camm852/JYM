@@ -59,8 +59,8 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
     >
       {({ handleChange, handleSubmit, errors, values, touched }) => (
         <div className="block lg:flex 2xl:mt-24 lg:justify-center">
-          <div className="w-full lg:w-3/6 xl:w-3/6 px-4 pt-4 lg:pt-0 mt-8 lg:mt-3 xl:mt-3">
-            <img src={JYMLOGO} alt="logo" className="m-auto mt-4 sm:mt-0 w-52" />
+          <div className="w-full lg:w-3/6 xl:w-3/6 px-4 pt-4 lg:pt-0 mt-8 lg:mt-3 xl:mt-0">
+            <img src={JYMLOGO} alt="JYMLOGO" className="m-auto w-60" />
             <form
               onSubmit={handleSubmit}
               className={`p-4 flex ${

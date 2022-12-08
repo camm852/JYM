@@ -49,7 +49,7 @@ export default function NavBar(props: Props): JSX.Element {
               </svg>
             </div>
             {/* sub Categorias */}
-            <div className="absolute w-48 hidden group-hover:block sm:mt-1  lg:-mt-1  z-0 group-hover:z-10 top-64 lg:top-36 transition-opacity duration-200 text-black">
+            <div className="absolute w-48 hidden group-hover:block sm:mt-1  lg:-mt-1  z-0 group-hover:z-10 top-60 lg:top-28 transition-opacity duration-200 text-black">
               <div className="bg-blue-400 p-2 rounded-lg">
                 {links.map((link) => (
                   <div
@@ -79,7 +79,7 @@ export default function NavBar(props: Props): JSX.Element {
 
       {/* Responsive */}
       <div
-        className={`absolute  md:hidden bg-white top-20 w-full h-screen z-10 pt-5 px-4 duration-500 ${
+        className={`absolute  md:hidden bg-white top-11 w-full h-screen z-10 pt-5 px-4 duration-500 ${
           openNavBar ? 'left-0' : 'left-[-100%]'
         }`}
       >

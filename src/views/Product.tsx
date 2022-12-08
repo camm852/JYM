@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { man, mastercard, medida, moda2, product1, visa, woman } from '../assets/assests';
+import { man, mastercard, medida, moda3, product1, visa, woman } from '../assets/assests';
 import { useAppDispatch } from '../redux/store/Hooks';
 import { add } from '../redux/slices/CartSlice';
 import { CartProduct } from '../vite-env';
@@ -59,7 +59,7 @@ export default function Product(): JSX.Element {
     >
       <div className="flex flex-row flex-wrap lg:flex-nowrap gap-8 justify-center mt-10 h-full px-4 xl:pr-32 xl:pl-28">
         <div className="w-full lg:w-1/2">
-          <img src={moda2} alt="producto" className="w-full h-full rounded-md object-cover" />
+          <img src={moda3} alt="producto" className="w-full h-full rounded-md object-cover" />
         </div>
         <div className="w-full lg:w-1/2 pb-5">
           <div>

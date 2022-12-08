@@ -21,10 +21,10 @@ export default function Header() {
           <ButtonMenu setNavBar={setNavBar} navBar={navBar} />
         </div>
         <div className="flex flex-wrap lg:flex-nowrap justify-center content-center p-2 gap-2 h-30">
-          {/*  Logo */}
+          {/*  LOGO */}
           <div className="w-full lg:w-1/3 flex items-center justify-center">
             <button onClick={() => navigate('/')}>
-              <img src={LOGO} className="w-16 md:w-20 mb-1 " alt="" />
+              <img src={LOGO} className="w-28 md:w-32 mb-1 " alt="" />
             </button>
           </div>
           {/* barra de busqueda */}
@@ -58,7 +58,7 @@ export default function Header() {
                   type="search"
                   id="default-search"
                   className="block p-4 pl-10 w-full bg-gray-100 rounded-xl outline-none border-none"
-                  placeholder="Search Mockups, Logos..."
+                  placeholder="Search Mockups, LOGOs..."
                   required
                 />
                 <button type="button" className="flex absolute inset-y-0 right-0 items-center pr-3">

@@ -1,7 +1,7 @@
 import FacebookIcon from './IconsSocial/FacebookIcon';
 import InstagramIcon from './IconsSocial/InstagramIcon';
 import WhatsAppIcon from './IconsSocial/WhatsAppIcon';
-import { LOGO } from '../assets/assests';
+import { LOGOBLANCO } from '../assets/assests';
 
 export default function Footer(): JSX.Element {
   const style = {
@@ -10,11 +10,11 @@ export default function Footer(): JSX.Element {
   };
 
   return (
-    <footer className="min-h-screen bg-black opacity-90 py-12 text-zinc-600 text-sm w-full">
+    <footer className="min-h-screen bg-black opacity-90 py-10 text-zinc-600 text-sm w-full">
       <div className="w-full">
         {/* <h2 className="text-center font-bold text-3xl text-white">SHOPJYM</h2>
          */}
-        <img src={LOGO} alt="" className="w-28 m-auto" />
+        <img src={LOGOBLANCO} alt="" className="w-40 m-auto" />
       </div>
       <div className="flex flex-wrap mt-3 px-16 py-16 border-b border-gray-800 justify-between">
         <div className="flex flex-col w-full lg:w-1/3 px-7 mb-8 lg:mb-0">
