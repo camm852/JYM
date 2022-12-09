@@ -63,7 +63,13 @@ export default function CarouselProducts(props: Props): JSX.Element {
         ))}
       </Slider>
       <div className="flex gap-5 mt-8  justify-center">
-        <button onClick={prev} className="p-1 border-2 border-gray-400 rounded-full bg-transparent">
+        <button
+          onClick={prev}
+          className="p-1 border-2 border-gray-400 rounded-full bg-transparent"
+          style={{
+            WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -79,7 +85,13 @@ export default function CarouselProducts(props: Props): JSX.Element {
             />
           </svg>
         </button>
-        <button onClick={next} className="p-1 border-2 border-gray-400 rounded-full bg-transparent">
+        <button
+          onClick={next}
+          className="p-1 border-2 border-gray-400 rounded-full bg-transparent"
+          style={{
+            WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

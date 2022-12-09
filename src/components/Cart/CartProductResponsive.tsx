@@ -9,8 +9,8 @@ export default function CartProductResponsive(props: PropsCartProduct) {
 
   return (
     <div className="flex gap-3 mb-2 border-b pb-2">
-      <img src={product.image} alt="" className="w-48 h-56 rounded-md" />
-      <div className="flex flex-col gap-3 w-full">
+      <img src={product.image} alt="" className="w-28 h-44 sm:w-36 sm:h-56 rounded-md" />
+      <div className="flex flex-col gap-1 sm:gap-3 w-full">
         <p className="text-xs md:text-lg font-semibold">{product.name}</p>
         <p className="text-sm md:text-base font-light">
           Color: <span className="uppercase">{product.color}</span>
@@ -18,30 +18,39 @@ export default function CartProductResponsive(props: PropsCartProduct) {
         <p className="text-sm md:text-base font-light">
           Talla: <span className="uppercase">{product.size}</span>
         </p>
-        <p className="text-sm md:text-base font-light">
-          Precio: <span className="uppercase">${product.price}</span>
-        </p>
+        <p className="text-sm md:text-base font-light">Precio:${product.price}</p>
         <div className="flex flex-row items-center rounded-lg gap-1">
           <button
-            className="w-9 bg-gray-200 text-gray-600  hover:bg-gray-300   rounded-l"
+            className="w-9 bg-gray-200 text-gray-600  active:bg-gray-300   rounded-l"
             onClick={() => dispatch(decrease(indexProduct))}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
           >
             <span className="m-auto text-2xl font-thin">−</span>
           </button>
-          <p className="">{product.mount}</p>
+          <p>{product.mount}</p>
           <button
-            className="w-9  bg-gray-200 text-gray-600 hover:bg-gray-300  rounded-r"
+            className="w-9   bg-blue-300 active:bg-sky-500  rounded-r"
             onClick={() => dispatch(increase(indexProduct))}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
           >
             <span className="m-auto text-2xl font-thin">+</span>
           </button>
         </div>
-        <p className="text-sm md:text-base font-normal mt-2">
-          Total: $<span>{product.mount * product.price}</span>
+        <p className="text-sm md:text-base font-normal mt-1 sm:mt-3">
+          Total: ${product.mount * product.price}
         </p>
       </div>
-      <div className="pr-3 pt-2">
-        <button onClick={() => dispatch(remove(indexProduct))}>
+      <div>
+        <button
+          onClick={() => dispatch(remove(indexProduct))}
+          style={{
+            WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

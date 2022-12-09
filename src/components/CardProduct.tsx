@@ -15,6 +15,9 @@ export default function CardProduct(props: Props): JSX.Element {
           <button
             className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-500 ease-in-out hover:w-32 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left"
             onClick={() => navigate('/product/1')}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
           >
             <i className="inline-block">
               <svg

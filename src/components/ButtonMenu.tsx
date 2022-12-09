@@ -6,7 +6,12 @@ export default function ButtonMenu(props: Props): JSX.Element {
 
   return (
     <div className="absolute top-1 left-5 sm:left-10 transition-all duration-200 ease-out  rounded-full  p-1">
-      <button onClick={() => setNavBar(!navBar)}>
+      <button
+        onClick={() => setNavBar(!navBar)}
+        style={{
+          WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+        }}
+      >
         {navBar ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

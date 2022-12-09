@@ -84,8 +84,11 @@ export default function NavBar(props: Props): JSX.Element {
         }`}
       >
         <button
-          className="flex rounded-xl mb-4 w-full p-2 active:bg-orange-200 active:text-white cursor-pointer transition-all duration-75 ease-linear text-left font-semibold "
+          className="flex rounded-xl mb-4 w-full p-2 active:bg-blue-400 active:text-white cursor-pointer transition-all duration-75 ease-linear text-left font-semibold "
           onClick={() => setCategories(!categories)}
+          style={{
+            WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+          }}
         >
           <div className="flex-1">Categorias</div>
           <div>
@@ -107,7 +110,7 @@ export default function NavBar(props: Props): JSX.Element {
             {links.map((link) => (
               <div
                 key={link?.id}
-                className="rounded-xl hover:bg-orange-200 hover:text-white p-2 transition-all duration-200 ease-linear mb-4"
+                className="rounded-xl active:bg-blue-400 active:text-white transition-all duration-100 p-2  mb-4"
               >
                 <Link to={link.to} className="font-semibold capitalize">
                   {link.name}
@@ -119,7 +122,7 @@ export default function NavBar(props: Props): JSX.Element {
         {links.map((link) => (
           <div
             key={link?.id}
-            className="rounded-xl hover:bg-orange-200 hover:text-white p-2 transition-all duration-200 ease-linear mb-4"
+            className="rounded-xl active:bg-blue-400 active:text-white p-2 transition-all duration-100 ease-linear mb-4"
           >
             <Link to={link.to} className="font-semibold capitalize">
               {link.name}

@@ -76,7 +76,12 @@ export default function Carousel(props: PropsCarousel) {
           ${loaded ? 'translate-y-0' : 'translate-y-10'}
           `}
           >
-            <button className="w-40 md:w-1/3 p-2 mt-4 md:mt-10 border rounded-lg text-white">
+            <button
+              className="w-40 md:w-1/3 p-2 mt-4 md:mt-10 border rounded-lg text-white"
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
+            >
               View
             </button>
           </div>
@@ -119,7 +124,12 @@ export default function Carousel(props: PropsCarousel) {
         `}
             style={{ transition: '1.8s' }}
           >
-            <button className="w-40 md:w-1/3 p-2 mt-4 md:mt-10 border rounded-lg text-white">
+            <button
+              className="w-40 md:w-1/3 p-2 mt-4 md:mt-10 border rounded-lg text-white"
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
+            >
               View
             </button>
           </div>
@@ -146,7 +156,12 @@ export default function Carousel(props: PropsCarousel) {
       */}
       {showButtons ? (
         <div className="absolute left-6 bottom-2  md:left-14 xl:bottom-8 xl:left-32 flex">
-          <button onClick={() => previousIndex()}>
+          <button
+            onClick={() => previousIndex()}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

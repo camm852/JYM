@@ -81,6 +81,9 @@ export default function Product(): JSX.Element {
                   size.size === sizeSelected ? 'border-blue-500 text-blue-500' : 'border-gray-600'
                 } text-sm font-semibold text-center`}
                 onClick={() => setSizeSelected(size.size)}
+                style={{
+                  WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                }}
               >
                 {size.size}
               </button>
@@ -94,7 +97,12 @@ export default function Product(): JSX.Element {
             </p>
           </div>
           <div className="flex flex-row mt-3">
-            <button className="group border border-l-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear">
+            <button
+              className="group border border-l-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear"
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
+            >
               <li className="font-sans block mt-4 lg:inline-block lg:mt-0 lg:ml-6 align-middle text-black hover:text-gray-700">
                 <span className="relative flex w-10 m-auto">
                   <svg
@@ -121,6 +129,9 @@ export default function Product(): JSX.Element {
             <button
               className="group border border-r-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear"
               onClick={() => dispatch(add(product))}
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
             >
               <li className="font-sans block mt-4 lg:inline-block lg:mt-0 lg:ml-6 align-middle text-black hover:text-gray-700">
                 <span className="relative flex w-10 m-auto">

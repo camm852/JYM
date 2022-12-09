@@ -46,6 +46,9 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
                         ? 'text-white bg-sky-500 shadow-sm shadow-sky-300 hover:shadow-lg hover:shadow-sky-200'
                         : 'hover:bg-slate-200 text-slate-600'
                     }  rounded-lg text-lg transition-all duration-200`}
+                    style={{
+                      WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                    }}
                   >
                     {icon}
                     <p className="font-medium capitalize">{name}</p>
@@ -58,6 +61,9 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
         <button
           className="group absolute bottom-12 left-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
           onClick={() => navigate('/')}
+          style={{
+            WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

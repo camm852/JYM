@@ -23,7 +23,12 @@ export default function Header() {
         <div className="flex flex-wrap lg:flex-nowrap justify-center content-center p-2 gap-2 h-30">
           {/*  LOGO */}
           <div className="w-full lg:w-1/3 flex items-center justify-center">
-            <button onClick={() => navigate('/')}>
+            <button
+              onClick={() => navigate('/')}
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
+            >
               <img src={LOGO} className="w-28 md:w-32 mb-1 " alt="" />
             </button>
           </div>
@@ -61,7 +66,12 @@ export default function Header() {
                   placeholder="Search Mockups, LOGOs..."
                   required
                 />
-                <button type="button" className="flex absolute inset-y-0 right-0 items-center pr-3">
+                <button
+                  className="flex absolute inset-y-0 right-0 items-center pr-3"
+                  style={{
+                    WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -82,7 +92,12 @@ export default function Header() {
           </div>
           <div className="w-full lg:w-1/3 bg-white  flex items-center justify-center">
             {/* Login Registro */}
-            <div className="flex flex-col lg:flex-row lg:flex-nowrap items-center mt-4 lg:mt-0">
+            <div
+              className="flex flex-col lg:flex-row lg:flex-nowrap items-center mt-4 lg:mt-0"
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
+            >
               <Link to="/login">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +117,13 @@ export default function Header() {
               <p className="inline-block font-medium ml-2">Entra o Registrate</p>
             </div>
             {/** Carrito */}
-            <button className="ml-4 lg:mt-0" onClick={() => setActiveCart(!activeCart)}>
+            <button
+              className="ml-4 lg:mt-0"
+              onClick={() => setActiveCart(!activeCart)}
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
+            >
               <li className="font-sans block mt-4 lg:inline-block lg:mt-0 lg:ml-6 align-middle text-black hover:text-gray-700">
                 <span className="relative flex">
                   <svg

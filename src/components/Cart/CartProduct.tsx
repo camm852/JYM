@@ -36,6 +36,9 @@ export default function CartProduct(props: PropsCartProduct): JSX.Element {
           <button
             className="w-9 bg-gray-200 text-gray-600  hover:bg-gray-300   rounded-l"
             onClick={() => dispatch(decrease(indexProduct))}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
           >
             <span className="m-auto text-2xl font-light">−</span>
           </button>
@@ -43,6 +46,9 @@ export default function CartProduct(props: PropsCartProduct): JSX.Element {
           <button
             className="w-9  bg-blue-300 hover:bg-sky-500  rounded-r"
             onClick={() => dispatch(increase(indexProduct))}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
           >
             <span className="m-auto text-2xl font-light">+</span>
           </button>
@@ -52,8 +58,13 @@ export default function CartProduct(props: PropsCartProduct): JSX.Element {
         <p className="text-center">${product.mount * product.price}</p>
       </td>
       <td>
-        <div className="flex flex-row justify-center items-center">
-          <button onClick={() => dispatch(remove(indexProduct))}>
+        <div className="flex flex-row justify-center items-center lg:pr-3 xl:pr-0">
+          <button
+            onClick={() => dispatch(remove(indexProduct))}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

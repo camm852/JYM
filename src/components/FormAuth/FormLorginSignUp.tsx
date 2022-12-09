@@ -95,6 +95,9 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
               <button
                 type="submit"
                 className="w-4/6  lg:w-full xl:w-11/12 mt-8 p-2 border rounded-md bg-blue-400 font-medium text-white transition-all duration-300"
+                style={{
+                  WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                }}
               >
                 {isLogin ? 'Entrar' : 'Registrarse'}
               </button>

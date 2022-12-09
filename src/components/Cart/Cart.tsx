@@ -19,7 +19,13 @@ export default function Cart(props: PropsCart): JSX.Element {
       <div className="relative">
         <div className="h-1 w-full">
           {/* Boton de cerrar el carrito */}
-          <button className="group float-right p-1" onClick={() => setActiveCart(!activeCart)}>
+          <button
+            className="group float-right p-1"
+            onClick={() => setActiveCart(!activeCart)}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -71,10 +77,18 @@ export default function Cart(props: PropsCart): JSX.Element {
               <button
                 className="w-32 p-3 uppercase font-bold border rounded-xl text-white bg-gray-400 hover:bg-black hover:text-white transition-all duration-200 ease-linear hover:opacity-70"
                 onClick={() => dispatch(clear())}
+                style={{
+                  WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                }}
               >
                 Limpiar
               </button>
-              <button className="w-32 p-3 uppercase font-bold border rounded-xl text-white bg-blue-400 hover:bg-sky-600 transition-all duration-200 ease-linear">
+              <button
+                className="w-32 p-3 uppercase font-bold border rounded-xl text-white bg-blue-400 hover:bg-sky-600 transition-all duration-200 ease-linear"
+                style={{
+                  WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                }}
+              >
                 Pagar
               </button>
             </div>

@@ -82,19 +82,34 @@ export default function Footer(): JSX.Element {
       </div>
       <div className="flex flex-col pt-10">
         <div className="flex flex-wrap gap-10 justify-center">
-          <button className="group flex items-center gap-2 ">
+          <button
+            className="group flex items-center gap-2 "
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
             <WhatsAppIcon className="w-8 h-8 text-white group-hover:text-green-400 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
               whatsapp
             </p>
           </button>
-          <button className="group flex items-center gap-2 ">
+          <button
+            className="group flex items-center gap-2 "
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
             <FacebookIcon className="w-8 h-8 text-white group-hover:text-blue-600 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
               whatsapp
             </p>
           </button>
-          <button className="group flex items-center gap-2 ">
+          <button
+            className="group flex items-center gap-2 "
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
             <InstagramIcon className="w-8 h-8 text-white group-hover:text-red-500 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
               whatsapp
