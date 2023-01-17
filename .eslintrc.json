@@ -19,32 +19,33 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "no-param-reassign": "off",
-    "import/prefer-default-export": "off",
+    "react/jsx-curly-newline": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-one-expression-per-line": "off",
     "react/no-array-index-key": "off",
-    "no-confusing-arrow": "off",
-    "implicit-arrow-linebreak": "off",
-    "function-paren-newline": "off",
     "react/jsx-props-no-spreading": "off",
-    "object-curly-newline": "off",
-    "@typescript-eslint/comma-dangle": "off",
-    "import/no-dynamic-require": "off",
-    "no-nested-ternary": "off",
-    "@typescript-eslint/indent": "off",
-    "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/label-has-associated-control": "off",
     "react/jsx-no-comment-textnodes": "off",
     "react/prop-types": "off",
     "react/button-has-type": "off",
-    // suppress errors for missing 'import React' in files
     "react/react-in-jsx-scope": "off",
-    // allow jsx syntax in js files (for next.js project)
     "react/jsx-filename-extension": [
       1,
       {
         "extensions": [".js", ".jsx", "ts", "tsx"]
       }
     ],
+    "import/prefer-default-export": "off",
+    "import/no-dynamic-require": "off",
+    "no-param-reassign": "off",
+    "no-confusing-arrow": "off",
+    "no-nested-ternary": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "implicit-arrow-linebreak": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/indent": "off",
+    "object-curly-newline": "off",
+    "function-paren-newline": "off",
     "quotes": ["error", "single"],
     "linebreak-style": "off",
     "no-console": "off"

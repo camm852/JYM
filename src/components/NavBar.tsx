@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { PropsNavBar as Props, LinksNavBar } from '../vite-env';
 
 export default function NavBar(props: Props): JSX.Element {
-  const { openNavBar } = props;
+  const { openNavBar, setNavBar } = props;
 
   const [categories, setCategories] = React.useState<boolean>(false);
 
@@ -20,8 +20,8 @@ export default function NavBar(props: Props): JSX.Element {
     },
     {
       id: 1,
-      to: '/about-us',
-      name: '¿quienes somos?'
+      to: '#',
+      name: 'Acerca de'
     }
   ];
 
@@ -69,7 +69,7 @@ export default function NavBar(props: Props): JSX.Element {
               key={link?.id}
               className="rounded-md p-2 text-white hover:text-lg  transition-all duration-75 ease-linear"
             >
-              <Link to={link.to} className="font-semibold capitalize">
+              <Link to={link.to} className="font-semibold capitalize" onClick={() => window.scroll({ top: 10000, behavior: 'smooth' })}>
                 {link.name}
               </Link>
             </div>
@@ -124,7 +124,7 @@ export default function NavBar(props: Props): JSX.Element {
             key={link?.id}
             className="rounded-xl active:bg-blue-400 active:text-white p-2 transition-all duration-100 ease-linear mb-4"
           >
-            <Link to={link.to} className="font-semibold capitalize">
+            <Link to={link.to} className="font-semibold capitalize" onClick={() => { window.scroll({ top: 10000, behavior: 'smooth' }); setNavBar(!openNavBar); }}>
               {link.name}
             </Link>
           </div>

@@ -1,34 +1,37 @@
+import { GroupBase, StylesConfig } from 'react-select';
+import React from 'react';
 /// <reference types="vite/client" />
 
-export interface PropsCarousel {
+export interface IPropsCarousel {
   images: string[];
   showButtons?: boolean;
   autoPlay?: boolean;
 }
 
-export interface PropsButtonMenu {
+export interface IPropsButtonMenu {
   setNavBar: React.Dispatch<React.SetStateAction<boolean>>;
   navBar: boolean;
 }
 
-export interface PropsCardProduct {
+export interface IPropsCardProduct {
   image: string;
 }
 
-export interface PropsCarouseProducts {
+export interface IPropsCarouseProducts {
   products: Array<string>;
 }
 
-export interface LinksNavBar {
+export interface ILinksNavBar {
   id: number;
   to: string;
   name: string;
 }
 
-export interface PropsNavBar {
+export interface IPropsNavBar {
   openNavBar: boolean;
+  setNavBar: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export interface PropsLogin {
+export interface IPropsLogin {
   isLogin: boolean;
   setLoadedImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -37,13 +40,13 @@ export interface PropsIcons {
   className: string;
 }
 
-export interface PropsCart {
+export interface IPropsCart {
   setActiveCart: React.Dispatch<React.SetStateAction<boolean>>;
   activeCart: boolean;
   products: CartProduct[];
 }
 
-export interface CartProduct {
+export interface ICartProduct {
   image: string;
   name: string;
   price: number;
@@ -53,13 +56,59 @@ export interface CartProduct {
   size: string;
 }
 
-export interface PropsCartProduct {
+export interface IPropsCartProduct {
   indexProduct: number;
   product: CartProduct;
 }
 
+export interface IPropsToast {
+  stateToast: boolean;
+  openToast: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface IFormProduct {
+  name: string;
+  slug: string;
+  price: number;
+  gender: string;
+  colors: string[];
+  sizes: string[];
+  categories: string[];
+}
+
+export interface IErrorFormProduct {
+  name: boolean;
+  slug: boolean;
+  price: boolean;
+  image: boolean;
+  size: boolean;
+  category: boolean;
+  gender: boolean;
+}
+
+export interface IFormCheckout {
+  buyerEmail: string;
+  buyerFullName: string;
+  shippingAddress: string;
+  shippingCity: string;
+  payerPhone: string;
+  payerDocument: string;
+}
+// React-select
+
+export interface IOptionType {
+  label: string;
+  value: string;
+}
+
 // Redux
 
-export interface CartState {
+export interface ICartState {
   items: CartProduct[];
+}
+
+export interface IUserState {
+  name: string;
+  accesToken: string;
+  typeUser: string;
 }

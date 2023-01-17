@@ -1,14 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { clear } from '../../redux/slices/CartSlice';
 import { useAppDispatch } from '../../redux/store/Hooks';
-import { PropsCart } from '../../vite-env';
+import { IPropsCart } from '../../vite-env';
 import CartProduct from './CartProduct';
 import CartProductResponsive from './CartProductResponsive';
 
-export default function Cart(props: PropsCart): JSX.Element {
+export default function Cart(props: IPropsCart): JSX.Element {
   const { setActiveCart, activeCart, products } = props;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <aside
@@ -87,6 +89,10 @@ export default function Cart(props: PropsCart): JSX.Element {
                 className="w-32 p-3 uppercase font-bold border rounded-xl text-white bg-blue-400 hover:bg-sky-600 transition-all duration-200 ease-linear"
                 style={{
                   WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                }}
+                onClick={() => {
+                  navigate('/checkout');
+                  setActiveCart(!activeCart);
                 }}
               >
                 Pagar

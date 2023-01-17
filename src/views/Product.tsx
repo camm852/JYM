@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import { man, mastercard, medida, moda3, product1, visa, woman } from '../assets/assests';
 import { useAppDispatch } from '../redux/store/Hooks';
 import { add } from '../redux/slices/CartSlice';
-import { CartProduct } from '../vite-env';
+import { ICartProduct } from '../vite-env';
+import Toast from '../components/Toast';
+import Footer from '../components/Footer';
 
 export default function Product(): JSX.Element {
   const [sizeSelected, setSizeSelected] = React.useState<string>('S');
   const [loaded, setLoaded] = React.useState<boolean>(false);
+  const [openToast, setOpenToast] = React.useState<boolean>(false);
 
   React.useEffect(() => setLoaded(true), []);
 
@@ -41,7 +44,7 @@ export default function Product(): JSX.Element {
     }
   ];
 
-  const product: CartProduct = {
+  const product: ICartProduct = {
     image: product1,
     name: 'Cool Flufy Clothing without Stripes',
     description: 'aditional info',
@@ -54,7 +57,7 @@ export default function Product(): JSX.Element {
   return (
     <div
       className={`w-full absolute -left-full transition-all duration-500 ${
-        loaded ? '-left-1' : ''
+        loaded ? '-left-0' : ''
       }`}
     >
       <div className="flex flex-row flex-wrap lg:flex-nowrap gap-8 justify-center mt-10 h-full px-4 xl:pr-32 xl:pl-28">
@@ -126,9 +129,13 @@ export default function Product(): JSX.Element {
                 </span>
               </li>
             </button>
+            {/* agregar producto */}
             <button
               className="group border border-r-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear"
-              onClick={() => dispatch(add(product))}
+              onClick={() => {
+                dispatch(add(product));
+                setOpenToast(true);
+              }}
               style={{
                 WebkitTapHighlightColor: 'rgb(0,0,0,0)'
               }}
@@ -244,6 +251,14 @@ export default function Product(): JSX.Element {
           </div>
         </div>
       </div>
+      <div
+        className={`fixed  ${
+          !openToast ? '-right-full' : 'right-8'
+        } bottom-1 transition-all duration-150 ease-in-out z-50`}
+      >
+        <Toast stateToast={openToast} openToast={setOpenToast} />
+      </div>
+      <Footer />
     </div>
   );
 }

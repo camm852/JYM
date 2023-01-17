@@ -13,7 +13,7 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
     <aside
       className={`${
         openSideNav ? 'translate-x-0' : ' -translate-x-96'
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-80 rounded-xl transition-transform duration-300 lg:translate-x-0 bg-white shadow-lg `}
+      } fixed inset-0 z-10 my-4 ml-4 h-[calc(100vh-32px)] w-80 rounded-xl transition-transform duration-300 xl:translate-x-0 bg-white shadow-lg shadow-gray-400 `}
     >
       <div className="relative border-b border-">
         <Link to="/dashboard" className="flex items-center gap-10 py-6 px-8">

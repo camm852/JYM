@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PropsCardProduct as Props } from '../vite-env';
+import { IPropsCardProduct as Props } from '../vite-env';
 
 export default function CardProduct(props: Props): JSX.Element {
   const { image } = props;
@@ -40,17 +40,17 @@ export default function CardProduct(props: Props): JSX.Element {
                 />
               </svg>
             </i>
-            <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-100 group-hover:ease-in capitalize font-semibold">
+            <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-50 group-hover:ease-in capitalize font-semibold">
               Visualizar
             </span>
           </button>
         </div>
       </div>
-      <div className="flex flex-nowrap -mt-3 md:mt-8">
-        <div className="w-3/4">
+      <div className="flex flex-nowrap -mt-5 md:mt-5">
+        <div className="sm:w-3/4">
           <p className="capitalize font-semibold opacity-70">Flamboyant Pink Top</p>
         </div>
-        <div className="w-1/4">
+        <div className="sm:w-1/4">
           <p className="capitalize text-end font-bold">$40000</p>
         </div>
       </div>

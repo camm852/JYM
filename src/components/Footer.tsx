@@ -12,8 +12,6 @@ export default function Footer(): JSX.Element {
   return (
     <footer className="min-h-screen bg-black opacity-90 py-10 text-zinc-600 text-sm w-full">
       <div className="w-full">
-        {/* <h2 className="text-center font-bold text-3xl text-white">SHOPJYM</h2>
-         */}
         <img src={LOGOBLANCO} alt="" className="w-40 m-auto" />
       </div>
       <div className="flex flex-wrap mt-3 px-16 py-16 border-b border-gray-800 justify-between">
@@ -88,7 +86,7 @@ export default function Footer(): JSX.Element {
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
             }}
           >
-            <WhatsAppIcon className="w-8 h-8 text-white group-hover:text-green-400 fill-current transition-all duration-300" />
+            <WhatsAppIcon className="w-7 h-7 text-white group-hover:text-green-400 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
               whatsapp
             </p>
@@ -99,7 +97,7 @@ export default function Footer(): JSX.Element {
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
             }}
           >
-            <FacebookIcon className="w-8 h-8 text-white group-hover:text-blue-600 fill-current transition-all duration-300" />
+            <FacebookIcon className="w-7 h-7 text-white group-hover:text-blue-600 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
               whatsapp
             </p>
@@ -110,7 +108,7 @@ export default function Footer(): JSX.Element {
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
             }}
           >
-            <InstagramIcon className="w-8 h-8 text-white group-hover:text-red-500 fill-current transition-all duration-300" />
+            <InstagramIcon className="w-7 h-7 text-white group-hover:text-red-500 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
               whatsapp
             </p>

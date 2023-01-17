@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { decrease, increase, remove } from '../../redux/slices/CartSlice';
 import { useAppDispatch } from '../../redux/store/Hooks';
-import { PropsCartProduct } from '../../vite-env';
+import { IPropsCartProduct } from '../../vite-env';
 
-export default function CartProductResponsive(props: PropsCartProduct) {
+export default function CartProductResponsive(props: IPropsCartProduct) {
   const { product, indexProduct } = props;
   const dispatch = useAppDispatch();
 

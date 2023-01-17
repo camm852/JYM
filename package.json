@@ -9,20 +9,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
     "@reduxjs/toolkit": "^1.9.0",
+    "axios": "^1.2.2",
     "formik": "^2.2.9",
+    "md5": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-ga": "^3.3.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
+    "react-select": "^5.7.0",
     "react-slick": "^0.29.0",
     "react-spring": "^9.5.5",
+    "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.6",
     "yup": "^0.32.11",
     "yup-phone-lite": "^1.1.2"
   },
   "devDependencies": {
+    "@types/md5": "^2.3.2",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",

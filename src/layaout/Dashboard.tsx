@@ -8,10 +8,10 @@ export default function Dashboard(): JSX.Element {
   return (
     <div className="min-h-screen  bg-gray-100">
       <SideNav openSideNav={openSideNav} />
-      <div className="px-6 py-4 lg:ml-80">
-        <div className="w-full mb-3 h-9 flex items-center justify-end">
+      <div className="px-6 py-4 xl:ml-80">
+        <div className="w-full mb-3 h-9 flex items-center justify-end ">
           <button
-            className="block lg:hidden"
+            className="block xl:hidden z-20"
             onClick={() => setOpenSideNav(!openSideNav)}
             style={{
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'

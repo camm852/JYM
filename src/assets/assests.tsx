@@ -14,6 +14,8 @@ import product4 from './photos/4.jpg.webp';
 import product5 from './photos/6.jpg.webp';
 import mastercard from './payments/Mastercard.svg';
 import visa from './payments/Visa.svg';
+import flagcol from './payments/flagcol.svg';
+import city from './payments/city.svg';
 
 export {
   moda,
@@ -29,6 +31,8 @@ export {
   product5,
   mastercard,
   visa,
+  flagcol,
+  city,
   medida,
   woman,
   man

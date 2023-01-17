@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartProduct, CartState } from '../../vite-env';
+import { ICartProduct, ICartState } from '../../vite-env';
 
-const initialState: CartState = {
+const initialState: ICartState = {
   items: []
 };
 
@@ -9,25 +9,25 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<CartProduct>) => {
-      const product: CartProduct = {
+    add: (state, action: PayloadAction<ICartProduct>) => {
+      const product: ICartProduct = {
         ...action.payload,
         mount: 1
       };
       state.items.push(product);
     },
     increase: (state, action: PayloadAction<number>) => {
-      const productStored: CartProduct = state.items[action.payload];
+      const productStored: ICartProduct = state.items[action.payload];
       productStored.mount += 1;
       state.items[action.payload] = productStored;
     },
     decrease: (state, action) => {
-      const productStored: CartProduct = state.items[action.payload];
+      const productStored: ICartProduct = state.items[action.payload];
       productStored.mount -= productStored.mount === 1 ? 0 : 1;
       state.items[action.payload] = productStored;
     },
     remove: (state, action: PayloadAction<number>) => {
-      const newProducts: CartProduct[] = state.items.filter((product, i) => i !== action.payload);
+      const newProducts: ICartProduct[] = state.items.filter((product, i) => i !== action.payload);
       state.items = newProducts;
     },
     clear: (state) => {

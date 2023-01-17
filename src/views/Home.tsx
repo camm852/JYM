@@ -24,15 +24,15 @@ export default function Home() {
     <div className="-mt-1">
       <Carousel images={imagesCarouselInfo} autoPlay showButtons />
       <Information />
-      <div className="my-2 pt-7 min-h-screen justify-center mb-10">
-        <h2 className="text-center mt-5 mb-16 text-3xl font-bold uppercase w-full">
-          Últimos Productos
+      <div className="my-2 pt-7 min-h-screen justify-center mb-5">
+        <h2 className="relative text-center mt-5 mb-16 text-2xl font-bold uppercase w-full">
+          Agregados Recientemente
         </h2>
         <React.Suspense fallback={<Spiner />}>
           <CarouselProducts products={imagesCarouselProducts} />
         </React.Suspense>
       </div>
-      <div className="">
+      <div>
         <Footer />
       </div>
     </div>
