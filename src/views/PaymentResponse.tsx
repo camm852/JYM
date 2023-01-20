@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/store/Hooks';
-import { ICartProduct, TCartState, IConfirmPurchase } from '../vite-env';
+import { ICartProduct, ICartState, IConfirmPurchase } from '../vite-env';
 
 export default function PaymentResponse(): JSX.Element {
   const [paymentResponse, setPaymentResponse] = React.useState<any>();
 
-  const { items }: TCartState = useAppSelector((state) => state.cart);
+  const { items }: ICartState = useAppSelector((state) => state.cart);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -108,7 +108,7 @@ export default function PaymentResponse(): JSX.Element {
         <div className="px-4 pt-8">
           <p className="text-xl font-medium">Resumen de compra</p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 max-h-[31rem] overflow-y-auto">
-            {items.map((item: ICartProduct, i) => (
+            {items.map((item: ICartProduct, i: number) => (
               <div key={i} className="flex flex-col rounded-lg bg-white sm:flex-row">
                 <img
                   className="m-2 h-24 w-28 rounded-md border object-cover object-center"

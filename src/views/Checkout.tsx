@@ -1,7 +1,7 @@
 import React from 'react';
 import md5 from 'md5';
 import { useAppSelector, useAppDispatch } from '../redux/store/Hooks';
-import { ICartProduct, TCartState, IFormCheckout } from '../vite-env';
+import { ICartProduct, ICartState, IFormCheckout } from '../vite-env';
 import { decrease, increase, remove } from '../redux/slices/CartSlice';
 import { flagcol, city } from '../assets/assests';
 
@@ -21,11 +21,11 @@ export default function Checkout(): JSX.Element {
     referenceCode: `PAGO${date.getDate()}${
       date.getMonth() + 1
     }${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`,
-    amount: '0',
+    amount: 0,
     currency: 'COP'
   });
   const [signature, setSignature] = React.useState<string>('');
-  const { items }: TCartState = useAppSelector((state) => state.cart);
+  const { items }: ICartState = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
@@ -110,7 +110,7 @@ export default function Checkout(): JSX.Element {
           <p className="text-gray-400">Revisa los productos.</p>
           {items.length > 0 ? (
             <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 max-h-[31rem] overflow-y-auto">
-              {items.map((item: ICartProduct, i) => (
+              {items.map((item: ICartProduct, i: number) => (
                 <div key={i} className="flex flex-col rounded-lg bg-white sm:flex-row">
                   <img
                     className="m-2 h-24 w-28 rounded-md border object-cover object-center"
