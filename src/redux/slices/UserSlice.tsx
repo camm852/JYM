@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUserState } from '../../vite-env';
 
 const initialState: IUserState = {
   name: '',
-  accesToken: 'ff',
-  typeUser: 'user'
+  accesToken: '',
+  typeUser: ''
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state) => {},
-    logout: (state) => {}
+    login: (state, action: PayloadAction<IUserState>) => action.payload,
+    logout: () => initialState
   }
 });
 

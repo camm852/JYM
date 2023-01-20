@@ -1,7 +1,7 @@
 import React from 'react';
 import md5 from 'md5';
 import { useAppSelector, useAppDispatch } from '../redux/store/Hooks';
-import { ICartProduct, ICartState, IFormCheckout } from '../vite-env';
+import { ICartProduct, TCartState, IFormCheckout } from '../vite-env';
 import { decrease, increase, remove } from '../redux/slices/CartSlice';
 import { flagcol, city } from '../assets/assests';
 
@@ -20,15 +20,12 @@ export default function Checkout(): JSX.Element {
   const [elementsSignature, setElementsSignature] = React.useState({
     referenceCode: `PAGO${date.getDate()}${
       date.getMonth() + 1
-    }${date.getFullYear()}${date.getHours()}${(Math.random() + 1)
-      .toString(36)
-      .substring(0, 1)
-      .toUpperCase()}`,
+    }${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`,
     amount: '0',
     currency: 'COP'
   });
   const [signature, setSignature] = React.useState<string>('');
-  const { items }: ICartState = useAppSelector((state) => state.cart);
+  const { items }: TCartState = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
@@ -78,7 +75,7 @@ export default function Checkout(): JSX.Element {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </p>
-                <span className="font-semibold text-gray-900">Comprar</span>
+                <span className="font-semibold text-gray-900">Seleccionar</span>
               </li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,13 +91,13 @@ export default function Checkout(): JSX.Element {
                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2">
                   2
                 </p>
-                <span className="font-semibold text-gray-900">Checkout</span>
+                <span className="font-semibold text-gray-900">Pagar</span>
               </li>
               <li className="flex items-center space-x-3 text-left sm:space-x-4">
                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">
                   3
                 </p>
-                <span className="font-semibold text-gray-500">Pagar</span>
+                <span className="font-semibold text-gray-500">Finalizar compra</span>
               </li>
             </ul>
           </div>
@@ -109,8 +106,8 @@ export default function Checkout(): JSX.Element {
       {/* Productos */}
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">
-          <p className="text-xl font-medium">Resumen de compra</p>
-          <p className="text-gray-400">Revisa los productos seleccionados.</p>
+          <p className="text-xl font-medium">Resumen de los productos seleccionados</p>
+          <p className="text-gray-400">Revisa los productos.</p>
           {items.length > 0 ? (
             <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 max-h-[31rem] overflow-y-auto">
               {items.map((item: ICartProduct, i) => (
@@ -269,7 +266,7 @@ export default function Checkout(): JSX.Element {
                   type="text"
                   name="buyerFullName"
                   value={form.buyerFullName}
-                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-xs uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Nombre completo"
                   onChange={handleForm}
                   required

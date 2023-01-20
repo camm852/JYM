@@ -21,7 +21,8 @@ export default function FormAddProduct(): JSX.Element {
     gender: '',
     colors: [],
     sizes: [],
-    categories: []
+    categories: [],
+    type: 'bag'
   });
 
   const [error, setError] = React.useState<IErrorFormProduct>({
@@ -69,19 +70,20 @@ export default function FormAddProduct(): JSX.Element {
 
     if (existError.includes(true)) return undefined;
 
-    // const blobForm = new Blob();
+    console.log(form);
+    console.log(selectedFile);
 
-    const response = await apiUrl.post('/', {
-      headers: {
-        // Authorization: `Bearer ${user.token}`
-      }
-    });
+    // const response = await apiUrl.post('/', {
+    //   headers: {
+    //     // Authorization: `Bearer ${user.token}`
+    //   }
+    // });
 
-    if (response.status === 200) {
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }
+    // if (response.status === 200) {
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 2000);
+    // }
 
     return undefined;
   };
@@ -94,11 +96,12 @@ export default function FormAddProduct(): JSX.Element {
     setSelectedFile(e.target.files[0]);
   };
 
-  const resetInitialState = (): void => {
+  const resetInitialState = (selectIndex: number): void => {
     setForm({
       ...form,
       colors: [],
-      sizes: []
+      sizes: [],
+      type: selectIndex === 0 ? 'bag' : 'clothes'
     });
   };
 
@@ -133,7 +136,7 @@ export default function FormAddProduct(): JSX.Element {
     setForm({ ...form, gender: e.target.name });
   };
 
-  const categories = ['Bolzos', 'Camisetas Blusas Vestidos', 'Jeanes Leggins Shorts'];
+  const categories = ['Bolsos', 'Camisetas Blusas Vestidos', 'Jeanes Leggins Shorts'];
 
   const sizeClothingTop = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
@@ -222,7 +225,7 @@ export default function FormAddProduct(): JSX.Element {
                 <Tab.Group
                   onChange={(selectedIndex) => {
                     setIndex(selectedIndex);
-                    resetInitialState();
+                    resetInitialState(selectedIndex);
                   }}
                 >
                   <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">

@@ -2,14 +2,22 @@ import React from 'react';
 import * as Yup from 'yup';
 import 'yup-phone-lite';
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { JYMLOGO } from '../../assets/assests';
 import FormLogin from './FormLogin';
 import FormSignUp from './FormSignUp';
 import { IPropsLogin as Props } from '../../vite-env';
+import { login } from '../../redux/slices/UserSlice';
+import { useAppDispatch } from '../../redux/store/Hooks';
+import Spiner from '../Spinner/Spiner';
 
 export default function FormLoginSingUp(props: Props): JSX.Element {
   const { isLogin, setLoadedImage } = props;
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
 
   const schema = isLogin
     ? Yup.object().shape({
@@ -50,10 +58,17 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
             }
       }
       validationSchema={schema}
-      onSubmit={() => {
+      onSubmit={(values) => {
+        setLoading(!loading);
         setTimeout(() => {
-          console.log('submit');
-        }, 1000);
+          dispatch(
+            login({
+              name: 'carlos',
+              accesToken: 'ff',
+              typeUser: 'admin'
+            })
+          );
+        }, 2000);
       }}
     >
       {({ handleChange, handleSubmit, errors, values, touched }) => (
@@ -99,7 +114,7 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
                   WebkitTapHighlightColor: 'rgb(0,0,0,0)'
                 }}
               >
-                {isLogin ? 'Entrar' : 'Registrarse'}
+                {!loading ? isLogin ? 'Entrar' : 'Registrarse' : <Spiner />}
               </button>
               <div className="w-full lg:w-11/12 flex justify-center lg:justify-end  mt-3">
                 <p className="mr-2">

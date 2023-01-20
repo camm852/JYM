@@ -228,25 +228,29 @@ export default function Product(): JSX.Element {
             </p>
             <div className="flex flex-wrap lg:flex-nowrap justify-center gap-7">
               <div className="mt-1">
-                <Link
-                  to="https://www.zalando-prive.es/sizehelper/women/measure/#/"
+                <a
+                  href="https://www.zalando-prive.es/sizehelper/women/measure/"
+                  target="_blank"
                   className="text-gray-500 hover:text-gray-700 transition-all duration-150 ease-linear"
+                  rel="noreferrer"
                 >
                   <div className="flex items-center gap-3">
                     <img src={woman} alt="" className="w-10" />
                     <p>Mujer</p>
                   </div>
-                </Link>
+                </a>
               </div>
-              <Link
-                to="https://www2.hm.com/es_mx/customer-service/sizeguide/hombre.html"
+              <a
+                href="https://www2.hm.com/es_mx/customer-service/sizeguide/hombre.html"
                 className="text-gray-500 hover:text-gray-700 transition-all duration-150 ease-linear"
+                target="_blank"
+                rel="noreferrer"
               >
                 <div className="flex items-center gap-3">
                   <img src={man} alt="" className="w-10" />
                   <p>Hombre</p>
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </div>

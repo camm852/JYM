@@ -15,6 +15,7 @@ import { useAppSelector } from '../redux/store/Hooks';
 import { IUserState } from '../vite-env';
 import Checkout from '../views/Checkout';
 import PaymentResponse from '../views/PaymentResponse';
+import NotFoundPage from '../views/NotFoundPage';
 
 ReactGA.initialize(import.meta.env.VITE_TRACKING_ID);
 
@@ -30,7 +31,7 @@ function RequiredAuth({ children }: { children: JSX.Element }) {
   const location = useLocation();
   const auth: IUserState = useAppSelector((state) => state.user);
   if ((auth.typeUser === 'user' || auth.typeUser === 'admin') && auth.accesToken) return children;
-  return <Navigate to="/" state={{ from: location }} replace />;
+  return <Navigate to="/login" state={{ from: location }} replace />;
 }
 
 function DontVisibleAdmin({ children }: { children: JSX.Element }) {
@@ -57,6 +58,7 @@ export default function RouteApp() {
   return (
     <Router>
       <Routes>
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<Header />}>
           <Route
             index
@@ -113,7 +115,16 @@ export default function RouteApp() {
           />
           <Route path="shopping" element={<Shopping />} />
         </Route>
-        <Route path="payment-response" element={<PaymentResponse />} />
+        <Route
+          path="/payment-response"
+          element={
+            <RequiredAuth>
+              <DontVisibleAdmin>
+                <PaymentResponse />
+              </DontVisibleAdmin>
+            </RequiredAuth>
+          }
+        />
       </Routes>
     </Router>
   );

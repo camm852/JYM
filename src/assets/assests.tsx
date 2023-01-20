@@ -7,6 +7,7 @@ import LOGOBLANCO from './page/marcab.png';
 import medida from './page/medida.webp';
 import woman from './page/woman.svg';
 import man from './page/man.svg';
+import notFound from './page/404.png';
 import product1 from './photos/1.jpg.webp';
 import product2 from './photos/2.jpg.webp';
 import product3 from './photos/3.jpg.webp';
@@ -35,5 +36,6 @@ export {
   city,
   medida,
   woman,
-  man
+  man,
+  notFound
 };

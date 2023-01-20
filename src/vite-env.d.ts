@@ -22,9 +22,12 @@ export interface IPropsCarouseProducts {
 }
 
 export interface ILinksNavBar {
-  id: number;
-  to: string;
-  name: string;
+  title: string;
+  subMenu: {
+    id: number;
+    to: string;
+    name: string;
+  }[];
 }
 
 export interface IPropsNavBar {
@@ -74,6 +77,7 @@ export interface IFormProduct {
   colors: string[];
   sizes: string[];
   categories: string[];
+  type: string;
 }
 
 export interface IErrorFormProduct {
@@ -94,6 +98,14 @@ export interface IFormCheckout {
   payerPhone: string;
   payerDocument: string;
 }
+
+export interface IConfirmPurchase {
+  products: CartProduct[];
+  purchaseRef: string;
+  paymentRef: string;
+  total: number;
+}
+
 // React-select
 
 export interface IOptionType {
@@ -103,9 +115,9 @@ export interface IOptionType {
 
 // Redux
 
-export interface ICartState {
+export type TCartState = {
   items: CartProduct[];
-}
+};
 
 export interface IUserState {
   name: string;

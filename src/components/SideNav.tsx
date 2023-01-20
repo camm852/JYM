@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../redux/slices/UserSlice';
+import { useAppDispatch, useAppSelector } from '../redux/store/Hooks';
 import { routesLayaout } from '../utils/routes';
 
 interface Props {
@@ -8,6 +10,10 @@ interface Props {
 
 export default function SideNav({ openSideNav }: Props): JSX.Element {
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
+  const { typeUser } = useAppSelector((state) => state.user);
 
   return (
     <aside
@@ -58,25 +64,52 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
             </li>
           </ul>
         ))}
+        {typeUser === 'user' && (
+          <button
+            className="group absolute bottom-12 left-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
+            onClick={() => navigate('/')}
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-8 h-8"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-4.28 9.22a.75.75 0 000 1.06l3 3a.75.75 0 101.06-1.06l-1.72-1.72h5.69a.75.75 0 000-1.5h-5.69l1.72-1.72a.75.75 0 00-1.06-1.06l-3 3z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        )}
         <button
-          className="group absolute bottom-12 left-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
-          onClick={() => navigate('/')}
+          className="group absolute bottom-12 right-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
+          onClick={() => dispatch(logout())}
           style={{
             WebkitTapHighlightColor: 'rgb(0,0,0,0)'
           }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-8 h-8"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-4.28 9.22a.75.75 0 000 1.06l3 3a.75.75 0 101.06-1.06l-1.72-1.72h5.69a.75.75 0 000-1.5h-5.69l1.72-1.72a.75.75 0 00-1.06-1.06l-3 3z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <p className="flex justify-center items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 rotate-180"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            Cerrar Sesión
+          </p>
         </button>
       </div>
     </aside>
