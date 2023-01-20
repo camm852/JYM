@@ -420,7 +420,11 @@ export default function Checkout(): JSX.Element {
           <input name="taxReturnBase" type="hidden" value="0" />
           <input name="signature" type="hidden" value={signature} />
           <input name="test" type="hidden" value={import.meta.env.VITE_MODE === '1' ? '1' : '0'} />
-          <input name="responseUrl" type="hidden" value="http://localhost:3000/payment-response" />
+          <input
+            name="responseUrl"
+            type="hidden"
+            value={`${import.meta.env.VITE_DOMAIN}/payment-response`}
+          />
           <input name="shippingCountry" type="hidden" value="CO" />
           <input name="payerFullName" type="hidden" value={form.buyerFullName} />
           <button
