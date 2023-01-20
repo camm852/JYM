@@ -1,6 +1,6 @@
-import { OptionType } from '../vite-env';
+import { IOptionType } from '../vite-env';
 
-export const optionsColors: Array<OptionType> = [
+export const optionsColors: Array<IOptionType> = [
   { value: 'negro', label: 'Negro' },
   { value: 'blanco', label: 'Blanco' },
   { value: 'rojo', label: 'Rojo' },
@@ -15,14 +15,14 @@ export const optionsColors: Array<OptionType> = [
   { value: 'azul', label: 'Azul' }
 ];
 
-export const optionsCategories: Array<OptionType> = [
+export const optionsCategories: Array<IOptionType> = [
   { value: 'deportivo', label: 'Deportivo' },
   { value: 'casual', label: 'Casual' },
   { value: 'elegante', label: 'Elegante' },
   { value: 'uniformado', label: 'Uniformado' }
 ];
 
-export const optionsSizes: Array<OptionType> = [
+export const optionsSizes: Array<IOptionType> = [
   { value: '6', label: '6' },
   { value: '8', label: '8' },
   { value: '10', label: '10' },

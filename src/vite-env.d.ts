@@ -61,7 +61,7 @@ export interface ICartProduct {
 
 export interface IPropsCartProduct {
   indexProduct: number;
-  product: CartProduct;
+  product: ICartProduct;
 }
 
 export interface IPropsToast {
@@ -100,7 +100,7 @@ export interface IFormCheckout {
 }
 
 export interface IConfirmPurchase {
-  products: CartProduct[];
+  products: ICartProduct[];
   purchaseRef: string;
   paymentRef: string;
   total: number;
@@ -115,8 +115,8 @@ export interface IOptionType {
 
 // Redux
 
-export type TCartState = {
-  items: CartProduct[];
+export type ICartState = {
+  items: ICartProduct[];
 };
 
 export interface IUserState {

@@ -38,6 +38,7 @@ export default function FormAddProduct(): JSX.Element {
   React.useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
+
       return undefined;
     }
 
