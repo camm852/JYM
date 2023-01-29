@@ -17,11 +17,6 @@ import Spiner from '../components/Spinner/Spiner';
 const CarouselProducts = React.lazy(() => import('../components/CarouselProducts'));
 
 export default function Home() {
-  React.useEffect(() => {
-    console.log(import.meta.env.VITE_PAYMENT_URL);
-    console.log(import.meta.env.VITE_MODE);
-  }, []);
-
   const imagesCarouselInfo: Array<string> = [moda, moda2, moda3];
   const imagesCarouselProducts: Array<string> = [product1, product2, product3, product4, product5];
 

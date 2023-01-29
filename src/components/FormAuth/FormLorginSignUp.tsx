@@ -65,7 +65,7 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
             login({
               name: 'carlos',
               accesToken: 'ff',
-              typeUser: 'user'
+              typeUser: 'admin'
             })
           );
         }, 2000);

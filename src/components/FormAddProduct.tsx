@@ -74,17 +74,26 @@ export default function FormAddProduct(): JSX.Element {
     console.log(form);
     console.log(selectedFile);
 
-    // const response = await apiUrl.post('/', {
-    //   headers: {
-    //     // Authorization: `Bearer ${user.token}`
-    //   }
-    // });
+    const formData = new FormData();
+    formData.append('name', form.name);
+    formData.append('slug', form.slug);
+    formData.append('price', `${form.price}`);
+    formData.append('gender', form.gender);
+    formData.append('sizes', form.sizes.join('-'));
+    formData.append('colors', form.colors.join('-'));
+    formData.append('categories', form.categories.join('-'));
+    formData.append('type', form.type);
+    formData.append('file', selectedFile);
+    // console.log(formData.getAll());
+    formData.forEach((value, key) => console.log(`key: [${key}] value: [${value}]`));
 
-    // if (response.status === 200) {
-    //   setTimeout(() => {
-    //     window.location.reload();
-    //   }, 2000);
-    // }
+    const response = await apiUrl.post('/producto', formData);
+
+    if (response.status === 200) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
 
     return undefined;
   };
