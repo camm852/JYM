@@ -12,7 +12,7 @@ export default function Header() {
 
   const navigate = useNavigate();
   const { items } = useAppSelector((state) => state.cart);
-  const { typeUser } = useAppSelector((state) => state.user);
+  const { rol } = useAppSelector((state) => state.user);
 
   return (
     <div className="bg-white overflow-y-hidden">
@@ -85,7 +85,7 @@ export default function Header() {
           </div>
           <div className="w-full lg:w-1/3 bg-white  flex items-center justify-center">
             {/* Login Registro */}
-            {typeUser === 'user' ? (
+            {rol === 'user' ? (
               <Link
                 to="/dashboard"
                 className="flex flex-col lg:flex-row lg:flex-nowrap items-center mt-4 lg:mt-0"

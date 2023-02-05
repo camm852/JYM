@@ -1,5 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate
+} from 'react-router-dom';
 import ReactGA from 'react-ga';
 import Header from '../components/Header';
 import Dashboard from '../layaout/Dashboard';
@@ -16,6 +22,7 @@ import { IUserState } from '../vite-env';
 import Checkout from '../views/Checkout';
 import PaymentResponse from '../views/PaymentResponse';
 import NotFoundPage from '../views/NotFoundPage';
+import UserShopping from '../views/UserShopping';
 
 ReactGA.initialize(import.meta.env.VITE_TRACKING_ID);
 
@@ -23,14 +30,16 @@ function RequiredAdmin({ children }: { children: JSX.Element }) {
   const location = useLocation();
   const auth: IUserState = useAppSelector((state) => state.user);
 
-  if (auth.typeUser === 'admin' && auth.accesToken) return children;
+  if (auth.rol === 'admin' && auth.accessToken) return children;
   return <Navigate to="/dashboard" state={{ from: location }} replace />;
 }
 
 function RequiredAuth({ children }: { children: JSX.Element }) {
   const location = useLocation();
   const auth: IUserState = useAppSelector((state) => state.user);
-  if ((auth.typeUser === 'user' || auth.typeUser === 'admin') && auth.accesToken) return children;
+  if ((auth.rol === 'user' || auth.rol === 'admin') && auth.accessToken) {
+    return children;
+  }
   return <Navigate to="/login" state={{ from: location }} replace />;
 }
 
@@ -38,7 +47,7 @@ function DontVisibleAdmin({ children }: { children: JSX.Element }) {
   const location = useLocation();
   const auth: IUserState = useAppSelector((state) => state.user);
 
-  if (auth.typeUser !== 'admin') return children;
+  if (auth.rol !== 'admin') return children;
   return <Navigate to="/dashboard" state={{ from: location }} replace />;
 }
 
@@ -46,7 +55,7 @@ function DontAuth({ children }: { children: JSX.Element }) {
   const location = useLocation();
   const auth: IUserState = useAppSelector((state) => state.user);
 
-  if (!auth.accesToken) return children;
+  if (!auth.accessToken) return children;
   return <Navigate to="/" state={{ from: location }} replace />;
 }
 
@@ -104,25 +113,47 @@ export default function RouteApp() {
         >
           <Route index element={<Dashboard />} />
           <Route path="home" element={<DashBoardHome />} />
-          <Route path="profile" element={<Profile />} />
           <Route
-            path="gestion"
+            path="profile"
+            element={
+              <DontVisibleAdmin>
+                <Profile />
+              </DontVisibleAdmin>
+            }
+          />
+          <Route path="gestion">
+            <Route
+              path="products/:page"
+              element={
+                <RequiredAdmin>
+                  <Gestion />
+                </RequiredAdmin>
+              }
+            />
+          </Route>
+          <Route
+            path="shopping"
             element={
               <RequiredAdmin>
-                <Gestion />
+                <Shopping />
               </RequiredAdmin>
             }
           />
-          <Route path="shopping" element={<Shopping />} />
+          <Route
+            path="user-shopping"
+            element={
+              <DontVisibleAdmin>
+                <UserShopping />
+              </DontVisibleAdmin>
+            }
+          />
         </Route>
         <Route
           path="/payment-response"
           element={
-            <RequiredAuth>
-              <DontVisibleAdmin>
-                <PaymentResponse />
-              </DontVisibleAdmin>
-            </RequiredAuth>
+            <DontVisibleAdmin>
+              <PaymentResponse />
+            </DontVisibleAdmin>
           }
         />
       </Routes>

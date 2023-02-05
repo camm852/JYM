@@ -13,7 +13,9 @@ export default function CardProduct(props: Props): JSX.Element {
         <img src={image} alt={`${image}`} className="rounded-xl" />
         <div className="absolute  w-full bottom-14 md:bottom-1 right-0 pr-2 text-right">
           <button
-            className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-500 ease-in-out hover:w-32 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left"
+            className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white
+            "
+            // hover:w-32 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left
             onClick={() => navigate('/product/1')}
             style={{
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
@@ -40,9 +42,9 @@ export default function CardProduct(props: Props): JSX.Element {
                 />
               </svg>
             </i>
-            <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-50 group-hover:ease-in capitalize font-semibold">
+            {/* <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-50 group-hover:ease-in capitalize font-semibold">
               Visualizar
-            </span>
+            </span> */}
           </button>
         </div>
       </div>

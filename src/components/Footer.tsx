@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import FacebookIcon from './IconsSocial/FacebookIcon';
 import InstagramIcon from './IconsSocial/InstagramIcon';
 import WhatsAppIcon from './IconsSocial/WhatsAppIcon';
 import { LOGOBLANCO } from '../assets/assests';
 
 export default function Footer(): JSX.Element {
+  const navigate = useNavigate();
+
   const style = {
     anchor:
       'inline-block relative pl-7 text-lg mb-2 hover:text-white after:absolute after:content-[""] after:w-1 after:h-1 after:left-0  after:top-3  after:border after:border-red-500 after:rounded-full  after:transition-all after:duration-200 after:hover:w-2 after:hover:h-2 after:hover:top-2 after:hover:bg-red-500'
@@ -21,38 +24,33 @@ export default function Footer(): JSX.Element {
           </div>
           <div className="mt-8">
             <p className="text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, rerum. Deserunt
-              recusandae sapiente quibusdam aperiam numquam molestiae ab repellendus doloremque ea
-              natus eum minima reiciendis tenetur, nam illum impedit illo!
+              Somos una tienda online dedicada a vender ropa y bolsos, con amplia gama de estilos y Colores.
+              Estamos para satisfacerte y brindarte productos de la mejor calidad y al mejor precio, no dudes en comprar en ShopJym.
             </p>
           </div>
         </div>
         <div className="flex flex-col w-full md:w-1/3 px-7 lg:px-0 lg:pl-20 mb-8 md:mb-0">
           <div>
-            <h2 className="text-xl text-white uppercase font-bold">Questions</h2>
+            <h2 className="text-xl text-white uppercase font-bold">Preguntas</h2>
           </div>
           <div className="mt-8">
             <ul className="list-none float-left mr-9">
               <li>
-                <a href="" className={style.anchor}>
-                  about
-                </a>
+                <button onClick={() => navigate('/dashboard/profile')} className={style.anchor}>
+                  Ir al perfil
+                </button>
               </li>
               <li>
-                <a href="" className={style.anchor}>
-                  about
-                </a>
+              <button onClick={() => navigate('/checkout')} className={style.anchor}>
+                  Terminar la compra
+              </button>
               </li>
               <li>
-                <a href="" className={style.anchor}>
-                  about
-                </a>
+                <button onClick={() => navigate('/dashboard/user-shopping')} className={style.anchor}>
+                    Mis compras
+                </button>
               </li>
-              <li>
-                <a href="" className={style.anchor}>
-                  about
-                </a>
-              </li>
+
             </ul>
           </div>
         </div>
@@ -63,17 +61,12 @@ export default function Footer(): JSX.Element {
           <div className="mt-8">
             <div className="flex gap-6 items-center">
               <p className="text-xl text-red-500">U</p>
-              <p>Calle 15 Bogota</p>
+              <div>
+                <p>Puedes contactarnos a tráves de cualquiera de</p>
+                <p>nuestras redes sociales mencionadas a continuación</p>
+              </div>
             </div>
-            <div className="flex gap-6 mt-2">
-              <p className="text-xl text-red-500">U</p>
 
-              <p>Calle 15 Bogota</p>
-            </div>
-            <div className="flex gap-6 mt-2">
-              <p className="text-xl text-red-500">U</p>
-              <p>Calle 15 Bogota</p>
-            </div>
           </div>
         </div>
         <div className="flex flex-col" />

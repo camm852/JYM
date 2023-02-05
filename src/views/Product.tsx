@@ -260,7 +260,7 @@ export default function Product(): JSX.Element {
           !openToast ? '-right-full' : 'right-8'
         } bottom-1 transition-all duration-150 ease-in-out z-50`}
       >
-        <Toast stateToast={openToast} openToast={setOpenToast} />
+        <Toast stateToast={openToast} openToast={setOpenToast} text="Item agregado correctamente" />
       </div>
       <Footer />
     </div>

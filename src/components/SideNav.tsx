@@ -2,18 +2,18 @@ import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/slices/UserSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/Hooks';
-import { routesLayaout } from '../utils/routes';
+import { routesLayaoutAdmin, routesLayaoutUser } from '../utils/routes';
 
-interface Props {
+interface IProps {
   openSideNav: boolean;
 }
 
-export default function SideNav({ openSideNav }: Props): JSX.Element {
+export default function SideNav({ openSideNav }: IProps): JSX.Element {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  const { typeUser } = useAppSelector((state) => state.user);
+  const { rol } = useAppSelector((state) => state.user);
 
   return (
     <aside
@@ -41,50 +41,76 @@ export default function SideNav({ openSideNav }: Props): JSX.Element {
         </Link>
       </div>
       <div className="m-4">
-        {routesLayaout.map(({ icon, name, path }, key) => (
-          <ul key={key} className="mb-4 flex flex-col gap-1">
-            <li key={name}>
-              <NavLink to={`/dashboard${path}`}>
-                {({ isActive }) => (
-                  <button
-                    className={`flex items-center gap-4 px-4 py-3 w-full capitalize ${
-                      isActive
-                        ? 'text-white bg-sky-500 shadow-sm shadow-sky-300 hover:shadow-lg hover:shadow-sky-200'
-                        : 'hover:bg-slate-200 text-slate-600'
-                    }  rounded-lg text-lg transition-all duration-200`}
-                    style={{
-                      WebkitTapHighlightColor: 'rgb(0,0,0,0)'
-                    }}
-                  >
-                    {icon}
-                    <p className="font-medium capitalize">{name}</p>
-                  </button>
-                )}
-              </NavLink>
-            </li>
-          </ul>
-        ))}
-        {typeUser === 'user' && (
-          <button
-            className="group absolute bottom-12 left-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
-            onClick={() => navigate('/')}
-            style={{
-              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-8 h-8"
+        {rol === 'admin' &&
+          routesLayaoutAdmin.map(({ icon, name, path }, key) => (
+            <ul key={key} className="mb-4 flex flex-col gap-1">
+              <li key={name}>
+                <NavLink to={`/dashboard${path}`}>
+                  {({ isActive }) => (
+                    <button
+                      className={`flex items-center gap-4 px-4 py-3 w-full capitalize ${
+                        isActive
+                          ? 'text-white bg-sky-500 shadow-sm shadow-sky-300 hover:shadow-lg hover:shadow-sky-200'
+                          : 'hover:bg-slate-200 text-slate-600'
+                      }  rounded-lg text-lg transition-all duration-200`}
+                      style={{
+                        WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                      }}
+                    >
+                      {icon}
+                      <p className="font-medium capitalize">{name}</p>
+                    </button>
+                  )}
+                </NavLink>
+              </li>
+            </ul>
+          ))}
+        {rol === 'user' && (
+          <>
+            {routesLayaoutUser.map(({ icon, name, path }, key) => (
+              <ul key={key} className="mb-4 flex flex-col gap-1">
+                <li key={name}>
+                  <NavLink to={`/dashboard${path}`}>
+                    {({ isActive }) => (
+                      <button
+                        className={`flex items-center gap-4 px-4 py-3 w-full capitalize ${
+                          isActive
+                            ? 'text-white bg-sky-500 shadow-sm shadow-sky-300 hover:shadow-lg hover:shadow-sky-200'
+                            : 'hover:bg-slate-200 text-slate-600'
+                        }  rounded-lg text-lg transition-all duration-200`}
+                        style={{
+                          WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                        }}
+                      >
+                        {icon}
+                        <p className="font-medium capitalize">{name}</p>
+                      </button>
+                    )}
+                  </NavLink>
+                </li>
+              </ul>
+            ))}
+            <button
+              className="group absolute bottom-12 left-5 hover:text-sky-500  transition-all duration-200 text-slate-400"
+              onClick={() => navigate('/')}
+              style={{
+                WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+              }}
             >
-              <path
-                fillRule="evenodd"
-                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-4.28 9.22a.75.75 0 000 1.06l3 3a.75.75 0 101.06-1.06l-1.72-1.72h5.69a.75.75 0 000-1.5h-5.69l1.72-1.72a.75.75 0 00-1.06-1.06l-3 3z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-8 h-8"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-4.28 9.22a.75.75 0 000 1.06l3 3a.75.75 0 101.06-1.06l-1.72-1.72h5.69a.75.75 0 000-1.5h-5.69l1.72-1.72a.75.75 0 00-1.06-1.06l-3 3z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </>
         )}
         <button
           className="group absolute bottom-12 right-5 hover:text-sky-500  transition-all duration-200 text-slate-400"

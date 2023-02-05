@@ -1,4 +1,3 @@
-import { GroupBase, StylesConfig } from 'react-select';
 import React from 'react';
 /// <reference types="vite/client" />
 
@@ -34,6 +33,7 @@ export interface IPropsNavBar {
   openNavBar: boolean;
   setNavBar: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 export interface IPropsLogin {
   isLogin: boolean;
   setLoadedImage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -64,21 +64,23 @@ export interface IPropsCartProduct {
   product: ICartProduct;
 }
 
-export interface IPropsToast {
-  stateToast: boolean;
-  openToast: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 export interface IFormProduct {
   name: string;
   slug: string;
   price: number;
   gender: string;
+  description: string;
   colors: string[];
   sizes: string[];
   categories: string[];
   type: string;
 }
+
+export type TProductTable = IFormProduct & {
+  image: string;
+  state: bool;
+  id: number;
+};
 
 export interface IErrorFormProduct {
   name: boolean;
@@ -88,6 +90,14 @@ export interface IErrorFormProduct {
   size: boolean;
   category: boolean;
   gender: boolean;
+  colors: boolean;
+}
+
+export interface IPropsToast {
+  error?: boolean;
+  text: string;
+  stateToast: boolean;
+  openToast: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface IFormCheckout {
@@ -106,6 +116,14 @@ export interface IConfirmPurchase {
   total: number;
 }
 
+export interface ICardStatistics {
+  title: string;
+  value: number;
+  percent: number;
+  footer: string;
+  icon?: React.ReactNode;
+}
+
 // React-select
 
 export interface IOptionType {
@@ -121,6 +139,10 @@ export type ICartState = {
 
 export interface IUserState {
   name: string;
-  accesToken: string;
-  typeUser: string;
+  lastname: string;
+  phone: string;
+  email: string;
+  rol: string;
+  accessToken: string;
+  refreshToken: string;
 }

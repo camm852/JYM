@@ -1,28 +1,48 @@
 import React from 'react';
-import { Tab } from '@headlessui/react';
-import Select, { StylesConfig } from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { IFormProduct, IOptionType, IErrorFormProduct } from '../vite-env';
+import Select, { StylesConfig } from 'react-select';
+import { Tab } from '@headlessui/react';
 import apiUrl from '../utils/baseUrl';
+import { IFormProduct, IOptionType, IErrorFormProduct, TProductTable } from '../vite-env';
 import { optionsCategories, optionsColors, optionsSizes } from '../utils/optionsSelect';
+import { useAppSelector } from '../redux/store/Hooks';
+import Spiner from './Spinner/Spiner';
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function FormAddProduct(): JSX.Element {
-  const [selectedFile, setSelectedFile] = React.useState<Blob | MediaSource | undefined>(undefined);
+interface IMessageToast {
+  error: boolean;
+  message: string;
+}
+
+interface IPropsFormProduct {
+  setOpenToast: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessageToast: React.Dispatch<React.SetStateAction<IMessageToast>>;
+  product?: TProductTable;
+}
+
+// eslint-disable-next-line max-len
+export default function FormAddProduct({ setOpenToast, setMessageToast, product }: IPropsFormProduct): JSX.Element {
+  const [selectedFile, setSelectedFile] = React.useState<Blob>();
   const [preview, setPreview] = React.useState<string>();
-  const [index, setIndex] = React.useState<number>(0);
+  const [index, setIndex] = React.useState<number>(product?.type === 'bag' ? 0 : product?.type === 'topWear' ? 1 : 2);
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const [colors, setColors] = React.useState<IOptionType[]>([]);
+  const [categories, setCategories] = React.useState<IOptionType[]>([]);
+
   const [form, setForm] = React.useState<IFormProduct>({
-    name: '',
-    slug: '',
-    price: 0,
-    gender: '',
-    colors: [],
-    sizes: [],
-    categories: [],
-    type: 'bag'
+    name: product?.name ?? '',
+    slug: product?.slug ?? '',
+    price: product?.price ?? 0,
+    gender: product?.gender ?? '',
+    description: product?.description ?? '',
+    colors: product?.colors ?? [],
+    sizes: product?.sizes ?? [],
+    categories: product?.categories ?? [],
+    type: product?.type ?? 'bag'
   });
 
   const [error, setError] = React.useState<IErrorFormProduct>({
@@ -32,9 +52,13 @@ export default function FormAddProduct(): JSX.Element {
     image: false,
     size: false,
     category: false,
-    gender: false
+    gender: false,
+    colors: false
   });
 
+  const { accessToken } = useAppSelector((state) => state.user);
+
+  // Preview image
   React.useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -48,56 +72,88 @@ export default function FormAddProduct(): JSX.Element {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
+  // Slug
   React.useEffect(() => {
     const slug = form.name.toLowerCase().split(' ').join('-');
     setForm({ ...form, slug });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.name]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<undefined> => {
+  // Submit Product
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<null> => {
     e.preventDefault();
+    setLoading(true);
 
-    setError({
+    const errors: IErrorFormProduct = {
       name: form.name.length === 0 ?? false,
       slug: form.slug.length === 0 ?? false,
       price: form.price === 0 ?? false,
       gender: form.gender.length === 0 ?? false,
       image: selectedFile === undefined ?? false,
       size: (index > 0 && form.sizes.length === 0) ?? false,
-      category: form.categories.length === 0 ?? false
-    });
+      category: form.categories.length === 0 ?? false,
+      colors: form.colors.length === 0 ?? false
+    };
 
-    const existError = Object.values(error).map((value) => value || false);
+    const existError = Object.values(errors).map((value) => value || false);
 
-    if (existError.includes(true)) return undefined;
+    setError(errors);
 
-    console.log(form);
-    console.log(selectedFile);
+    if (existError.includes(true)) {
+      setOpenToast(true);
+      setMessageToast({
+        error: true,
+        message: 'Faltam campos'
+      });
+      setLoading(false);
+      return null;
+    }
 
     const formData = new FormData();
+
     formData.append('name', form.name);
     formData.append('slug', form.slug);
     formData.append('price', `${form.price}`);
     formData.append('gender', form.gender);
+    formData.append('description', form.description);
     formData.append('sizes', form.sizes.join('-'));
     formData.append('colors', form.colors.join('-'));
     formData.append('categories', form.categories.join('-'));
     formData.append('type', form.type);
-    formData.append('file', selectedFile);
-    // console.log(formData.getAll());
-    formData.forEach((value, key) => console.log(`key: [${key}] value: [${value}]`));
+    formData.append('file', selectedFile ?? '');
 
-    const response = await apiUrl.post('/producto', formData);
-
-    if (response.status === 200) {
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+    try {
+      await apiUrl.post('/producto/', formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+    setOpenToast(true);
+    setMessageToast({ error: false, message: 'Agregado correctamente' });
+    setLoading(false);
+    setTimeout(() => window.location.reload(), 1500);
+    } catch (errorResponse: any) {
+      console.log(errorResponse);
+      if (errorResponse?.code === 'ERR_BAD_REQUEST') {
+        setMessageToast({
+          error: true,
+          message: 'Ya existe el producto'
+        });
+      }
+      if (errorResponse?.code === 'ERR_NETWORK') {
+        setMessageToast({
+          error: true,
+          message: 'Servidor no disponible',
+        });
+      }
+      setLoading(false);
+      setOpenToast(true);
+      setLoading(false);
     }
-
-    return undefined;
+    return null;
   };
 
+  // change image
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
@@ -106,18 +162,25 @@ export default function FormAddProduct(): JSX.Element {
     setSelectedFile(e.target.files[0]);
   };
 
+  // reset state type product
   const resetInitialState = (selectIndex: number): void => {
     setForm({
       ...form,
       colors: [],
       sizes: [],
-      type: selectIndex === 0 ? 'bag' : 'clothes'
+      type: selectIndex === 0 ? 'bag' : selectIndex === 1 ? 'topWear' : 'downWear'
     });
   };
 
-  const handleForm = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  // change mayority properties of the form
+  const handleForm = (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+  ): void => {
+    if (e.target.name !== 'price') setForm({ ...form, [e.target.name]: e.target.value });
+    else setForm({ ...form, [e.target.name]: +e.target.value });
   };
+
+  // change sizes product
   const handleSizeInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!form.sizes.includes(e.target.name)) {
       setForm({ ...form, sizes: [...form.sizes, e.target.name] });
@@ -127,31 +190,46 @@ export default function FormAddProduct(): JSX.Element {
     setForm({ ...form, sizes: newSizes });
   };
 
+  // change sizes product react-select
   const handleSizeSelect = (e: readonly IOptionType[]): void => {
-    const sizes: Array<string> = e.map((size) => size.value);
-    setForm({ ...form, sizes });
+    const sizesFromTable: Array<string> = e.map((size) => size.value);
+    setForm({ ...form, sizes: sizesFromTable });
   };
 
+  // change color
   const handleColor = (e: readonly IOptionType[]): void => {
-    const colors: Array<string> = e.map((color) => color.value);
-    setForm({ ...form, colors });
+    const colorsToForm: Array<string> = e.map((color) => color.value);
+    const colorsToState: IOptionType[] = e.map((color) => ({ label: color.label, value: color.value }));
+    setColors(colorsToState);
+    setForm({ ...form, colors: colorsToForm });
   };
 
+  // change categories
   const handleCategory = (e: readonly IOptionType[]): void => {
-    const categories: Array<string> = e.map((category) => category.value);
-    setForm({ ...form, categories });
+    const categoriesToForm: Array<string> = e.map((category) => category.value);
+    const categoriesToState: IOptionType[] = e.map((color) => ({ label: color.label, value: color.value }));
+    setCategories(categoriesToState);
+    setForm({ ...form, categories: categoriesToForm });
   };
 
+  // chage gender
   const handleGender = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setForm({ ...form, gender: e.target.name });
   };
 
-  const categories = ['Bolsos', 'Camisetas Blusas Vestidos', 'Jeanes Leggins Shorts'];
+  const categoriesTap = ['Bolsos', 'Camisetas Blusas Vestidos', 'Jeanes Leggins Shorts'];
 
   const sizeClothingTop = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-  //* *Style Select */
+  const colorsFromTable: IOptionType[] | null = form.colors.length === 0 ? null : (
+      form.colors.map((color) => ({ value: color, label: color.charAt(0).toUpperCase() + color.slice(1) }))
+  );
 
+  const categoriesFromTable: IOptionType[] | null = form.categories.length === 0 ? null : (
+    form.categories.map((category) => ({ value: category, label: category.charAt(0).toUpperCase() + category.slice(1) }))
+);
+
+  // Style Select
   const animateSelect = makeAnimated();
 
   const colourStyle: StylesConfig<IOptionType, true> = {
@@ -173,16 +251,16 @@ export default function FormAddProduct(): JSX.Element {
 
   return (
     <div className="flex flex-row flex-wrap lg:flex-nowrap bg-gray-50">
-      <div className="lg:w-2/3 p-5">
+      <div className="lg:w-full p-5">
         <h2 className="text-2xl font-semibold">Información del Producto</h2>
         <form className="pt-5" onSubmit={handleSubmit}>
           <div className="mb-2 flex flex-wrap gap-1">
-            {/* */}
             {/* Inputs Text */}
-            <div className="w-full sm:w-2/5">
+            <div className="w-full sm:w-4/12">
               <input
                 type="text"
                 name="name"
+                value={form.name}
                 placeholder="Nombre"
                 autoComplete="off"
                 className={`p-2 outline-none bg-slate-200 rounded-md w-full  focus:bg-slate-100 ${
@@ -192,7 +270,7 @@ export default function FormAddProduct(): JSX.Element {
               />
               {error.name && <span className="text-red-400 text-sm">El nombre es obligatorio</span>}
             </div>
-            <div className="w-full sm:w-2/6">
+            <div className="w-full sm:w-4/12">
               <input
                 type="text"
                 name="slug"
@@ -211,6 +289,7 @@ export default function FormAddProduct(): JSX.Element {
               <input
                 type="text"
                 name="price"
+                value={form.price}
                 placeholder="Precio"
                 autoComplete="off"
                 className={`p-2 outline-none bg-slate-200 rounded-md w-full  focus:bg-slate-100 ${
@@ -230,21 +309,23 @@ export default function FormAddProduct(): JSX.Element {
 
             {/* Bolzos, camisetas, vestidos, etc */}
             <div className="w-full">
-              <div className="w-full max-w-xl px-2 sm:px-0">
+              <div className="w-full px-2 sm:px-0">
                 <h3 className="mt-4 mb-3 font-semibold text-xl">Información Adicional</h3>
                 <Tab.Group
                   onChange={(selectedIndex) => {
                     setIndex(selectedIndex);
                     resetInitialState(selectedIndex);
                   }}
+                  selectedIndex={form.type === 'bag' ? 0 : form.type === 'topWear' ? 1 : 2}
                 >
+                  {/* Tap to change type product */}
                   <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-                    {categories.map((category) => (
+                    {categoriesTap.map((category) => (
                       <Tab
                         key={category}
                         className={({ selected }) =>
                           classNames(
-                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue- 700',
+                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5 outline-none',
                             selected
                               ? 'bg-white shadow text-blue-500'
                               : 'text-blue-50 hover:bg-white/[0.12] hover:text-white'
@@ -255,6 +336,8 @@ export default function FormAddProduct(): JSX.Element {
                       </Tab>
                     ))}
                   </Tab.List>
+
+                  {/* Bag */}
                   <div className="mt-2">
                     {index === 0 && (
                       <>
@@ -262,13 +345,19 @@ export default function FormAddProduct(): JSX.Element {
                         <Select
                           placeholder="Elige los Colores..."
                           isMulti
+                          value={form.colors.length === 0 ? colors : colorsFromTable} // if is edit product
                           options={optionsColors}
                           components={animateSelect}
                           styles={colourStyle}
                           onChange={handleColor}
                         />
+                      {error.colors && (
+                        <span className="text-red-400 text-sm">Al menos un color</span>
+                      )}
                       </>
                     )}
+
+                    {/* Top wear */}
                     {index === 1 && (
                       <>
                         <h3 className="mt-4 mb-3 font-semibold text-lg">Tallas de la Prenda</h3>
@@ -282,6 +371,7 @@ export default function FormAddProduct(): JSX.Element {
                               <div className="flex items-center pl-3">
                                 <input
                                   type="checkbox"
+                                  checked={form.sizes.includes(size)}
                                   className="w-5 h-4 appearance-none bg-white border border-white rounded-lg checked:border-sky-400 checked:bg-sky-500"
                                   onChange={handleSizeInput}
                                   name={size}
@@ -304,6 +394,7 @@ export default function FormAddProduct(): JSX.Element {
                         <Select
                           placeholder="Elige los Colores..."
                           isMulti
+                          value={form.colors.length === 0 ? colors : colorsFromTable} // if is edit product
                           options={optionsColors}
                           components={animateSelect}
                           styles={colourStyle}
@@ -311,6 +402,8 @@ export default function FormAddProduct(): JSX.Element {
                         />
                       </>
                     )}
+
+                    {/* Down Wear */}
                     {index === 2 && (
                       <>
                         <h3 className="mt-4 mb-3 font-semibold text-lg">Tallas de la Prenda</h3>
@@ -329,6 +422,7 @@ export default function FormAddProduct(): JSX.Element {
                         <Select
                           placeholder="Elige los Colores..."
                           isMulti
+                          value={form.colors.length === 0 ? colors : colorsFromTable} // if is edit product
                           options={optionsColors}
                           components={animateSelect}
                           styles={colourStyle}
@@ -342,10 +436,10 @@ export default function FormAddProduct(): JSX.Element {
             </div>
           </div>
 
-          {/* Genero */}
+          {/* Gender  */}
           <div>
             <h3 className="mt-4 mb-3 font-semibold text-lg">Género</h3>
-            <ul className="items-center max-w-lg text-sm font-medium  bg-slate-200 rounded-xl border-gray-200 sm:flex text-gray-400">
+            <ul className="items-center w-full text-sm font-medium  bg-slate-200 rounded-xl border-gray-200 sm:flex text-gray-400">
               <li className="w-full border-b border-white sm:border-b-0 sm:border-r ">
                 <div className="flex items-center pl-3">
                   <input
@@ -396,11 +490,15 @@ export default function FormAddProduct(): JSX.Element {
               <span className="text-red-400 text-sm">Tienes que elegir un género</span>
             )}
           </div>
-          <div className="w-full max-w-xl px-2 sm:px-0">
+
+          {/* Categorias */}
+
+          <div className="w-full px-2 sm:px-0">
             <h3 className="mt-4 mb-3 font-semibold text-lg">Categorias</h3>
             <Select
               placeholder="Elige las categorias..."
               isMulti
+              value={form.categories.length === 0 ? categories : categoriesFromTable} // if is edit product
               options={optionsCategories}
               components={animateSelect}
               styles={colourStyle}
@@ -409,10 +507,25 @@ export default function FormAddProduct(): JSX.Element {
             {error.category && <span className="text-red-400 text-sm">Al menos una categoria</span>}
           </div>
 
+          {/* Descripcion  */}
+
+          <div className="max-w-md">
+            <h3 className="mt-4 mb-3 font-semibold text-lg">Descripción</h3>
+            <textarea
+              id="message"
+              rows={1}
+              name="description"
+              value={form.description}
+              onChange={handleForm}
+              className="resize-none block p-2.5 w-full text-sm text-gray-900 border bg-gray-50 rounded-lg  border-gray-300  focus:outline-sky-600 "
+              placeholder="Escribe la descripción del producto...."
+            />
+          </div>
+
           {/* Imagen */}
           <h3 className="mt-4 mb-3 font-semibold text-lg">Imagen del producto</h3>
           <div className="flex flex-wrap items-center justify-center w-full">
-            <div className="w-full md:w-1/2 lg:w-full">
+            <div className="w-full md:w-1/2">
               <label
                 htmlFor="dropzone-file"
                 className={`flex flex-col items-center justify-center w-full h-56 border-2  border-dashed rounded-lg cursor-pointer bg-slate-200 hover:bg-slate-300 hover:border-slate-500 ${
@@ -452,10 +565,10 @@ export default function FormAddProduct(): JSX.Element {
                 <span className="text-red-400 text-sm">La imagen es obligatoria</span>
               )}
             </div>
-            <div className="w-full  md:w-1/2 lg:hidden ">
-              {preview ? (
-                <div className="h-full p-4 flex lg:p-0">
-                  <img src={preview} alt="producto" className="" />
+            <div className="w-full  md:w-1/2 flex justify-center">
+              {preview || product?.image ? (
+                <div className="h-full w-full p-4 flex justify-center">
+                  <img src={preview ?? product?.image} alt="producto" className=" h-56 w-56 rounded-md" />
                 </div>
               ) : (
                 <div className="h-20 lg:h-full flex justify-center items-center">
@@ -464,12 +577,19 @@ export default function FormAddProduct(): JSX.Element {
               )}
             </div>
           </div>
-          <button className="w-full p-2 bg-sky-500 rounded-md mt-2 text-white" type="submit">
-            Agregar
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-2 p-2 border rounded-md bg-blue-400 font-medium text-white transition-all duration-300"
+            style={{
+              WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+            }}
+          >
+            {!loading ? 'Agregar producto' : <Spiner />}
           </button>
         </form>
       </div>
-      <div className="w-full lg:w-1/3 hidden lg:block">
+      {/* <div className="w-full lg:w-1/3 hidden lg:block">
         {preview ? (
           <div className="h-full p-4 flex justify-center items-center lg:p-0">
             <img src={preview} alt="producto" className="w-60 h-64" />
@@ -479,7 +599,24 @@ export default function FormAddProduct(): JSX.Element {
             <p>Imagen aún no cargada</p>
           </div>
         )}
-      </div>
+      </div> */}
+
     </div>
   );
 }
+
+FormAddProduct.defaultProps = {
+  product: {
+    name: '',
+    slug: '',
+    description: '',
+    image: '',
+    categories: [],
+    sizes: [],
+    colors: [],
+    type: 'bag',
+    state: true,
+    price: 0,
+    gender: ''
+  }
+};

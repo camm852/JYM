@@ -3,8 +3,12 @@ import { IUserState } from '../../vite-env';
 
 const initialState: IUserState = {
   name: '',
-  accesToken: '',
-  typeUser: ''
+  lastname: '',
+  phone: '',
+  email: '',
+  rol: '',
+  accessToken: '',
+  refreshToken: ''
 };
 
 export const userSlice = createSlice({
