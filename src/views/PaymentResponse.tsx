@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/store/Hooks';
+import apiUrl from '../utils/baseUrl';
 import {
   ICartProduct,
   ICartState,
@@ -27,7 +28,7 @@ export default function PaymentResponse(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = (): void => {
+  const handleClick = async (): void => {
     if (paymentResponse.lapTransactionState !== 'APPROVED') {
       navigate('/');
     } else {
@@ -41,8 +42,13 @@ export default function PaymentResponse(): JSX.Element {
         processingDate: paymentResponse.processingDate,
         shippingAddress: window.localStorage.getItem('shippingAddress') ?? ''
       };
-      navigate('/dashboard/profile');
-      // TODO enviar al back
+      try {
+        const response = await apiUrl.post('/ventas/', body, {
+          headers: {
+            Authorization
+          }
+        });
+      } catch (error) {}
     }
   };
   if (!paymentResponse) return <div />;
