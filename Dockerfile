@@ -2,13 +2,14 @@ FROM node:16.17.1-alpine3.16 as build
 
 WORKDIR /usr/app
 
-COPY package*.json ./  
+# COPY package*.json ./  
+COPY ./dist ./
 
-RUN npm ci
+# RUN npm ci
 
-COPY . .
+# COPY . .
 
-RUN npm run build
+# RUN npm run build
 
 
 
