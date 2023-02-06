@@ -15,8 +15,8 @@
 
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
-# COPY --from=build /usr/app/dist 
-COPY /dist /usr/app/dist 
+COPY --from=build /usr/app/dist ./ 
+#COPY /dist /usr/app/dist 
 
 EXPOSE 80
 # run nginx with global directives and daemon off
