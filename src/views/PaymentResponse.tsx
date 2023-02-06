@@ -13,7 +13,9 @@ export default function PaymentResponse(): JSX.Element {
   const [paymentResponse, setPaymentResponse] = React.useState<any>();
 
   const { items }: ICartState = useAppSelector((state) => state.cart);
-  const { phone }: IUserState = useAppSelector((state) => state.user);
+  const { phone, accessToken }: IUserState = useAppSelector(
+    (state) => state.user
+  );
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -28,7 +30,7 @@ export default function PaymentResponse(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = async (): void => {
+  const handleClick = async (): Promise<void> => {
     if (paymentResponse.lapTransactionState !== 'APPROVED') {
       navigate('/');
     } else {
@@ -45,7 +47,7 @@ export default function PaymentResponse(): JSX.Element {
       try {
         const response = await apiUrl.post('/ventas/', body, {
           headers: {
-            Authorization
+            headers: { Authorization: `Bearer ${accessToken}` }
           }
         });
       } catch (error) {}
