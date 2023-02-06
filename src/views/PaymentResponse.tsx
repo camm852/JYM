@@ -42,12 +42,13 @@ export default function PaymentResponse(): JSX.Element {
         buyerEmail: paymentResponse.buyerEmail,
         buyerPhone: phone,
         processingDate: paymentResponse.processingDate,
-        shippingAddress: window.localStorage.getItem('shippingAddress') ?? ''
+        shippingAddress: window.localStorage.getItem('shippingAddress') ?? '',
+        city: window.localStorage.getItem('city') ?? ''
       };
       try {
-        const response = await apiUrl.post('/ventas/', body, {
+        const response = await apiUrl.put('/venta/', body, {
           headers: {
-            headers: { Authorization: `Bearer ${accessToken}` }
+            Authorization: `Bearer ${accessToken}`
           }
         });
       } catch (error) {}

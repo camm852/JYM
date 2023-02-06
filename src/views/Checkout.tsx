@@ -62,6 +62,9 @@ export default function Checkout(): JSX.Element {
     if (e.target.name === 'shippingAddress') {
       window.localStorage.setItem('shippingAddress', e.target.value);
     }
+    if (e.target.name === 'shippingAddress') {
+      window.localStorage.setItem('shippingAddress', e.target.value);
+    }
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 

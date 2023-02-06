@@ -118,6 +118,7 @@ export interface IConfirmPurchase {
   buyerPhone: string;
   processingDate: string;
   shippingAddress: string;
+  city: string;
 }
 
 export interface ICardStatistics {
