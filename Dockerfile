@@ -1,20 +1,11 @@
 FROM node:16.17.1-alpine3.16 as build
-
 WORKDIR /usr/app
+COPY ./dist /usr/app
 
-COPY package*.json ./  
+# RUN npm ci
+# RUN npm run build
 
-RUN npm ci
-
-COPY . .
-
-RUN npm run build
-
-
-
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=build /usr/app/dist .
+FROM nginx:1.23.1-alpine
 EXPOSE 80
-# run nginx with global directives and daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+COPY ./docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/app/dist /usr/share/nginx/html
