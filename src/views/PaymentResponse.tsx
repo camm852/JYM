@@ -46,7 +46,7 @@ export default function PaymentResponse(): JSX.Element {
         city: window.localStorage.getItem('city') ?? ''
       };
       try {
-        const response = await apiUrl.put('/venta/', body, {
+        const response = await apiUrl.put('/ventas/', body, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
