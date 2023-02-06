@@ -1,20 +1,27 @@
 import React from 'react';
 import md5 from 'md5';
 import { useAppSelector, useAppDispatch } from '../redux/store/Hooks';
-import { ICartProduct, ICartState, IFormCheckout } from '../vite-env';
+import {
+  ICartProduct,
+  ICartState,
+  IFormCheckout,
+  IUserState
+} from '../vite-env';
 import { decrease, increase, remove } from '../redux/slices/CartSlice';
 import { flagcol, city } from '../assets/assests';
 
 export default function Checkout(): JSX.Element {
   const date = new Date();
+  const { items }: ICartState = useAppSelector((state) => state.cart);
+  const user: IUserState = useAppSelector((state) => state.user);
 
   const [subTotal, setSubTotal] = React.useState<number>(0);
   const [form, setForm] = React.useState<IFormCheckout>({
-    buyerEmail: '',
-    buyerFullName: '',
+    buyerEmail: user.email,
+    buyerFullName: user.name,
     shippingAddress: '',
     shippingCity: '',
-    payerPhone: '',
+    payerPhone: user.phone,
     payerDocument: ''
   });
   const [elementsSignature, setElementsSignature] = React.useState({
@@ -25,7 +32,7 @@ export default function Checkout(): JSX.Element {
     currency: 'COP'
   });
   const [signature, setSignature] = React.useState<string>('');
-  const { items }: ICartState = useAppSelector((state) => state.cart);
+
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
@@ -34,8 +41,8 @@ export default function Checkout(): JSX.Element {
         accumulator + currentValue.price * currentValue.mount,
       0
     );
-    setSubTotal(subtotal + 8000);
-    setElementsSignature({ ...elementsSignature, amount: subtotal + 8000 });
+    setSubTotal(subtotal + 12000);
+    setElementsSignature({ ...elementsSignature, amount: subtotal + 12000 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
@@ -52,6 +59,9 @@ export default function Checkout(): JSX.Element {
   }, [elementsSignature]);
 
   const handleForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'shippingAddress') {
+      window.localStorage.setItem('shippingAddress', e.target.value);
+    }
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -72,7 +82,11 @@ export default function Checkout(): JSX.Element {
                     stroke="currentColor"
                     strokeWidth="2"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </p>
                 <span className="font-semibold text-gray-900">Seleccionar</span>
@@ -85,7 +99,11 @@ export default function Checkout(): JSX.Element {
                 stroke="currentColor"
                 strokeWidth="2"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
               <li className="flex items-center space-x-3 text-left sm:space-x-4">
                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2">
@@ -97,7 +115,9 @@ export default function Checkout(): JSX.Element {
                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white">
                   3
                 </p>
-                <span className="font-semibold text-gray-500">Finalizar compra</span>
+                <span className="font-semibold text-gray-500">
+                  Finalizar compra
+                </span>
               </li>
             </ul>
           </div>
@@ -106,12 +126,17 @@ export default function Checkout(): JSX.Element {
       {/* Productos */}
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">
-          <p className="text-xl font-medium">Resumen de los productos seleccionados</p>
+          <p className="text-xl font-medium">
+            Resumen de los productos seleccionados
+          </p>
           <p className="text-gray-400">Revisa los productos.</p>
           {items.length > 0 ? (
             <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 max-h-[31rem] overflow-y-auto">
               {items.map((item: ICartProduct, i: number) => (
-                <div key={i} className="flex flex-col rounded-lg bg-white sm:flex-row">
+                <div
+                  key={i}
+                  className="flex flex-col rounded-lg bg-white sm:flex-row"
+                >
                   <img
                     className="m-2 h-24 w-28 rounded-md border object-cover object-center"
                     src={item.image}
@@ -139,7 +164,11 @@ export default function Checkout(): JSX.Element {
                           stroke="currentColor"
                           className="w-3 h-6"
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 12h-15"
+                          />
                         </svg>
                       </button>
                       {/* Increase */}
@@ -189,7 +218,14 @@ export default function Checkout(): JSX.Element {
                         </svg>
                       </button>
                     </div>
-                    <p className="text-lg font-semibold mt-2">${item.price * item.mount}</p>
+                    <p className="text-sm font-semibold mt-2 text-gray-400">
+                      Talla: <span className="text-xs">{item.size}</span> -
+                      Color: <span className="text-xs">{item.color}</span>
+                    </p>
+
+                    <p className="text-lg font-semibold mt-2">
+                      ${item.price * item.mount}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -197,7 +233,9 @@ export default function Checkout(): JSX.Element {
           ) : (
             <div className="w-full h-full flex flex-wrap items-center justify-center">
               <div>
-                <h2 className="w-full text-xl font-semibold block">No se han agregado Productos</h2>
+                <h2 className="w-full text-xl font-semibold block">
+                  No se han agregado Productos
+                </h2>
                 <p className="ml-[41%] mt-3 text-center color text-sky-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -225,9 +263,14 @@ export default function Checkout(): JSX.Element {
           action={import.meta.env.VITE_PAYMENT_URL}
         >
           <p className="text-xl font-medium">Detalles del pago</p>
-          <p className="text-gray-400">Complete su pedido proporcionando sus datos de pago.</p>
+          <p className="text-gray-400">
+            Complete su pedido proporcionando sus datos de pago.
+          </p>
           <div className="">
-            <label htmlFor="email" className="mt-4 mb-2 block text-sm font-medium">
+            <label
+              htmlFor="email"
+              className="mt-4 mb-2 block text-sm font-medium"
+            >
               Email
             </label>
             <div className="relative">
@@ -257,7 +300,10 @@ export default function Checkout(): JSX.Element {
                 </svg>
               </div>
             </div>
-            <label htmlFor="card-holder" className="mt-4 mb-2 block text-sm font-medium">
+            <label
+              htmlFor="card-holder"
+              className="mt-4 mb-2 block text-sm font-medium"
+            >
               Titular de la compra
             </label>
             <div className="flex flex-col sm:flex-row">
@@ -266,6 +312,7 @@ export default function Checkout(): JSX.Element {
                   type="text"
                   name="buyerFullName"
                   value={form.buyerFullName}
+                  disabled
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-xs uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Nombre completo"
                   onChange={handleForm}
@@ -333,6 +380,7 @@ export default function Checkout(): JSX.Element {
                       e.preventDefault();
                     }
                   }}
+                  disabled
                   required
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -353,7 +401,10 @@ export default function Checkout(): JSX.Element {
                 </div>
               </div>
             </div>
-            <label htmlFor="shippingAddress" className="mt-4 mb-2 block text-sm font-medium">
+            <label
+              htmlFor="shippingAddress"
+              className="mt-4 mb-2 block text-sm font-medium"
+            >
               Dirección de envio
             </label>
             <div className="flex flex-col sm:flex-row">
@@ -369,7 +420,11 @@ export default function Checkout(): JSX.Element {
                   required
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                  <img className="h-4 w-4 object-contain" src={flagcol} alt="" />
+                  <img
+                    className="h-4 w-4 object-contain"
+                    src={flagcol}
+                    alt=""
+                  />
                 </div>
               </div>
               <div className="relative flex-shrink-0 sm:w-5/12">
@@ -402,31 +457,57 @@ export default function Checkout(): JSX.Element {
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Envio</p>
-                <p className="font-semibold text-gray-900">$8000</p>
+                <p className="font-semibold text-gray-900">$12000</p>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Total</p>
-              <p className="text-2xl font-semibold text-gray-900">${subTotal}</p>
+              <p className="text-2xl font-semibold text-gray-900">
+                ${subTotal}
+              </p>
             </div>
           </div>
-          <input name="merchantId" type="hidden" value={import.meta.env.VITE_MERCHANT_ID} />
-          <input name="referenceCode" type="hidden" value={elementsSignature.referenceCode} />
-          <input name="accountId" type="hidden" value={import.meta.env.VITE_ACCOUNT_ID} />
-          <input name="description" type="hidden" value="Venta de Ropa Y bolzos" />
+          <input
+            name="merchantId"
+            type="hidden"
+            value={import.meta.env.VITE_MERCHANT_ID}
+          />
+          <input
+            name="referenceCode"
+            type="hidden"
+            value={elementsSignature.referenceCode}
+          />
+          <input
+            name="accountId"
+            type="hidden"
+            value={import.meta.env.VITE_ACCOUNT_ID}
+          />
+          <input
+            name="description"
+            type="hidden"
+            value="Venta de Ropa Y bolzos"
+          />
           <input name="currency" type="hidden" value="COP" />
           <input name="amount" type="hidden" value={subTotal} />
           <input name="tax" type="hidden" value="0" />
           <input name="taxReturnBase" type="hidden" value="0" />
           <input name="signature" type="hidden" value={signature} />
-          <input name="test" type="hidden" value={import.meta.env.VITE_MODE === '1' ? '1' : '0'} />
+          <input
+            name="test"
+            type="hidden"
+            value={import.meta.env.VITE_MODE === '1' ? '1' : '0'}
+          />
           <input
             name="responseUrl"
             type="hidden"
             value={`${import.meta.env.VITE_DOMAIN}/payment-response`}
           />
           <input name="shippingCountry" type="hidden" value="CO" />
-          <input name="payerFullName" type="hidden" value={form.buyerFullName} />
+          <input
+            name="payerFullName"
+            type="hidden"
+            value={form.buyerFullName}
+          />
           <button
             className={`mt-4 mb-8 w-full rounded-md ${
               items.length > 0 ? 'bg-sky-500' : 'bg-sky-700'

@@ -13,11 +13,11 @@ export interface IPropsButtonMenu {
 }
 
 export interface IPropsCardProduct {
-  image: string;
+  product: TProductTable;
 }
 
 export interface IPropsCarouseProducts {
-  products: Array<string>;
+  products: TProductTable[];
 }
 
 export interface ILinksNavBar {
@@ -114,6 +114,10 @@ export interface IConfirmPurchase {
   purchaseRef: string;
   paymentRef: string;
   total: number;
+  buyerEmail: string;
+  buyerPhone: string;
+  processingDate: string;
+  shippingAddress: string;
 }
 
 export interface ICardStatistics {
@@ -122,6 +126,16 @@ export interface ICardStatistics {
   percent: number;
   footer: string;
   icon?: React.ReactNode;
+}
+
+export interface IPropsModal {
+  isOpenModal: boolean;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  children: JSX.Element;
+}
+
+export interface IPropsShoppingProducts {
+  items: ICartProduct[];
 }
 
 // React-select

@@ -1,12 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/store/Hooks';
-import { ICartProduct, ICartState, IConfirmPurchase } from '../vite-env';
+import {
+  ICartProduct,
+  ICartState,
+  IConfirmPurchase,
+  IUserState
+} from '../vite-env';
 
 export default function PaymentResponse(): JSX.Element {
   const [paymentResponse, setPaymentResponse] = React.useState<any>();
 
   const { items }: ICartState = useAppSelector((state) => state.cart);
+  const { phone }: IUserState = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -29,7 +35,11 @@ export default function PaymentResponse(): JSX.Element {
         products: items,
         purchaseRef: paymentResponse.referenceCode,
         paymentRef: paymentResponse.reference_pol,
-        total: paymentResponse.TX_VALUE
+        total: paymentResponse.TX_VALUE,
+        buyerEmail: paymentResponse.buyerEmail,
+        buyerPhone: phone,
+        processingDate: paymentResponse.processingDate,
+        shippingAddress: window.localStorage.getItem('shippingAddress') ?? ''
       };
       navigate('/dashboard/profile');
       // TODO enviar al back
@@ -53,7 +63,11 @@ export default function PaymentResponse(): JSX.Element {
                     stroke="currentColor"
                     strokeWidth="2"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </p>
                 <span className="font-semibold text-gray-900">Seleccionar</span>
@@ -66,7 +80,11 @@ export default function PaymentResponse(): JSX.Element {
                 stroke="currentColor"
                 strokeWidth="2"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
               <li className="flex items-center space-x-3 text-left sm:space-x-4">
                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700">
@@ -78,7 +96,11 @@ export default function PaymentResponse(): JSX.Element {
                     stroke="currentColor"
                     strokeWidth="2"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </p>
                 <span className="font-semibold text-gray-900">Pagar</span>
@@ -91,25 +113,34 @@ export default function PaymentResponse(): JSX.Element {
                 stroke="currentColor"
                 strokeWidth="2"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
               <li className="flex items-center space-x-3 text-left sm:space-x-4">
                 <p className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2">
                   3
                 </p>
-                <span className="font-semibold text-gray-900">Finalizar Compra</span>
+                <span className="font-semibold text-gray-900">
+                  Finalizar Compra
+                </span>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      {/* Productos */}
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+        {/* Productos */}
         <div className="px-4 pt-8">
           <p className="text-xl font-medium">Resumen de compra</p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 max-h-[31rem] overflow-y-auto">
             {items.map((item: ICartProduct, i: number) => (
-              <div key={i} className="flex flex-col rounded-lg bg-white sm:flex-row">
+              <div
+                key={i}
+                className="flex flex-col rounded-lg bg-white sm:flex-row"
+              >
                 <img
                   className="m-2 h-24 w-28 rounded-md border object-cover object-center"
                   src={item.image}
@@ -122,7 +153,9 @@ export default function PaymentResponse(): JSX.Element {
                       Cantidad: {item.mount}
                     </span>
                   </div>
-                  <p className="text-lg font-semibold mt-2">${item.price * item.mount}</p>
+                  <p className="text-lg font-semibold mt-2">
+                    ${item.price * item.mount}
+                  </p>
                 </div>
               </div>
             ))}
@@ -133,7 +166,9 @@ export default function PaymentResponse(): JSX.Element {
           <p className="text-xl font-medium">Detalles de la compra</p>
           <div className="flex flex-col  border-t py-2">
             <div className="mt-6 flex items-center">
-              <p className="text-md font-medium flex-1">Estado de la transaccion: </p>
+              <p className="text-md font-medium flex-1">
+                Estado de la transaccion:{' '}
+              </p>
               <span
                 className={`border px-1 ${
                   paymentResponse.lapTransactionState === 'APPROVED'
@@ -141,15 +176,21 @@ export default function PaymentResponse(): JSX.Element {
                     : 'bg-red-500 text-slate-50'
                 }  text-gray-800 rounded-md`}
               >
-                {paymentResponse.lapTransactionState === 'APPROVED' ? 'Aprobada' : 'Reachazada'}
+                {paymentResponse.lapTransactionState === 'APPROVED'
+                  ? 'Aprobada'
+                  : 'Reachazada'}
               </span>
             </div>
             <div className="mt-4 flex items-center">
-              <p className="text-md font-medium flex-1">Referencia de la compra: </p>
+              <p className="text-md font-medium flex-1">
+                Referencia de la compra:{' '}
+              </p>
               <span className="text-sm">{paymentResponse?.referenceCode}</span>
             </div>
             <div className="mt-4 flex items-center">
-              <p className="text-md font-medium flex-1">Referencia del pago: </p>
+              <p className="text-md font-medium flex-1">
+                Referencia del pago:{' '}
+              </p>
               <span className="text-sm">{paymentResponse?.reference_pol}</span>
             </div>
             <div className="mt-4 flex items-center justify-between">
@@ -176,7 +217,9 @@ export default function PaymentResponse(): JSX.Element {
           </div>
           <div className="mt-6 flex items-center justify-between">
             <p className="text-sm font-medium text-gray-900">Total</p>
-            <p className="text-2xl font-semibold text-gray-900">${paymentResponse?.TX_VALUE}</p>
+            <p className="text-2xl font-semibold text-gray-900">
+              ${paymentResponse?.TX_VALUE}
+            </p>
           </div>
 
           <button

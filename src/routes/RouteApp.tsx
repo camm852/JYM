@@ -23,6 +23,9 @@ import Checkout from '../views/Checkout';
 import PaymentResponse from '../views/PaymentResponse';
 import NotFoundPage from '../views/NotFoundPage';
 import UserShopping from '../views/UserShopping';
+import ProductsByType from '../views/ProductsByType';
+import ProductsByGender from '../views/ProductsByGender';
+import ProductsByCategories from '../views/ProductsByCategories';
 
 ReactGA.initialize(import.meta.env.VITE_TRACKING_ID);
 
@@ -101,7 +104,22 @@ export default function RouteApp() {
               </DontVisibleAdmin>
             }
           />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/checkout"
+            element={
+              <RequiredAuth>
+                <DontVisibleAdmin>
+                  <Checkout />
+                </DontVisibleAdmin>
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/category/:category/:page"
+            element={<ProductsByCategories />}
+          />
+          <Route path="/type/:type/:page" element={<ProductsByType />} />
+          <Route path="/gender/:gender/:page" element={<ProductsByGender />} />
         </Route>
         <Route
           path="/dashboard"
@@ -111,8 +129,8 @@ export default function RouteApp() {
             </RequiredAuth>
           }
         >
-          <Route index element={<Dashboard />} />
-          <Route path="home" element={<DashBoardHome />} />
+          {/* <Route index element={<Dashboard />} /> */}
+          <Route index path="home" element={<DashBoardHome />} />
           <Route
             path="profile"
             element={

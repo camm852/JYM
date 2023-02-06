@@ -1,19 +1,82 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { man, mastercard, medida, moda3, product1, visa, woman } from '../assets/assests';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  man,
+  mastercard,
+  medida,
+  moda3,
+  product1,
+  visa,
+  woman
+} from '../assets/assests';
 import { useAppDispatch } from '../redux/store/Hooks';
 import { add } from '../redux/slices/CartSlice';
-import { ICartProduct } from '../vite-env';
+import { ICartProduct, TProductTable } from '../vite-env';
 import Toast from '../components/Toast';
 import Footer from '../components/Footer';
+import apiUrl from '../utils/baseUrl';
+import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
 
 export default function Product(): JSX.Element {
-  const [sizeSelected, setSizeSelected] = React.useState<string>('S');
+  const [sizeSelected, setSizeSelected] = React.useState<string>('');
+  const [colorSelected, setColorSelected] = React.useState<string>('');
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [openToast, setOpenToast] = React.useState<boolean>(false);
+  const [product, setProduct] = React.useState<TProductTable>({
+    name: '',
+    slug: '',
+    price: 0,
+    gender: '',
+    description: '',
+    colors: [],
+    sizes: [],
+    categories: [],
+    type: '',
+    image: '',
+    state: true,
+    id: 0
+  });
+  const [messageToast, setMessageToast] = React.useState<{
+    error: boolean;
+    message: string;
+  }>({
+    error: false,
+    message: ''
+  });
 
-  React.useEffect(() => setLoaded(true), []);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await apiUrl(`/producto/${id}/`);
+        if (response.status !== 200) throw Error(`${response.status}`);
+        setProduct(response.data);
+      } catch (error: any) {
+        if (error?.request?.status === 404) {
+          setMessageToast({
+            error: true,
+            message: 'No existe el producto'
+          });
+          setOpenToast(true);
+          return;
+        }
+        if (error?.request?.status === 0 || error?.request?.status === 500) {
+          setMessageToast({
+            error: true,
+            message: 'Servidor no disponible'
+          });
+          setOpenToast(true);
+        }
+      }
+    };
+    getProduct();
+    setTimeout(() => {
+      setLoaded(true);
+    }, 1000);
+  }, [id, navigate]);
 
   const dispatch = useAppDispatch();
 
@@ -44,16 +107,72 @@ export default function Product(): JSX.Element {
     }
   ];
 
-  const product: ICartProduct = {
-    image: product1,
-    name: 'Cool Flufy Clothing without Stripes',
-    description: 'aditional info',
-    price: 35000,
-    color: 'ROSA',
-    size: 'L',
-    mount: 1
+  const toCartProduct = () => {
+    const { image, name, description, price } = product;
+
+    return {
+      image,
+      name,
+      description,
+      price,
+      color: colorSelected,
+      size: sizeSelected,
+      mount: 1
+    };
   };
 
+  // const product: ICartProduct = {
+  //   image: product1,
+  //   name: 'Cool Flufy Clothing without Stripes',
+  //   description: 'aditional info',
+  //   price: 35000,
+  //   color: 'ROSA',
+  //   size: 'L',
+  //   mount: 1
+  // };
+
+  const handleAddProduct = () => {
+    const error: { size: boolean; color: boolean } = {
+      size: product.type === 'wear' ? !sizeSelected : false,
+      color: !!(product.colors.length > 0 && !colorSelected)
+    };
+
+    if (Object.values(error).includes(true)) {
+      setMessageToast({
+        error: true,
+        message: 'Debes elegir al menos un color y/o talla'
+      });
+    } else {
+      setMessageToast({
+        error: false,
+        message: 'Item agregado correctamente'
+      });
+      dispatch(add(toCartProduct()));
+    }
+    setOpenToast(true);
+  };
+
+  if (product.id === 0) {
+    return (
+      <>
+        <SpinnerGestion />;
+        <div
+          className={`fixed  ${
+            !openToast ? '-right-full' : 'right-8'
+          } bottom-1 transition-all duration-150 ease-in-out z-50`}
+        >
+          {openToast && (
+            <Toast
+              openToast={setOpenToast}
+              stateToast={openToast}
+              error={messageToast.error}
+              text={messageToast.message}
+            />
+          )}
+        </div>
+      </>
+    );
+  }
   return (
     <div
       className={`w-full absolute -left-full transition-all duration-500 ${
@@ -61,43 +180,76 @@ export default function Product(): JSX.Element {
       }`}
     >
       <div className="flex flex-row flex-wrap lg:flex-nowrap gap-8 justify-center mt-10 h-full px-4 xl:pr-32 xl:pl-28">
-        <div className="w-full lg:w-1/2">
-          <img src={moda3} alt="producto" className="w-full h-full rounded-md object-cover" />
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <img
+            src={product.image}
+            alt="producto"
+            className="w-[450px] h-96 rounded-md"
+          />
         </div>
         <div className="w-full lg:w-1/2 pb-5">
           <div>
-            <h2 className="text-3xl font-semibold">Cool Clothing with Brown Stripes</h2>
+            <h2 className="text-3xl font-semibold">{product.name}</h2>
           </div>
           <div className="mt-6">
-            <p className="text-5xl font-normal">$3.99</p>
+            <p className="text-5xl font-normal">${product.price}</p>
           </div>
-          <div className="mt-4">
-            <p className="text-xl font-semibold">Seleccione la talla:</p>
-          </div>
-          <div className="flex gap-3 flex-row mt-2">
-            {sizes.map((size, i) => (
-              <button
-                key={i}
-                className={`${
-                  size.size !== 'XXL' ? 'w-9' : 'w-11'
-                } h-9 text-center  p-2 border-2 rounded-md ${
-                  size.size === sizeSelected ? 'border-blue-500 text-blue-500' : 'border-gray-600'
-                } text-sm font-semibold text-center`}
-                onClick={() => setSizeSelected(size.size)}
-                style={{
-                  WebkitTapHighlightColor: 'rgb(0,0,0,0)'
-                }}
-              >
-                {size.size}
-              </button>
-            ))}
-          </div>
-          <div className="mt-8">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta nobis sit quidem
-              similique ut reiciendis quaerat reprehenderit labore exercitationem deserunt modi et
-              qui ullam, impedit sint repudiandae. Quis, magni libero?
-            </p>
+          {product.sizes.length > 0 && (
+            <>
+              <div className="mt-4">
+                <p className="text-xl font-semibold">Seleccione la talla:</p>
+              </div>
+              <div className="flex gap-3 flex-row mt-2">
+                {product.sizes.map((size, i) => (
+                  <button
+                    key={i}
+                    className={`${
+                      size !== 'XXL' ? 'w-9' : 'w-11'
+                    } h-9 text-center  p-2 border-2 rounded-md ${
+                      size === sizeSelected
+                        ? 'border-blue-500 text-blue-500'
+                        : 'border-gray-600'
+                    } text-sm font-semibold text-center`}
+                    onClick={() => setSizeSelected(size)}
+                    style={{
+                      WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                    }}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {product.colors.length > 0 && (
+            <>
+              <div className="mt-4">
+                <p className="text-xl font-semibold">Seleccione un color:</p>
+              </div>
+              <div className="flex gap-3 flex-row mt-2">
+                {product.colors.map((color, i) => (
+                  <button
+                    key={i}
+                    className={`
+                      h-9 text-center  p-2 border-2 rounded-md ${
+                        color === colorSelected
+                          ? 'border-blue-500 text-blue-500'
+                          : 'border-gray-600'
+                      } text-sm font-semibold text-center capitalize`}
+                    onClick={() => setColorSelected(color)}
+                    style={{
+                      WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                    }}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          <div className="my-4">
+            <p className="text-xl font-semibold mb-2">Descripción:</p>
+            <p>{product.description}</p>
           </div>
           <div className="flex flex-row mt-3">
             <button
@@ -133,8 +285,7 @@ export default function Product(): JSX.Element {
             <button
               className="group border border-r-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear"
               onClick={() => {
-                dispatch(add(product));
-                setOpenToast(true);
+                handleAddProduct();
               }}
               style={{
                 WebkitTapHighlightColor: 'rgb(0,0,0,0)'
@@ -193,8 +344,9 @@ export default function Product(): JSX.Element {
               </p>
             </div>
             <p className="block mt-3 text-md text-gray-500 text-justify">
-              Los medios de pago incluyen tarjetas de crédito y débito, puedes contactarte a nuestro
-              whatsApp si deseas adquirir tu producto por otro medio de pago.
+              Los medios de pago incluyen tarjetas de crédito y débito, puedes
+              contactarte a nuestro whatsApp si deseas adquirir tu producto por
+              otro medio de pago.
             </p>
           </div>
         </div>
@@ -224,7 +376,8 @@ export default function Product(): JSX.Element {
               </p>
             </div>
             <p className="block mt-3 text-md text-gray-500 text-justify">
-              Asegurate de elegir la talla correcta. Puedes consultar tu en los siguientes enlaces:
+              Asegurate de elegir la talla correcta. Puedes consultar tu en los
+              siguientes enlaces:
             </p>
             <div className="flex flex-wrap lg:flex-nowrap justify-center gap-7">
               <div className="mt-1">
@@ -260,7 +413,12 @@ export default function Product(): JSX.Element {
           !openToast ? '-right-full' : 'right-8'
         } bottom-1 transition-all duration-150 ease-in-out z-50`}
       >
-        <Toast stateToast={openToast} openToast={setOpenToast} text="Item agregado correctamente" />
+        <Toast
+          stateToast={openToast}
+          openToast={setOpenToast}
+          text={messageToast.message}
+          error={messageToast.error}
+        />
       </div>
       <Footer />
     </div>

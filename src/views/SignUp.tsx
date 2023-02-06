@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../components/Footer';
 import FormLoginSignUp from '../components/FormAuth/FormLorginSignUp';
 
 export default function SignUp(): JSX.Element {
@@ -13,12 +12,11 @@ export default function SignUp(): JSX.Element {
 
   return (
     <div
-      className={`absolute w-full -left-full transition-all duration-500 overflow-hidden ${
-        loadedImage ? '-left-0' : ''
+      className={`block  transition-all delay-200 duration-700 overflow-hidden ${
+        loadedImage ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <FormLoginSignUp isLogin={false} setLoadedImage={setLoadedImage} />
-      <Footer />
     </div>
   );
 }

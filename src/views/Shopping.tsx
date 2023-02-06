@@ -1,11 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React from 'react';
-
-interface IPropsModal {
-  isOpenModal: boolean;
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  children: JSX.Element;
-}
+import ShoppingProducts from '../components/ShoppingProducts';
+import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
+import Toast from '../components/Toast';
+import { useAppSelector } from '../redux/store/Hooks';
+import { ICartProduct, IPropsModal } from '../vite-env';
 
 function FormModal(props: IPropsModal): JSX.Element {
   const { isOpenModal, setIsOpenModal, children } = props;
@@ -51,14 +50,43 @@ function FormModal(props: IPropsModal): JSX.Element {
   );
 }
 
-export default function Shopping() {
+export default function Shopping(): JSX.Element {
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
+  const [openToast, setOpenToast] = React.useState<boolean>(false);
+
+  const { items } = useAppSelector((state) => state.cart);
+
+  React.useEffect(() => {
+    if (items.length === 0) setOpenToast(true);
+  }, [items.length]);
+
+  if (items.length === 0) {
+    return (
+      <>
+        <SpinnerGestion />;
+        <div
+          className={`fixed  ${
+            !openToast ? '-right-full' : 'right-8'
+          } bottom-1 transition-all duration-150 ease-in-out z-50`}
+        >
+          {openToast && (
+            <Toast
+              openToast={setOpenToast}
+              stateToast={openToast}
+              error
+              text="Servidor no disponible"
+            />
+          )}
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
-      {/* <FormModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
-
-      </FormModal> */}
+      <FormModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
+        <ShoppingProducts items={items} />
+      </FormModal>
       <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md mt-10">
         <div className="relative flex bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr bg-sky-500 text-white shadow-sky-300 shadow-md  -mt-6 mb-8 p-6">
           <p className="text-base md:text-xl font-semibold">
@@ -140,7 +168,7 @@ export default function Shopping() {
                     </div>
                   </td> */}
                 <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-sm font-semibold text-blue-gray-600">
+                  <div className="block antialiased font-sans text-sm font-semibold text-blue-gray-600">
                     <div
                       className={`relative inline-block align-baseline font-sans uppercase center whitespace-nowrap rounded-lg select-none bg-gradient-to-tr ${
                         1
@@ -152,7 +180,7 @@ export default function Shopping() {
                         {1 ? 'Enviado' : 'No enviado'}
                       </div>
                     </div>
-                  </p>
+                  </div>
                 </td>
                 <td className="py-3 px-5 border-b border-blue-gray-50">
                   <p className="block antialiased font-sans text-sm font-semibold text-blue-gray-600">

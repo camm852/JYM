@@ -5,6 +5,7 @@ import ButtonMenu from './ButtonMenu';
 import Cart from './Cart/Cart';
 import NavBar from './NavBar';
 import { useAppSelector } from '../redux/store/Hooks';
+import Footer from './Footer';
 
 export default function Header() {
   const [navBar, setNavBar] = React.useState<boolean>(false);
@@ -132,7 +133,9 @@ export default function Header() {
                     d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
                   />
                 </svg>
-                <p className="inline-block font-medium ml-2">Entra o Registrate</p>
+                <p className="inline-block font-medium ml-2">
+                  Entra o Registrate
+                </p>
               </Link>
             )}
             {/** Carrito */}
@@ -172,7 +175,11 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <Cart setActiveCart={setActiveCart} activeCart={activeCart} products={items} />
+      <Cart
+        setActiveCart={setActiveCart}
+        activeCart={activeCart}
+        products={items}
+      />
       {/* NavBar */}
       <NavBar openNavBar={navBar} setNavBar={setNavBar} />
       <Outlet />

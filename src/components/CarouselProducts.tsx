@@ -3,9 +3,11 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import CardProduct from './CardProduct';
-import { IPropsCarouseProducts as Props } from '../vite-env';
+import { IPropsCarouseProducts } from '../vite-env';
 
-export default function CarouselProducts(props: Props): JSX.Element {
+export default function CarouselProducts(
+  props: IPropsCarouseProducts
+): JSX.Element {
   const { products } = props;
 
   const [slider, setSlider] = React.useState<Slider | null>(null);
@@ -40,6 +42,14 @@ export default function CarouselProducts(props: Props): JSX.Element {
         }
       },
       {
+        breakpoint: 780,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
         breakpoint: 500,
         settings: {
           slidesToShow: 1,
@@ -58,7 +68,7 @@ export default function CarouselProducts(props: Props): JSX.Element {
         {...settings}
       >
         {products.map((product, i) => (
-          <CardProduct image={product} key={product + i} />
+          <CardProduct product={product} key={product.id} />
         ))}
       </Slider>
       <div className="flex gap-5 mt-8  justify-center">

@@ -37,3 +37,11 @@ export const optionsSizes: Array<IOptionType> = [
   { value: '38', label: '38' },
   { value: '40', label: '40' }
 ];
+
+export const categoriesTap = [
+  'Bolsos',
+  'Camisetas Blusas Vestidos',
+  'Jeanes Leggins Shorts'
+];
+
+export const sizeClothingTop = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];

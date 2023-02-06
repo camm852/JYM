@@ -76,7 +76,7 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
     confirmPassword: string;
   }) => {
     try {
-      const response = await apiUrl.post('/usuario', values);
+      const response = await apiUrl.post('/usuario/', values);
       console.log(response);
 
       setError({

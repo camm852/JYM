@@ -1,22 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IPropsCardProduct as Props } from '../vite-env';
+import { IPropsCardProduct } from '../vite-env';
 
-export default function CardProduct(props: Props): JSX.Element {
-  const { image } = props;
-
+export default function CardProduct({
+  product
+}: IPropsCardProduct): JSX.Element {
   const navigate = useNavigate();
 
   return (
     <div className="w-56 sm:w-48  md:w-52">
-      <div className="relative h-96 sm:h-80">
-        <img src={image} alt={`${image}`} className="rounded-xl" />
-        <div className="absolute  w-full bottom-14 md:bottom-1 right-0 pr-2 text-right">
+      <div className="h-96 sm:h-80">
+        <img
+          src={product.image}
+          alt={`${product.name}`}
+          className="rounded-xl w-full h-[95%] md:h-full"
+        />
+        <div className="w-full relative">
           <button
-            className="group relative w-9 pt-1 bg-white rounded-2xl overflow-hidden transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white
-            "
+            className="group absolute bottom-2 right-4 w-9 pt-1  bg-white rounded-2xl overflow-hidden transition-all duration-300 ease-in-out hover:bg-sky-500  hover:text-white"
             // hover:w-32 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left
-            onClick={() => navigate('/product/1')}
+            onClick={() => navigate(`/product/${product.id}`)}
             style={{
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
             }}
@@ -48,12 +51,12 @@ export default function CardProduct(props: Props): JSX.Element {
           </button>
         </div>
       </div>
-      <div className="flex flex-nowrap -mt-5 md:mt-5">
+      <div className="flex flex-nowrap mt-3">
         <div className="sm:w-3/4">
-          <p className="capitalize font-semibold opacity-70">Flamboyant Pink Top</p>
+          <p className="capitalize font-semibold opacity-70">{product.name}</p>
         </div>
         <div className="sm:w-1/4">
-          <p className="capitalize text-end font-bold">$40000</p>
+          <p className="capitalize text-end font-bold">${product.price}</p>
         </div>
       </div>
     </div>

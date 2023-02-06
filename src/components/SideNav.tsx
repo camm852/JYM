@@ -46,21 +46,24 @@ export default function SideNav({ openSideNav }: IProps): JSX.Element {
             <ul key={key} className="mb-4 flex flex-col gap-1">
               <li key={name}>
                 <NavLink to={`/dashboard${path}`}>
-                  {({ isActive }) => (
-                    <button
-                      className={`flex items-center gap-4 px-4 py-3 w-full capitalize ${
-                        isActive
-                          ? 'text-white bg-sky-500 shadow-sm shadow-sky-300 hover:shadow-lg hover:shadow-sky-200'
-                          : 'hover:bg-slate-200 text-slate-600'
-                      }  rounded-lg text-lg transition-all duration-200`}
-                      style={{
-                        WebkitTapHighlightColor: 'rgb(0,0,0,0)'
-                      }}
-                    >
-                      {icon}
-                      <p className="font-medium capitalize">{name}</p>
-                    </button>
-                  )}
+                  {({ isActive }) => {
+                    const active: boolean = window.location.href.includes(path);
+                    return (
+                      <button
+                        className={`flex items-center gap-4 px-4 py-3 w-full capitalize ${
+                          isActive || active
+                            ? 'text-white bg-sky-500 shadow-sm shadow-sky-300 hover:shadow-lg hover:shadow-sky-200'
+                            : 'hover:bg-slate-200 text-slate-600'
+                        }  rounded-lg text-lg transition-all duration-200`}
+                        style={{
+                          WebkitTapHighlightColor: 'rgb(0,0,0,0)'
+                        }}
+                      >
+                        {icon}
+                        <p className="font-medium capitalize">{name}</p>
+                      </button>
+                    );
+                  }}
                 </NavLink>
               </li>
             </ul>

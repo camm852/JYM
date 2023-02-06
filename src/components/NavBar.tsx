@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IPropsNavBar as Props, ILinksNavBar } from '../vite-env';
 
 export default function NavBar(props: Props): JSX.Element {
@@ -10,24 +10,31 @@ export default function NavBar(props: Props): JSX.Element {
     index: 0
   });
 
+  const navigate = useNavigate();
+
   const links: Array<ILinksNavBar> = [
     {
       title: 'Categorias',
       subMenu: [
         {
           id: 1,
-          to: '/men',
+          to: '/category/casual/1',
           name: 'Casual'
         },
         {
           id: 2,
-          to: '/women',
+          to: '/category/elegant/1',
           name: 'Elegante'
         },
         {
           id: 3,
-          to: '#',
+          to: '/category/sport/1',
           name: 'Deportivo'
+        },
+        {
+          id: 4,
+          to: '/category/uniform/1',
+          name: 'Uniformado'
         }
       ]
     },
@@ -36,13 +43,13 @@ export default function NavBar(props: Props): JSX.Element {
       subMenu: [
         {
           id: 4,
-          to: '/men',
+          to: '/type/wear/1',
           name: 'Ropa'
         },
         {
           id: 5,
-          to: '/women',
-          name: 'Bolzos'
+          to: '/type/bag/1',
+          name: 'Bolsos'
         }
       ]
     },
@@ -51,17 +58,17 @@ export default function NavBar(props: Props): JSX.Element {
       subMenu: [
         {
           id: 7,
-          to: '/men',
+          to: '/gender/men/1',
           name: 'Hombre'
         },
         {
           id: 8,
-          to: '/women',
+          to: '/gender/women/1',
           name: 'Mujer'
         },
         {
           id: 9,
-          to: '#',
+          to: '/gender/unisex/1',
           name: 'Unisex'
         }
       ]
@@ -103,9 +110,15 @@ export default function NavBar(props: Props): JSX.Element {
                       key={linksSubmenu?.id}
                       className="rounded-xl text-white hover:text-lg p-2 transition-all duration-100 ease-linear mb-4"
                     >
-                      <Link to={linksSubmenu.to} className="font-semibold capitalize">
+                      <button
+                        className="font-semibold capitalize"
+                        onClick={() => {
+                          navigate(linksSubmenu.to);
+                          window.location.reload();
+                        }}
+                      >
                         {linksSubmenu.name}
-                      </Link>
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -136,7 +149,9 @@ export default function NavBar(props: Props): JSX.Element {
               className="flex rounded-xl mb-4 w-full p-2 active:bg-blue-400 active:text-white cursor-pointer transition-all duration-75 ease-linear text-left font-semibold "
               onClick={() =>
                 setShowSubCategories({
-                  state: !(showSubCategories.state && showSubCategories.index === i),
+                  state: !(
+                    showSubCategories.state && showSubCategories.index === i
+                  ),
                   index: i
                 })
               }
@@ -153,7 +168,9 @@ export default function NavBar(props: Props): JSX.Element {
                   strokeWidth={1.5}
                   stroke="currentColor"
                   className={`w-6 h-6 transition-all duration-200 ${
-                    !(showSubCategories.state && showSubCategories.index === i) ? 'rotate-180' : ''
+                    !(showSubCategories.state && showSubCategories.index === i)
+                      ? 'rotate-180'
+                      : ''
                   }`}
                 >
                   <path
@@ -171,9 +188,15 @@ export default function NavBar(props: Props): JSX.Element {
                     key={linkSubmenu?.id}
                     className="rounded-xl active:bg-blue-400 active:text-white transition-all duration-100 p-2  mb-4"
                   >
-                    <Link to={linkSubmenu.to} className="font-semibold capitalize">
+                    <button
+                      onClick={() => {
+                        navigate(linkSubmenu.to);
+                        window.location.reload();
+                      }}
+                      className="font-semibold capitalize"
+                    >
                       {linkSubmenu.name}
-                    </Link>
+                    </button>
                   </div>
                 ))}
               </div>
