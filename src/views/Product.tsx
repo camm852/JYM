@@ -108,9 +108,10 @@ export default function Product(): JSX.Element {
   ];
 
   const toCartProduct = () => {
-    const { image, name, description, price } = product;
+    const { image, name, description, price, id: idProduct } = product;
 
     return {
+      id: idProduct,
       image,
       name,
       description,

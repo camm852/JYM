@@ -45,20 +45,33 @@ export default function Cart(props: IPropsCart): JSX.Element {
         <div className="mt-3 px-7 bg-slate-200 h-[560px] 2xl:h-[91vh]">
           <div className="flex flex-col h-full">
             {/* Productos del carrito */}
-            <div className="w-full flex-grow bg-white overflow-y-auto rounded-md">
+            <div className="w-full px-2 flex-grow bg-white overflow-y-auto rounded-md">
               {/* Normal */}
               <table className="hidden lg:table m-auto">
                 <thead className="border-b ">
                   <tr className="text-left">
-                    <th scope="col" className="px-6 py-4 text-left font-normal text-lg">
+                    <th
+                      scope="col"
+                      className="px-6 py-4 text-left font-normal text-lg"
+                    >
                       Producto
                     </th>
                     <th className="text-transparent px-6 py-4">imagen</th>
-                    <th className="px-6 py-4 text-left font-normal text-lg">Color</th>
-                    <th className="px-6 py-4 text-left font-normal text-lg">Talla</th>
-                    <th className="px-6 py-4 text-left font-normal text-lg">Precio</th>
-                    <th className="px-6 py-4 text-left font-normal text-lg">Cantidad</th>
-                    <th className="px-6 py-4 text-left font-normal text-lg">Total</th>
+                    <th className="px-6 py-4 text-left font-normal text-lg">
+                      Color
+                    </th>
+                    <th className="px-6 py-4 text-left font-normal text-lg">
+                      Talla
+                    </th>
+                    <th className="px-6 py-4 text-left font-normal text-lg">
+                      Precio
+                    </th>
+                    <th className="px-6 py-4 text-left font-normal text-lg">
+                      Cantidad
+                    </th>
+                    <th className="px-6 py-4 text-left font-normal text-lg">
+                      Total
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="hidden lg:table-row-group">
@@ -68,9 +81,13 @@ export default function Cart(props: IPropsCart): JSX.Element {
                 </tbody>
               </table>
               {/* responsive */}
-              <div className="block lg:hidden p-2">
+              <div className="block lg:hidden">
                 {products.map((product, i) => (
-                  <CartProductResponsive key={i} indexProduct={i} product={product} />
+                  <CartProductResponsive
+                    key={i}
+                    indexProduct={i}
+                    product={product}
+                  />
                 ))}
               </div>
             </div>

@@ -57,6 +57,7 @@ export interface ICartProduct {
   mount: number;
   color: string;
   size: string;
+  id: number;
 }
 
 export interface IPropsCartProduct {
@@ -119,6 +120,7 @@ export interface IConfirmPurchase {
   processingDate: string;
   shippingAddress: string;
   city: string;
+  department: string;
 }
 
 export interface ICardStatistics {

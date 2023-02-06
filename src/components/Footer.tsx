@@ -108,7 +108,7 @@ export default function Footer(): JSX.Element {
           >
             <FacebookIcon className="w-7 h-7 text-white group-hover:text-blue-600 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
-              whatsapp
+              Facebook
             </p>
           </button>
           <button
@@ -119,7 +119,7 @@ export default function Footer(): JSX.Element {
           >
             <InstagramIcon className="w-7 h-7 text-white group-hover:text-red-500 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">
-              whatsapp
+              Instagram
             </p>
           </button>
         </div>

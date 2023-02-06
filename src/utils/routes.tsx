@@ -33,7 +33,7 @@ export const routesLayaoutUser = [
       </svg>
     ),
     name: 'compras',
-    path: '/user-shopping'
+    path: '/user-shopping/1'
   }
 ];
 
@@ -88,6 +88,6 @@ export const routesLayaoutAdmin = [
       </svg>
     ),
     name: 'compras',
-    path: '/shopping'
+    path: '/shopping/1'
   }
 ];

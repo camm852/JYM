@@ -150,7 +150,7 @@ export default function RouteApp() {
             />
           </Route>
           <Route
-            path="shopping"
+            path="shopping/:page"
             element={
               <RequiredAdmin>
                 <Shopping />
@@ -158,7 +158,7 @@ export default function RouteApp() {
             }
           />
           <Route
-            path="user-shopping"
+            path="user-shopping/:page"
             element={
               <DontVisibleAdmin>
                 <UserShopping />

@@ -122,7 +122,7 @@ export default function Gestion() {
     const getProducts = async () => {
       try {
         const response = await apiUrl.get(
-          `/productos?page=${page === '0' ? '1' : page}`
+          `/productos/?page=${page === '0' ? '1' : page}`
         );
         const { count, previous, next, results } = response.data;
         if (response.status !== 200) throw Error(`${response.status}`);

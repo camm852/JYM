@@ -1,6 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../redux/store/Hooks';
+import Spiner from '../components/Spinner/Spiner';
+import Toast from '../components/Toast';
+import { clear } from '../redux/slices/CartSlice';
+import { useAppDispatch, useAppSelector } from '../redux/store/Hooks';
 import apiUrl from '../utils/baseUrl';
 import {
   ICartProduct,
@@ -11,11 +14,21 @@ import {
 
 export default function PaymentResponse(): JSX.Element {
   const [paymentResponse, setPaymentResponse] = React.useState<any>();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [openToast, setOpenToast] = React.useState<boolean>(false);
+  const [messageToast, setMessageToast] = React.useState<{
+    error: boolean;
+    message: string;
+  }>({
+    error: false,
+    message: ''
+  });
 
   const { items }: ICartState = useAppSelector((state) => state.cart);
-  const { phone, accessToken }: IUserState = useAppSelector(
-    (state) => state.user
-  );
+  const { phone }: IUserState = useAppSelector((state) => state.user);
+
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -31,6 +44,7 @@ export default function PaymentResponse(): JSX.Element {
   }, []);
 
   const handleClick = async (): Promise<void> => {
+    setLoading(true);
     if (paymentResponse.lapTransactionState !== 'APPROVED') {
       navigate('/');
     } else {
@@ -43,20 +57,49 @@ export default function PaymentResponse(): JSX.Element {
         buyerPhone: phone,
         processingDate: paymentResponse.processingDate,
         shippingAddress: window.localStorage.getItem('shippingAddress') ?? '',
-        city: window.localStorage.getItem('city') ?? ''
+        city: window.localStorage.getItem('city') ?? '',
+        department: 'meta'
       };
       try {
-        const response = await apiUrl.put('/ventas/', body, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+        await apiUrl.post('/venta/', body);
+        //  {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`
+        //   }
+        // });
+        setTimeout(() => {
+          setLoading(false);
+          navigate('/dashboard/user-shopping/1');
+          dispatch(clear());
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+        setMessageToast({
+          error: true,
+          message: 'Algo ha salido mal'
         });
-      } catch (error) {}
+        setLoading(false);
+        setOpenToast(true);
+      }
     }
   };
   if (!paymentResponse) return <div />;
   return (
     <>
+      <div
+        className={`fixed  ${
+          !openToast ? '-right-full' : 'right-8'
+        } bottom-1 transition-all duration-150 ease-in-out z-50`}
+      >
+        {openToast && (
+          <Toast
+            openToast={setOpenToast}
+            stateToast={openToast}
+            error={messageToast.error}
+            text={messageToast.message}
+          />
+        )}
+      </div>
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <p className="text-2xl font-bold text-gray-800">SHOPJYM</p>
         <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
@@ -237,9 +280,15 @@ export default function PaymentResponse(): JSX.Element {
             }  px-6 py-3 font-medium text-white`}
             onClick={handleClick}
           >
-            {paymentResponse?.lapTransactionState === 'APPROVED'
-              ? 'Finalizar Compra'
-              : 'Volver al inicio'}
+            {paymentResponse?.lapTransactionState === 'APPROVED' ? (
+              !loading ? (
+                'Finalizar Compra'
+              ) : (
+                <Spiner />
+              )
+            ) : (
+              'Volver al inicio'
+            )}
           </button>
         </div>
       </div>
