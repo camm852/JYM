@@ -7,9 +7,10 @@ import apiUrl from '../utils/baseUrl';
 import { TProductTable } from '../vite-env';
 
 export default function ProductsByCategories(): JSX.Element {
+  // products
   const [products, setProducts] = React.useState<TProductTable[]>([]);
-  const [totalProducts, setTotalProducts] = React.useState<number>(0);
   const [countProducts, setCountProducts] = React.useState<number[]>([]);
+  const [totalProducts, setTotalProducts] = React.useState<number>(0);
   const [paginator, setPaginator] = React.useState<{
     previous: string | null;
     next: string | null;
@@ -17,6 +18,7 @@ export default function ProductsByCategories(): JSX.Element {
     previous: null,
     next: null
   });
+  // toast
   const [openToast, setOpenToast] = React.useState<boolean>(false);
   const [messageToast, setMessageToast] = React.useState<{
     error: boolean;
@@ -102,7 +104,7 @@ export default function ProductsByCategories(): JSX.Element {
   if (loading) return <SpinnerGestion />;
   return (
     <>
-      <h2 className="text-center my-14 text-xl font-bold uppercase w-full">
+      <h2 className="text-center my-14 text-xl font-bold uppercase w-full ">
         Productos{' '}
         {category === 'casual'
           ? 'Casuales'

@@ -139,7 +139,7 @@ export default function NavBar(props: Props): JSX.Element {
 
       {/* Responsive */}
       <div
-        className={`absolute  md:hidden bg-white top-11 w-full h-screen z-10 pt-5 px-4 duration-500 ${
+        className={`absolute  md:hidden bg-white top-11 w-full h-[92%] z-10 pt-5 px-4 duration-500 ${
           openNavBar ? 'left-0' : 'left-[-100%]'
         }`}
       >

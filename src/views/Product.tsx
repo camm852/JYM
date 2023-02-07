@@ -1,15 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import {
-  man,
-  mastercard,
-  medida,
-  moda3,
-  product1,
-  visa,
-  woman
-} from '../assets/assests';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../redux/store/Hooks';
 import { add } from '../redux/slices/CartSlice';
 import { ICartProduct, TProductTable } from '../vite-env';
@@ -17,12 +8,12 @@ import Toast from '../components/Toast';
 import Footer from '../components/Footer';
 import apiUrl from '../utils/baseUrl';
 import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
+import ProductBannerInformation from '../components/ProductBannerInformation';
+import { currencyFormat } from '../utils/currencyFormat';
 
 export default function Product(): JSX.Element {
   const [sizeSelected, setSizeSelected] = React.useState<string>('');
   const [colorSelected, setColorSelected] = React.useState<string>('');
-  const [loaded, setLoaded] = React.useState<boolean>(false);
-  const [openToast, setOpenToast] = React.useState<boolean>(false);
   const [product, setProduct] = React.useState<TProductTable>({
     name: '',
     slug: '',
@@ -37,6 +28,10 @@ export default function Product(): JSX.Element {
     state: true,
     id: 0
   });
+  const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
+
+  const [loadedComponent, setLoadedComponent] = React.useState<boolean>(false);
+  const [openToast, setOpenToast] = React.useState<boolean>(false);
   const [messageToast, setMessageToast] = React.useState<{
     error: boolean;
     message: string;
@@ -47,6 +42,7 @@ export default function Product(): JSX.Element {
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     const getProduct = async () => {
@@ -74,42 +70,12 @@ export default function Product(): JSX.Element {
     };
     getProduct();
     setTimeout(() => {
-      setLoaded(true);
+      setLoadedComponent(true);
     }, 1000);
   }, [id, navigate]);
 
-  const dispatch = useAppDispatch();
-
-  const sizes = [
-    {
-      size: 'XS',
-      active: false
-    },
-    {
-      size: 'S',
-      active: false
-    },
-    {
-      size: 'M',
-      active: false
-    },
-    {
-      size: 'L',
-      active: false
-    },
-    {
-      size: 'XL',
-      active: false
-    },
-    {
-      size: 'XXL',
-      active: false
-    }
-  ];
-
-  const toCartProduct = () => {
+  const toCartProduct = (): ICartProduct => {
     const { image, name, description, price, id: idProduct } = product;
-
     return {
       id: idProduct,
       image,
@@ -121,17 +87,6 @@ export default function Product(): JSX.Element {
       mount: 1
     };
   };
-
-  // const product: ICartProduct = {
-  //   image: product1,
-  //   name: 'Cool Flufy Clothing without Stripes',
-  //   description: 'aditional info',
-  //   price: 35000,
-  //   color: 'ROSA',
-  //   size: 'L',
-  //   mount: 1
-  // };
-
   const handleAddProduct = () => {
     const error: { size: boolean; color: boolean } = {
       size: product.type === 'wear' ? !sizeSelected : false,
@@ -177,23 +132,32 @@ export default function Product(): JSX.Element {
   return (
     <div
       className={`w-full absolute -left-full transition-all duration-500 ${
-        loaded ? '-left-0' : ''
+        loadedComponent ? '-left-0' : ''
       }`}
     >
-      <div className="flex flex-row flex-wrap lg:flex-nowrap gap-8 justify-center mt-10 h-full px-4 xl:pr-32 xl:pl-28">
-        <div className="w-full lg:w-1/2 flex justify-center">
+      {/* Product information */}
+      <div className="flex flex-row flex-wrap lg:flex-nowrap gap-16 justify-center mt-10 h-full px-4 xl:pr-32 xl:pl-16">
+        <div
+          className={`w-[600px] h-[500px] flex justify-center  ${
+            !imageLoaded ? 'opacity-0' : 'opacity-100'
+          } transition-opacity duration-300`}
+        >
           <img
             src={product.image}
             alt="producto"
-            className="w-[450px] h-96 rounded-md"
+            className="rounded-md object-cover"
+            onLoad={() => setImageLoaded(true)}
           />
         </div>
-        <div className="w-full lg:w-1/2 pb-5">
+        <div className="flex flex-col justify-around w-full h-[500px] lg:w-1/2 pb-5">
           <div>
-            <h2 className="text-3xl font-semibold">{product.name}</h2>
+            <h2 className="text-4xl font-semibold">{product.name}</h2>
           </div>
-          <div className="mt-6">
-            <p className="text-5xl font-normal">${product.price}</p>
+          <div className="mt-9">
+            <p className="text-4xl">
+              Precio:{' '}
+              <span className="text-3xl">{currencyFormat(product.price)}</span>{' '}
+            </p>
           </div>
           {product.sizes.length > 0 && (
             <>
@@ -206,7 +170,7 @@ export default function Product(): JSX.Element {
                     key={i}
                     className={`${
                       size !== 'XXL' ? 'w-9' : 'w-11'
-                    } h-9 text-center  p-2 border-2 rounded-md ${
+                    } h-9 text-center  p-2 border-2 rounded-md hover:border-blue-500 ${
                       size === sizeSelected
                         ? 'border-blue-500 text-blue-500'
                         : 'border-gray-600'
@@ -232,7 +196,7 @@ export default function Product(): JSX.Element {
                   <button
                     key={i}
                     className={`
-                      h-9 text-center  p-2 border-2 rounded-md ${
+                      h-9 text-center  p-2 border-2 rounded-md hover:border-blue-500 ${
                         color === colorSelected
                           ? 'border-blue-500 text-blue-500'
                           : 'border-gray-600'
@@ -252,7 +216,7 @@ export default function Product(): JSX.Element {
             <p className="text-xl font-semibold mb-2">Descripción:</p>
             <p>{product.description}</p>
           </div>
-          <div className="flex flex-row mt-3">
+          <div className="flex flex-row mt-3 ">
             <button
               className="group border border-l-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear"
               style={{
@@ -282,6 +246,7 @@ export default function Product(): JSX.Element {
                 </span>
               </li>
             </button>
+
             {/* agregar producto */}
             <button
               className="group border border-r-0 w-1/2 p-2 hover:bg-blue-500 transition-all duration-200 ease-linear"
@@ -317,98 +282,7 @@ export default function Product(): JSX.Element {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-10 lg:gap-0 lg:flex-row flex-wrap mt-7 w-full bg-blue-50 py-9">
-        {/*  Pagos */}
-        <div className="flex flex-row justify-center gap-20 w-full lg:w-1/2 ">
-          <div className="flex flex-col gap-6">
-            <img src={mastercard} alt="" className="w-24" />
-            <img src={visa} alt="" className="w-24" />
-          </div>
-          <div className="w-1/2">
-            <div className="flex gap-2 flex-nowrap text-gray-600 items-center">
-              <h4 className="block font-semibold text-3xl ">Medios de Pago</h4>
-              <p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-8 h-8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
-                  />
-                </svg>
-              </p>
-            </div>
-            <p className="block mt-3 text-md text-gray-500 text-justify">
-              Los medios de pago incluyen tarjetas de crédito y débito, puedes
-              contactarte a nuestro whatsApp si deseas adquirir tu producto por
-              otro medio de pago.
-            </p>
-          </div>
-        </div>
-        {/* Medidas */}
-        <div className="flex flex-row justify-center gap-20 w-full lg:w-1/2 px-3 lg:px-0">
-          <div className="flex flex-col gap-6">
-            <img src={medida} alt="" className="w-24 h-32" />
-          </div>
-          <div className="w-1/2">
-            <div className="flex gap-2 flex-nowrap text-gray-600 items-center">
-              <h4 className="block font-semibold text-3xl ">Guía de medidas</h4>
-              <p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-8 h-8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-                  />
-                </svg>
-              </p>
-            </div>
-            <p className="block mt-3 text-md text-gray-500 text-justify">
-              Asegurate de elegir la talla correcta. Puedes consultar tu en los
-              siguientes enlaces:
-            </p>
-            <div className="flex flex-wrap lg:flex-nowrap justify-center gap-7">
-              <div className="mt-1">
-                <a
-                  href="https://www.zalando-prive.es/sizehelper/women/measure/"
-                  target="_blank"
-                  className="text-gray-500 hover:text-gray-700 transition-all duration-150 ease-linear"
-                  rel="noreferrer"
-                >
-                  <div className="flex items-center gap-3">
-                    <img src={woman} alt="" className="w-10" />
-                    <p>Mujer</p>
-                  </div>
-                </a>
-              </div>
-              <a
-                href="https://www2.hm.com/es_mx/customer-service/sizeguide/hombre.html"
-                className="text-gray-500 hover:text-gray-700 transition-all duration-150 ease-linear"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <div className="flex items-center gap-3">
-                  <img src={man} alt="" className="w-10" />
-                  <p>Hombre</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div
         className={`fixed  ${
           !openToast ? '-right-full' : 'right-8'
@@ -421,6 +295,7 @@ export default function Product(): JSX.Element {
           error={messageToast.error}
         />
       </div>
+      <ProductBannerInformation />
       <Footer />
     </div>
   );

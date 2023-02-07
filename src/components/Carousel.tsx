@@ -58,14 +58,14 @@ export default function Carousel(props: IPropsCarousel) {
           key={keyInformation}
         >
           <h2
-            className={`font-semibold text-white text-xl md:text-2xl X transition-all duration-[1.5s]
+            className={`font-semibold text-white text-xl md:text-2xl  transition-all duration-[1.5s]
               ${loaded ? 'translate-y-0' : '-translate-y-10'}
             }`}
           >
             ¿Te gustan los bolsos?
           </h2>
           <h2
-            className={`font-bold text-white text-2xl md:text-4xl mb-3 transition-all duration-[1.5s]
+            className={`font-bold text-white text-xl md:text-4xl 2xl:w-full  mb-3 transition-all duration-[1.5s]
             ${loaded ? 'translate-x-0' : 'translate-x-10'}
 
           `}
@@ -73,17 +73,13 @@ export default function Carousel(props: IPropsCarousel) {
             Contamos con gran variedad de bolsos
           </h2>
           <p
-            className={`w-2/3 text-justify md:leading-7 text-white  transition-all duration-[1.5s]
+            className={`w-2/3 2xl:w-full  text-justify md:leading-7 text-white  transition-all duration-[1.5s]
               ${loaded ? 'translate-y-0' : 'translate-y-10'}
             `}
           >
             ¡Lleve todo lo que necesita en estilo con nuestros bolsos de alta
             calidad! Confeccionados con materiales duraderos y diseños modernos,
-            nuestros bolsos se adaptan a cualquier ocasión. Ya sea que vaya a la
-            oficina, a una salida nocturna o a un viaje de fin de semana,
-            tenemos el bolso perfecto para usted. ¡No se conforme con un
-            accesorio cualquiera, elija nuestros bolsos y destaque en cualquier
-            lugar!
+            nuestros bolsos se adaptan a cualquier ocasión.
           </p>
           <div
             className={`flex gap-3 transtion-all duration-[1.8s]
@@ -99,7 +95,7 @@ export default function Carousel(props: IPropsCarousel) {
                 navigate('/type/bag/1');
               }}
             >
-              View
+              Revisar
             </button>
           </div>
         </div>
@@ -112,7 +108,7 @@ export default function Carousel(props: IPropsCarousel) {
           key={keyInformation}
         >
           <h2
-            className={`font-semibold text-white text-xl md:text-2xl X transition-all duration-[1.5s]
+            className={`font-semibold text-white text-xl md:text-2xl 2xl:w-full  transition-all duration-[1.5s]
               ${loaded ? 'translate-y-0' : '-translate-y-10'}
             }`}
           >
@@ -127,18 +123,13 @@ export default function Carousel(props: IPropsCarousel) {
             Estas en el lugar correcto
           </h2>
           <p
-            className={`w-2/3 text-justify md:leading-7 text-white  transition-all duration-[1.5s]
+            className={`w-2/3 2xl:w-full text-justify md:leading-7 text-white  transition-all duration-[1.5s]
               ${loaded ? 'translate-y-0' : 'translate-y-10'}
             `}
           >
             Vista con confianza y estilo con la ropa de moda de nuestra
             colección. Ofrecemos prendas únicas y atemporales para que se sienta
-            y luzca fabulosa en cualquier ocasión. Desde elegantes vestidos
-            hasta suéteres cómodos, tenemos la ropa perfecta para cualquier
-            estilo personal. Además, utilizamos materiales de alta calidad para
-            asegurar que cada prenda dure mucho tiempo. ¡Renueve su guardarropa
-            hoy mismo con la ropa de moda de nuestra tienda! ¡Haga su pedido
-            ahora!
+            y luzca fabulosa en cualquier ocasión.
           </p>
           <div
             className={`flex gap-3 transtion-all duration-[1.8s]
@@ -154,7 +145,7 @@ export default function Carousel(props: IPropsCarousel) {
                 navigate('/type/wear/1');
               }}
             >
-              View
+              Revisar
             </button>
           </div>
         </div>
@@ -169,7 +160,7 @@ export default function Carousel(props: IPropsCarousel) {
       */}
       <img
         src={selectedImage}
-        className={`w-full h-[85vh] object-cover opacity-0 transition-opacity  duration-1000 ${
+        className={`w-full h-[90vh] object-cover opacity-0 transition-opacity  duration-1000 ${
           loaded ? 'opacity-100' : ''
         }`}
         alt=""
@@ -239,7 +230,7 @@ export default function Carousel(props: IPropsCarousel) {
           </button>
         </div>
       ) : null}
-      <div className="absolute left-6  w-2/3 xl:w-3/5 2xl:w-1/5 top-3 lg:top-10 xl:top-14   md:left-14  xl:left-32 ">
+      <div className="absolute left-6  w-11/12 xl:w-3/5 2xl:w-1/5 top-3 lg:top-10 xl:top-14   md:left-14  xl:left-32 ">
         {Object.values(informationImages[selectedIndex])}
         {/* {informationImages.map((info) => console.log(info))} */}
       </div>

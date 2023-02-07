@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { currencyFormat } from '../utils/currencyFormat';
 import { IPropsCardProduct } from '../vite-env';
 
 export default function CardProduct({
@@ -7,13 +8,20 @@ export default function CardProduct({
 }: IPropsCardProduct): JSX.Element {
   const navigate = useNavigate();
 
+  const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
+
   return (
-    <div className="w-56 sm:w-48  md:w-52">
-      <div className="h-96 sm:h-80">
+    <div
+      className={`w-56 sm:w-48  md:w-64 ${
+        !imageLoaded ? 'opacity-0' : 'opacity-100'
+      } transition-opacity duration-300`}
+    >
+      <div className="h-96 sm:h-[350px]">
         <img
           src={product.image}
           alt={`${product.name}`}
           className="rounded-xl w-full h-[95%] md:h-full"
+          onLoad={() => setImageLoaded(true)}
         />
         <div className="w-full relative">
           <button
@@ -51,12 +59,14 @@ export default function CardProduct({
           </button>
         </div>
       </div>
-      <div className="flex flex-nowrap mt-3">
-        <div className="sm:w-3/4">
-          <p className="capitalize font-semibold opacity-70">{product.name}</p>
+      <div className="flex flex-wrap mt-3">
+        <div className="md:w-3/4">
+          <p className="capitalize font-semibold opacity-70 ">{product.name}</p>
         </div>
-        <div className="sm:w-1/4">
-          <p className="capitalize text-end font-bold">${product.price}</p>
+        <div className="md:w-1/4 pr-7">
+          <p className="text-end font-semibold">
+            {currencyFormat(product.price)}
+          </p>
         </div>
       </div>
     </div>

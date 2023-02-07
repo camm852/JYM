@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { clear } from '../../redux/slices/CartSlice';
+import { clear, showCart } from '../../redux/slices/CartSlice';
 import { useAppDispatch } from '../../redux/store/Hooks';
 import { IPropsCart } from '../../vite-env';
 import CartProduct from './CartProduct';
 import CartProductResponsive from './CartProductResponsive';
 
 export default function Cart(props: IPropsCart): JSX.Element {
-  const { setActiveCart, activeCart, products } = props;
+  const { activeCart, products } = props;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -23,7 +23,8 @@ export default function Cart(props: IPropsCart): JSX.Element {
           {/* Boton de cerrar el carrito */}
           <button
             className="group float-right p-1"
-            onClick={() => setActiveCart(!activeCart)}
+            // onClick={() => setActiveCart(!activeCart)}
+            onClick={() => dispatch(showCart(false))}
             style={{
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
             }}
@@ -109,7 +110,8 @@ export default function Cart(props: IPropsCart): JSX.Element {
                 }}
                 onClick={() => {
                   navigate('/checkout');
-                  setActiveCart(!activeCart);
+                  dispatch(showCart(false));
+                  // setActiveCart(!activeCart);
                 }}
               >
                 Pagar

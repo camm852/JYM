@@ -44,7 +44,6 @@ export interface PropsIcons {
 }
 
 export interface IPropsCart {
-  setActiveCart: React.Dispatch<React.SetStateAction<boolean>>;
   activeCart: boolean;
   products: CartProduct[];
 }
@@ -152,6 +151,7 @@ export interface IOptionType {
 
 export type ICartState = {
   items: ICartProduct[];
+  visible: boolean;
 };
 
 export interface IUserState {

@@ -1,19 +1,20 @@
 import React from 'react';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { LOGO } from '../assets/assests';
 import ButtonMenu from './ButtonMenu';
 import Cart from './Cart/Cart';
 import NavBar from './NavBar';
 import { useAppSelector } from '../redux/store/Hooks';
-import Footer from './Footer';
+import { showCart } from '../redux/slices/CartSlice';
 
 export default function Header() {
   const [navBar, setNavBar] = React.useState<boolean>(false);
-  const [activeCart, setActiveCart] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
-  const { items } = useAppSelector((state) => state.cart);
+  const { items, visible } = useAppSelector((state) => state.cart);
   const { rol } = useAppSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   return (
     <div className="bg-white overflow-y-hidden">
@@ -142,7 +143,8 @@ export default function Header() {
             {window.location.pathname !== '/checkout' ? (
               <button
                 className="ml-4 lg:mt-0"
-                onClick={() => setActiveCart(!activeCart)}
+                // onClick={() => setActiveCart(!activeCart)}
+                onClick={() => dispatch(showCart(!visible))}
                 style={{
                   WebkitTapHighlightColor: 'rgb(0,0,0,0)'
                 }}
@@ -164,7 +166,7 @@ export default function Header() {
                       />
                     </svg>
                     <span className="absolute right-2 lg:-right-1  lg:top-0 rounded-full bg-blue-500 w-4 h-4 p-0 m-0 text-white text-center">
-                      <p className="text-xs leading-[18px]">{items.length}</p>
+                      <p className="text-xs leading-[15px]">{items.length}</p>
                     </span>
                   </span>
                 </li>
@@ -175,14 +177,15 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <Cart
-        setActiveCart={setActiveCart}
-        activeCart={activeCart}
-        products={items}
-      />
-      {/* NavBar */}
+      <Cart activeCart={visible} products={items} />
       <NavBar openNavBar={navBar} setNavBar={setNavBar} />
-      <Outlet />
+      <div
+        className={`${!visible ? 'block' : 'hidden'} ${
+          !navBar ? 'block' : 'hidden'
+        }`}
+      >
+        <Outlet />
+      </div>
     </div>
   );
 }

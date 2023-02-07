@@ -29,20 +29,12 @@ export default function CarouselProducts(
       {
         breakpoint: 1279,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 3,
           slidesToScroll: 3
         }
       },
       {
-        breakpoint: 997,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 780,
+        breakpoint: 960,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,

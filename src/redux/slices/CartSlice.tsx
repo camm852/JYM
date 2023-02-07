@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICartProduct, ICartState } from '../../vite-env';
 
 const initialState: ICartState = {
-  items: []
+  items: [],
+  visible: false
 };
 
 export const cartSlice = createSlice({
@@ -34,10 +35,17 @@ export const cartSlice = createSlice({
     },
     clear: (state) => {
       state.items = [];
+    },
+    addMany: (state, action: PayloadAction<ICartProduct[]>) => {
+      state.items = action.payload;
+    },
+    showCart: (state, action: PayloadAction<boolean>) => {
+      state.visible = action.payload;
     }
   }
 });
 
-export const { add, increase, decrease, remove, clear } = cartSlice.actions;
+export const { add, increase, decrease, remove, clear, addMany, showCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

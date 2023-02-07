@@ -2,9 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Spiner from '../components/Spinner/Spiner';
 import Toast from '../components/Toast';
-import { clear } from '../redux/slices/CartSlice';
+import { addMany, clear } from '../redux/slices/CartSlice';
+import { login } from '../redux/slices/UserSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/Hooks';
 import apiUrl from '../utils/baseUrl';
+import { currencyFormat } from '../utils/currencyFormat';
 import {
   ICartProduct,
   ICartState,
@@ -24,12 +26,34 @@ export default function PaymentResponse(): JSX.Element {
     message: ''
   });
 
-  const { items }: ICartState = useAppSelector((state) => state.cart);
-  const { phone }: IUserState = useAppSelector((state) => state.user);
-
+  const cart: ICartState = useAppSelector((state) => state.cart);
+  const user: IUserState = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (
+      cart.items.length === 0 &&
+      window.localStorage.getItem('cart') !== null
+    ) {
+      const products: ICartProduct[] = JSON.parse(
+        window.localStorage.getItem('cart') ?? ''
+      );
+      dispatch(addMany(products));
+      window.localStorage.removeItem('cart');
+    }
+    if (
+      Object.values(user).includes('') &&
+      window.localStorage.getItem('user') !== null
+    ) {
+      const userStorage: IUserState = JSON.parse(
+        window.localStorage.getItem('user') ?? ''
+      );
+      dispatch(login(userStorage));
+      window.localStorage.removeItem('user');
+    }
+  }, [cart.items, user, dispatch]);
 
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -40,8 +64,7 @@ export default function PaymentResponse(): JSX.Element {
     }
     if (Object.entries(paymentresponse).length < 43) navigate('/checkout');
     else setPaymentResponse(paymentresponse);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigate]);
 
   const handleClick = async (): Promise<void> => {
     setLoading(true);
@@ -49,17 +72,19 @@ export default function PaymentResponse(): JSX.Element {
       navigate('/');
     } else {
       const body: IConfirmPurchase = {
-        products: items,
+        products: cart.items,
         purchaseRef: paymentResponse.referenceCode,
         paymentRef: paymentResponse.reference_pol,
         total: paymentResponse.TX_VALUE,
         buyerEmail: paymentResponse.buyerEmail,
-        buyerPhone: phone,
+        buyerPhone: user.phone,
         processingDate: paymentResponse.processingDate,
         shippingAddress: window.localStorage.getItem('shippingAddress') ?? '',
         city: window.localStorage.getItem('city') ?? '',
         department: 'meta'
       };
+      window.localStorage.removeItem('city');
+      window.localStorage.removeItem('shippingAddress');
       try {
         await apiUrl.post('/venta/', body);
         //  {
@@ -67,6 +92,7 @@ export default function PaymentResponse(): JSX.Element {
         //     Authorization: `Bearer ${accessToken}`
         //   }
         // });
+
         setTimeout(() => {
           setLoading(false);
           navigate('/dashboard/user-shopping/1');
@@ -188,7 +214,7 @@ export default function PaymentResponse(): JSX.Element {
         <div className="px-4 pt-8">
           <p className="text-xl font-medium">Resumen de compra</p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6 max-h-[31rem] overflow-y-auto">
-            {items.map((item: ICartProduct, i: number) => (
+            {cart.items.map((item: ICartProduct, i: number) => (
               <div
                 key={i}
                 className="flex flex-col rounded-lg bg-white sm:flex-row"
@@ -206,7 +232,7 @@ export default function PaymentResponse(): JSX.Element {
                     </span>
                   </div>
                   <p className="text-lg font-semibold mt-2">
-                    ${item.price * item.mount}
+                    {currencyFormat(item.price * item.mount)}
                   </p>
                 </div>
               </div>
@@ -255,30 +281,34 @@ export default function PaymentResponse(): JSX.Element {
               <p className="text-sm font-medium text-gray-900">Subtotal</p>
               <p className="font-semibold text-gray-900">
                 $
-                {items.reduce(
-                  (accumulator: number, currentValue: ICartProduct) =>
-                    accumulator + currentValue.price * currentValue.mount,
-                  0
+                {currencyFormat(
+                  cart.items.reduce(
+                    (accumulator: number, currentValue: ICartProduct) =>
+                      accumulator + currentValue.price * currentValue.mount,
+                    0
+                  )
                 )}
               </p>
             </div>
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Envio</p>
-              <p className="font-semibold text-gray-900">$8000</p>
+              <p className="font-semibold text-gray-900">$12000</p>
             </div>
           </div>
           <div className="mt-6 flex items-center justify-between">
             <p className="text-sm font-medium text-gray-900">Total</p>
             <p className="text-2xl font-semibold text-gray-900">
-              ${paymentResponse?.TX_VALUE}
+              {currencyFormat(paymentResponse?.TX_VALUE)}
             </p>
           </div>
 
           <button
             className={`mt-4 mb-8 w-full rounded-md ${
-              items.length > 0 ? 'bg-sky-500' : 'bg-sky-700'
+              cart.items.length > 0 ? 'bg-sky-500' : 'bg-sky-700'
             }  px-6 py-3 font-medium text-white`}
-            onClick={handleClick}
+            onClick={() => {
+              handleClick();
+            }}
           >
             {paymentResponse?.lapTransactionState === 'APPROVED' ? (
               !loading ? (

@@ -9,6 +9,7 @@ import {
 } from '../vite-env';
 import { decrease, increase, remove } from '../redux/slices/CartSlice';
 import { flagcol, city } from '../assets/assests';
+import { currencyFormat } from '../utils/currencyFormat';
 
 export default function Checkout(): JSX.Element {
   const date = new Date();
@@ -34,6 +35,11 @@ export default function Checkout(): JSX.Element {
   const [signature, setSignature] = React.useState<string>('');
 
   const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    window.localStorage.setItem('cart', JSON.stringify(items));
+    window.localStorage.setItem('user', JSON.stringify(user));
+  }, [items, user]);
 
   React.useEffect(() => {
     const subtotal = items.reduce(
@@ -227,7 +233,7 @@ export default function Checkout(): JSX.Element {
                     </p>
 
                     <p className="text-lg font-semibold mt-2">
-                      ${item.price * item.mount}
+                      {currencyFormat(item.price * item.mount)}
                     </p>
                   </div>
                 </div>
@@ -450,23 +456,24 @@ export default function Checkout(): JSX.Element {
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Subtotal</p>
                 <p className="font-semibold text-gray-900">
-                  $
-                  {items.reduce(
-                    (accumulator: number, currentValue: ICartProduct) =>
-                      accumulator + currentValue.price * currentValue.mount,
-                    0
+                  {currencyFormat(
+                    items.reduce(
+                      (accumulator: number, currentValue: ICartProduct) =>
+                        accumulator + currentValue.price * currentValue.mount,
+                      0
+                    )
                   )}
                 </p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Envio</p>
-                <p className="font-semibold text-gray-900">$12000</p>
+                <p className="font-semibold text-gray-900">$12,000</p>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Total</p>
               <p className="text-2xl font-semibold text-gray-900">
-                ${subTotal}
+                {currencyFormat(subTotal)}
               </p>
             </div>
           </div>
