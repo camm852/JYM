@@ -1,4 +1,3 @@
-import React from 'react';
 import { man, mastercard, medida, visa, woman } from '../assets/assests';
 
 export default function ProductBannerInformation() {

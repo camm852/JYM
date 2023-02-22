@@ -26,7 +26,6 @@ export default function CardProduct({
         <div className="w-full relative">
           <button
             className="group absolute bottom-2 right-4 w-9 pt-1  bg-white rounded-2xl overflow-hidden transition-all duration-300 ease-in-out hover:bg-sky-500  hover:text-white"
-            // hover:w-32 hover:pt-2 hover:pr-4 hover:pl-4 hover:text-left
             onClick={() => navigate(`/product/${product.id}`)}
             style={{
               WebkitTapHighlightColor: 'rgb(0,0,0,0)'
@@ -53,9 +52,6 @@ export default function CardProduct({
                 />
               </svg>
             </i>
-            {/* <span className="absolute right-2 top-5 opacity-0 group-hover:opacity-100  group-hover:top-2 group-hover:transition-all group-hover:duration-300 group-hover:delay-50 group-hover:ease-in capitalize font-semibold">
-              Visualizar
-            </span> */}
           </button>
         </div>
       </div>

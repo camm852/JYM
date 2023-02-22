@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/slices/UserSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/Hooks';

@@ -1,36 +1,22 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import { useAppDispatch } from '../redux/store/Hooks';
 import { add } from '../redux/slices/CartSlice';
-import { ICartProduct, TProductTable } from '../vite-env';
+import { ICartProduct } from '../vite-env';
 import Toast from '../components/Toast';
 import Footer from '../components/Footer';
-import apiUrl from '../utils/baseUrl';
-import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
 import ProductBannerInformation from '../components/ProductBannerInformation';
 import { currencyFormat } from '../utils/currencyFormat';
+import SpinnerDiamond from '../components/SpinnerDiamond/SpinnerDiamond';
+import { getProduct } from '../utils/api';
 
 export default function Product(): JSX.Element {
   const [sizeSelected, setSizeSelected] = React.useState<string>('');
   const [colorSelected, setColorSelected] = React.useState<string>('');
-  const [product, setProduct] = React.useState<TProductTable>({
-    name: '',
-    slug: '',
-    price: 0,
-    gender: '',
-    description: '',
-    colors: [],
-    sizes: [],
-    categories: [],
-    type: '',
-    image: '',
-    state: true,
-    id: 0
-  });
   const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
 
-  const [loadedComponent, setLoadedComponent] = React.useState<boolean>(false);
   const [openToast, setOpenToast] = React.useState<boolean>(false);
   const [messageToast, setMessageToast] = React.useState<{
     error: boolean;
@@ -45,37 +31,20 @@ export default function Product(): JSX.Element {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await apiUrl(`/producto/${id}/`);
-        if (response.status !== 200) throw Error(`${response.status}`);
-        setProduct(response.data);
-      } catch (error: any) {
-        if (error?.request?.status === 404) {
-          setMessageToast({
-            error: true,
-            message: 'No existe el producto'
-          });
-          setOpenToast(true);
-          return;
-        }
-        if (error?.request?.status === 0 || error?.request?.status === 500) {
-          setMessageToast({
-            error: true,
-            message: 'Servidor no disponible'
-          });
-          setOpenToast(true);
-        }
-      }
-    };
-    getProduct();
-    setTimeout(() => {
-      setLoadedComponent(true);
-    }, 1000);
-  }, [id, navigate]);
+    if (id === undefined) navigate('/*');
+  }, []);
+
+  const {
+    data: product,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['getProduct', id],
+    queryFn: () => getProduct(id ?? '')
+  });
 
   const toCartProduct = (): ICartProduct => {
-    const { image, name, description, price, id: idProduct } = product;
+    const { image, name, description, price, id: idProduct } = product[0];
     return {
       id: idProduct,
       image,
@@ -87,10 +56,11 @@ export default function Product(): JSX.Element {
       mount: 1
     };
   };
+
   const handleAddProduct = () => {
     const error: { size: boolean; color: boolean } = {
-      size: product.type === 'wear' ? !sizeSelected : false,
-      color: !!(product.colors.length > 0 && !colorSelected)
+      size: product[0].type === 'wear' ? !sizeSelected : false,
+      color: !!(product[0].colors.length > 0 && !colorSelected)
     };
 
     if (Object.values(error).includes(true)) {
@@ -108,33 +78,33 @@ export default function Product(): JSX.Element {
     setOpenToast(true);
   };
 
-  if (product.id === 0) {
+  if (isLoading) return <SpinnerDiamond />;
+  if (isError) {
     return (
-      <>
-        <SpinnerGestion />;
-        <div
-          className={`fixed  ${
-            !openToast ? '-right-full' : 'right-8'
-          } bottom-1 transition-all duration-150 ease-in-out z-50`}
-        >
-          {openToast && (
-            <Toast
-              openToast={setOpenToast}
-              stateToast={openToast}
-              error={messageToast.error}
-              text={messageToast.message}
-            />
-          )}
-        </div>
-      </>
+      <div className="fixed  right-8  bottom-1 transition-all duration-150 ease-in-out z-50">
+        <Toast
+          openToast={setOpenToast}
+          stateToast={!openToast}
+          error
+          text="Hubo un error al traer el producto"
+        />
+      </div>
+    );
+  }
+  if (product.length === 0) {
+    return (
+      <div className="fixed  right-8  bottom-1 transition-all duration-150 ease-in-out z-50">
+        <Toast
+          openToast={setOpenToast}
+          stateToast={!openToast}
+          error
+          text="No existe el producto"
+        />
+      </div>
     );
   }
   return (
-    <div
-      className={`w-full absolute -left-full transition-all duration-500 ${
-        loadedComponent ? '-left-0' : ''
-      }`}
-    >
+    <div className="w-full absolute">
       {/* Product information */}
       <div className="flex flex-row flex-wrap lg:flex-nowrap gap-16 justify-center mt-10 h-full px-4 xl:pr-32 xl:pl-16">
         <div
@@ -143,7 +113,7 @@ export default function Product(): JSX.Element {
           } transition-opacity duration-300`}
         >
           <img
-            src={product.image}
+            src={product[0].image}
             alt="producto"
             className="rounded-md object-cover"
             onLoad={() => setImageLoaded(true)}
@@ -151,21 +121,23 @@ export default function Product(): JSX.Element {
         </div>
         <div className="flex flex-col justify-around w-full h-[500px] lg:w-1/2 pb-5">
           <div>
-            <h2 className="text-4xl font-semibold">{product.name}</h2>
+            <h2 className="text-4xl font-semibold">{product[0].name}</h2>
           </div>
           <div className="mt-9">
             <p className="text-4xl">
               Precio:{' '}
-              <span className="text-3xl">{currencyFormat(product.price)}</span>{' '}
+              <span className="text-3xl">
+                {currencyFormat(product[0].price)}
+              </span>{' '}
             </p>
           </div>
-          {product.sizes.length > 0 && (
+          {product[0].sizes?.length > 0 && (
             <>
               <div className="mt-4">
                 <p className="text-xl font-semibold">Seleccione la talla:</p>
               </div>
               <div className="flex gap-3 flex-row mt-2">
-                {product.sizes.map((size, i) => (
+                {product[0].sizes.map((size: string, i: number) => (
                   <button
                     key={i}
                     className={`${
@@ -186,13 +158,13 @@ export default function Product(): JSX.Element {
               </div>
             </>
           )}
-          {product.colors.length > 0 && (
+          {product[0].colors.length > 0 && (
             <>
               <div className="mt-4">
                 <p className="text-xl font-semibold">Seleccione un color:</p>
               </div>
               <div className="flex gap-3 flex-row mt-2">
-                {product.colors.map((color, i) => (
+                {product[0].colors.map((color: string, i: number) => (
                   <button
                     key={i}
                     className={`
@@ -214,7 +186,7 @@ export default function Product(): JSX.Element {
           )}
           <div className="my-4">
             <p className="text-xl font-semibold mb-2">Descripción:</p>
-            <p>{product.description}</p>
+            <p>{product[0].description}</p>
           </div>
           <div className="flex flex-row mt-3 ">
             <button

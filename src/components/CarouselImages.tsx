@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IPropsCarousel } from '../vite-env';
 
-export default function Carousel(props: IPropsCarousel) {
+export default function CarouselImages(props: IPropsCarousel) {
   const { images, showButtons, autoPlay } = props;
 
   const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
@@ -238,7 +238,7 @@ export default function Carousel(props: IPropsCarousel) {
   );
 }
 
-Carousel.defaultProps = {
+CarouselImages.defaultProps = {
   autoPlay: false,
   showButtons: false
 };

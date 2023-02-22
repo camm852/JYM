@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Information(): JSX.Element {
   return (
     <div className="flex flex-wrap  mt-8">

@@ -2,10 +2,9 @@ import { Dialog, Transition } from '@headlessui/react';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ShoppingProducts from '../components/ShoppingProducts';
-import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
+import SpinnerGestion from '../components/SpinnerDiamond/SpinnerDiamond';
 import Toast from '../components/Toast';
 import { useAppSelector } from '../redux/store/Hooks';
-import apiUrl from '../utils/baseUrl';
 import { ICartProduct, IConfirmPurchase, IPropsModal } from '../vite-env';
 
 function FormModal(props: IPropsModal): JSX.Element {
@@ -91,48 +90,6 @@ export default function Shopping(): JSX.Element {
   React.useEffect(() => {
     if (page === '0') navigate('/dashboard/shopping/1');
   }, [page, navigate]);
-
-  React.useEffect(() => {
-    const getPayments = async () => {
-      try {
-        const response = await apiUrl.get(
-          `/ventas/?page=${page === '0' ? '1' : page}`
-        );
-        const { count, previous, next, results } = response.data;
-        if (response.status !== 200) throw Error(`${response.status}`);
-        setPayments(results);
-        setPaginator({
-          previous,
-          next
-        });
-        setTotalPayments(count);
-      } catch (error: any) {
-        if (error?.request?.status === 404) {
-          setTimeout(() => {
-            navigate('/dashboard/shopping/1');
-            window.location.reload();
-          }, 1000);
-          return;
-        }
-        if (error?.request?.status === 0 || error?.request?.status === 0) {
-          setMessageToast({
-            error: true,
-            message: 'Servidor no disponible'
-          });
-          setOpenToast(true);
-        }
-        if (error?.message === '204') {
-          setMessageToast({
-            error: true,
-            message: 'No se pudo recuperar las compras o no hay compras'
-          });
-          setOpenToast(true);
-        }
-      }
-    };
-
-    getPayments();
-  }, [navigate, page]);
 
   if (payments.length === 0) {
     return (

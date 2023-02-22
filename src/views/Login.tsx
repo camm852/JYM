@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../components/Footer';
 import FormLoginSignUp from '../components/FormAuth/FormLorginSignUp';
 
 export default function Login(): JSX.Element {

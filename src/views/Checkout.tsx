@@ -49,7 +49,6 @@ export default function Checkout(): JSX.Element {
     );
     setSubTotal(subtotal + 12000);
     setElementsSignature({ ...elementsSignature, amount: subtotal + 12000 });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   React.useEffect(() => {

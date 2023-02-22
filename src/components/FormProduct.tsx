@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import makeAnimated from 'react-select/animated';
 import Select, { StylesConfig } from 'react-select';
 import { Tab } from '@headlessui/react';
-import apiUrl from '../utils/baseUrl';
+import apiUrl from '../utils/api';
 import {
   IFormProduct,
   IOptionType,
@@ -18,7 +17,7 @@ import {
   sizeClothingTop
 } from '../utils/optionsSelect';
 import { useAppSelector } from '../redux/store/Hooks';
-import Spiner from './Spinner/Spiner';
+import Spiner from './SpinnerCircle/SpinerCircle';
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(' ');
@@ -35,7 +34,6 @@ interface IPropsFormProduct {
   product?: TProductTable;
 }
 
-// eslint-disable-next-line max-len
 export default function FormProduct({
   setOpenToast,
   setMessageToast,
@@ -303,8 +301,6 @@ export default function FormProduct({
     })
   };
 
-  console.log(colorsFromTable);
-
   return (
     <div className="flex flex-row flex-wrap lg:flex-nowrap bg-gray-50">
       <div className="lg:w-full p-5">
@@ -476,9 +472,9 @@ export default function FormProduct({
                         <Select
                           placeholder="Elige los Colores..."
                           isMulti
-                          // value={
-                          //   form.colors.length === 0 ? colors : colorsFromTable
-                          // } // if is edit product
+                          value={
+                            form.colors.length === 0 ? colors : colorsFromTable
+                          } // if is edit product
                           options={optionsColors}
                           components={animateSelect}
                           styles={colourStyle}

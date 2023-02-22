@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IPropsNavBar as Props, ILinksNavBar } from '../vite-env';
+import { IPropsNavBar, ILinksNavBar } from '../vite-env';
 
-export default function NavBar(props: Props): JSX.Element {
+export default function NavBar(props: IPropsNavBar): JSX.Element {
   const { openNavBar, setNavBar } = props;
 
   const [showSubCategories, setShowSubCategories] = React.useState({

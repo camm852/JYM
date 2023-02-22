@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spiner from '../components/Spinner/Spiner';
+import Spiner from '../components/SpinnerCircle/SpinerCircle';
 import Toast from '../components/Toast';
 import { addMany, clear } from '../redux/slices/CartSlice';
 import { login } from '../redux/slices/UserSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/Hooks';
-import apiUrl from '../utils/baseUrl';
+import apiUrl from '../utils/api';
 import { currencyFormat } from '../utils/currencyFormat';
 import {
   ICartProduct,
@@ -58,7 +58,6 @@ export default function PaymentResponse(): JSX.Element {
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     let paymentresponse = {};
-    // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of urlParams.entries()) {
       paymentresponse = { ...paymentresponse, [key]: value };
     }
@@ -86,7 +85,7 @@ export default function PaymentResponse(): JSX.Element {
       window.localStorage.removeItem('city');
       window.localStorage.removeItem('shippingAddress');
       try {
-        await apiUrl.post('/venta/', body);
+        // await apiUrl.post('/venta/', body);
         //  {
         //   headers: {
         //     Authorization: `Bearer ${accessToken}`

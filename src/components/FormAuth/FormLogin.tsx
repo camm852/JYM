@@ -1,6 +1,9 @@
-import React from 'react';
-
-export default function FormLogin({ handleChange, values, errors, touched }: any): JSX.Element {
+export default function FormLogin({
+  handleChange,
+  values,
+  errors,
+  touched
+}: any): JSX.Element {
   return (
     <>
       <h2 className="font-semibold">Entra a tu cuenta para continuar</h2>

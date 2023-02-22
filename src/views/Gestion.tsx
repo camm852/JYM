@@ -10,11 +10,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 //   QueryClientProvider
 // } from 'react-query';
 import Swal from 'sweetalert2';
+import { useQuery } from 'react-query';
 import FormAddProduct from '../components/FormProduct';
 import Toast from '../components/Toast';
-import apiUrl from '../utils/baseUrl';
+import apiUrl, { getAllProducts } from '../utils/api';
 import { IPropsModal, TProductTable } from '../vite-env';
-import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
+import SpinnerGestion from '../components/SpinnerDiamond/SpinnerDiamond';
 
 function FormModal(props: IPropsModal): JSX.Element {
   const { isOpenModal, setIsOpenModal, children } = props;
@@ -94,74 +95,35 @@ export default function Gestion() {
   const [product, setProduct] = React.useState<TProductTable>(initialState);
   const [totalProducts, setTotalProducts] = React.useState<number>(0);
   const [countProducts, setCountProducts] = React.useState<number[]>([]);
-  const [products, setProducts] = React.useState<Array<TProductTable>>([]);
   const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const navigate = useNavigate();
   const { page } = useParams();
 
-  // TODO implementar react-query
   // const queryClient = useQueryClient();
 
-  React.useEffect(() => {
-    if (totalProducts === 0) return;
+  const {
+    data: products,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['allProducts'],
+    queryFn: getAllProducts
+  });
 
-    const count: number[] = [
-      ...Array(Math.ceil(totalProducts / 10)).keys()
-    ].map((x, i) => i + 1);
+  // React.useEffect(() => {
+  //   if (totalProducts === 0) return;
 
-    setCountProducts(count);
-  }, [totalProducts]);
+  //   const count: number[] = [
+  //     ...Array(Math.ceil(totalProducts / 10)).keys()
+  //   ].map((x, i) => i + 1);
+
+  //   setCountProducts(count);
+  // }, [totalProducts]);
 
   React.useEffect(() => {
     if (page === '0') navigate('/dashboard/gestion/products/1');
-  }, []);
-
-  React.useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const response = await apiUrl.get(
-          `/productos/?page=${page === '0' ? '1' : page}`
-        );
-        const { count, previous, next, results } = response.data;
-        if (response.status !== 200) throw Error(`${response.status}`);
-        setProducts(results);
-        setPaginator({
-          previous,
-          next
-        });
-        setTotalProducts(count);
-      } catch (error: any) {
-        if (error?.request?.status === 404) {
-          setTimeout(() => {
-            navigate('/dashboard/gestion/products/1');
-            window.location.reload();
-          }, 1000);
-          return;
-        }
-        if (error?.request?.status === 0 || error?.request?.status === 0) {
-          setMessageToast({
-            error: true,
-            message: 'Servidor no disponible'
-          });
-          setOpenToast(true);
-        }
-        if (error?.message === '204') {
-          setMessageToast({
-            error: true,
-            message: 'No hay productos disponibles'
-          });
-          setOpenToast(true);
-        }
-      }
-    };
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-
-    getProducts();
   }, []);
 
   const stateProduct = (id: number, state: boolean) => {
@@ -187,7 +149,7 @@ export default function Gestion() {
         if (result.isConfirmed) {
           try {
             await apiUrl.delete(`/producto/${id}/`);
-            const newProducts = products.map((productTable) => {
+            const newProducts = products.map((productTable: TProductTable) => {
               if (productTable.id === id) {
                 if (state) productTable.state = false;
                 else productTable.state = true;
@@ -195,7 +157,7 @@ export default function Gestion() {
               }
               return productTable;
             });
-            setProducts(newProducts);
+            // products = newProducts;
             swalWithBootstrapButtons.fire(
               state ? 'Desactivado!' : 'Activado!',
               state
@@ -214,25 +176,29 @@ export default function Gestion() {
       });
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <>
         <SpinnerGestion />;
-        <div
-          className={`fixed  ${
-            !openToast ? '-right-full' : 'right-8'
-          } bottom-1 transition-all duration-150 ease-in-out z-50`}
-        >
-          {openToast && (
-            <Toast
-              openToast={setOpenToast}
-              stateToast={openToast}
-              error={messageToast.error}
-              text={messageToast.message}
-            />
-          )}
-        </div>
       </>
+    );
+  }
+  if (isError) {
+    return (
+      <div
+        className={`fixed  ${
+          !openToast ? '-right-full' : 'right-8'
+        } bottom-1 transition-all duration-150 ease-in-out z-50`}
+      >
+        {openToast && (
+          <Toast
+            openToast={setOpenToast}
+            stateToast={!openToast}
+            error
+            text="Fallo al traer los productos"
+          />
+        )}
+      </div>
     );
   }
   return (
@@ -384,6 +350,63 @@ export default function Gestion() {
             </tbody>
           </table>
         </div>
+        {/* <div className=" sm:float-right mt-3 py-2">
+          <nav className="flex justify-center">
+            <ul className="flex list-style-none gap-2">
+              <li className="page-item disabled">
+                <button
+                  className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                  onClick={() => {
+                    navigate(
+                      `/dashboard/gestion/products/${
+                        page !== undefined ? +page - 1 : 1
+                      }`
+                    );
+                    window.location.reload();
+                  }}
+                  disabled={!paginator.previous}
+                >
+                  Previous
+                </button>
+              </li>
+              {countProducts.map((count) => (
+                <li key={count}>
+                  <button
+                    className={`relative block py-1 px-3.5 border-0 ${
+                      page !== undefined
+                        ? +page === count
+                          ? 'bg-sky-500 text-white'
+                          : 'bg-transparent text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'
+                        : ''
+                    } outline-none transition-all duration-300 rounded-full `}
+                    onClick={() => {
+                      navigate(`/dashboard/gestion/products/${count}`);
+                      window.location.reload();
+                    }}
+                  >
+                    {count}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button
+                  className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
+                  onClick={() => {
+                    navigate(
+                      `/dashboard/gestion/products/${
+                        page !== undefined ? +page + 1 : 1
+                      }`
+                    );
+                    window.location.reload();
+                  }}
+                  disabled={!paginator.next}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div> */}
       </div>
       <div
         className={`fixed  ${
@@ -398,63 +421,6 @@ export default function Gestion() {
             text={messageToast.message}
           />
         )}
-      </div>
-      <div className=" sm:float-right mt-3 py-2">
-        <nav className="flex justify-center">
-          <ul className="flex list-style-none gap-2">
-            <li className="page-item disabled">
-              <button
-                className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
-                onClick={() => {
-                  navigate(
-                    `/dashboard/gestion/products/${
-                      page !== undefined ? +page - 1 : 1
-                    }`
-                  );
-                  window.location.reload();
-                }}
-                disabled={!paginator.previous}
-              >
-                Previous
-              </button>
-            </li>
-            {countProducts.map((count) => (
-              <li key={count}>
-                <button
-                  className={`relative block py-1 px-3.5 border-0 ${
-                    page !== undefined
-                      ? +page === count
-                        ? 'bg-sky-500 text-white'
-                        : 'bg-transparent text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'
-                      : ''
-                  } outline-none transition-all duration-300 rounded-full `}
-                  onClick={() => {
-                    navigate(`/dashboard/gestion/products/${count}`);
-                    window.location.reload();
-                  }}
-                >
-                  {count}
-                </button>
-              </li>
-            ))}
-            <li>
-              <button
-                className="page-link relative block py-1.5 px-3 border-0 bg-transparent outline-none transition-all duration-300 rounded-full text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none"
-                onClick={() => {
-                  navigate(
-                    `/dashboard/gestion/products/${
-                      page !== undefined ? +page + 1 : 1
-                    }`
-                  );
-                  window.location.reload();
-                }}
-                disabled={!paginator.next}
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
       </div>
     </>
   );

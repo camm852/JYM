@@ -2,10 +2,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ShoppingProducts from '../components/ShoppingProducts';
-import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
+import SpinnerGestion from '../components/SpinnerDiamond/SpinnerDiamond';
 import Toast from '../components/Toast';
 import { useAppSelector } from '../redux/store/Hooks';
-import apiUrl from '../utils/baseUrl';
+import apiUrl from '../utils/api';
 import { ICartProduct, IConfirmPurchase, IPropsModal } from '../vite-env';
 
 function FormModal(props: IPropsModal): JSX.Element {

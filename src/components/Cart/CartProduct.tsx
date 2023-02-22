@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import { decrease, increase, remove } from '../../redux/slices/CartSlice';
 import { useAppDispatch } from '../../redux/store/Hooks';
 import { currencyFormat } from '../../utils/currencyFormat';

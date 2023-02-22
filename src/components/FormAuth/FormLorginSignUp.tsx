@@ -7,9 +7,9 @@ import { JYMLOGO } from '../../assets/assests';
 import FormLogin from './FormLogin';
 import FormSignUp from './FormSignUp';
 import { IPropsLogin as Props } from '../../vite-env';
-import apiUrl from '../../utils/baseUrl';
+import apiUrl from '../../utils/api';
 import { useAppDispatch } from '../../redux/store/Hooks';
-import Spiner from '../Spinner/Spiner';
+import Spiner from '../SpinnerCircle/SpinerCircle';
 import Toast from '../Toast';
 import { login } from '../../redux/slices/UserSlice';
 
@@ -33,7 +33,11 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
 
   const userLogin = async (values: { email?: string; password?: string }) => {
     try {
-      const response = await apiUrl.post('/login/', values);
+      // const response = await apiUrl.post('/login/', values);
+      const response = await apiUrl.get(`/users?email=${values.email}`);
+
+      console.log(response.data);
+      if (response.data.length === 0) throw new Error();
 
       setError({
         error: false,
@@ -45,7 +49,7 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
 
       setTimeout(() => {
         setLoading(false);
-        dispatch(login(response.data));
+        dispatch(login(response.data[0]));
       }, 2000);
     } catch (e: any) {
       if (e?.code === 'ERR_BAD_REQUEST') {
@@ -55,6 +59,8 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
           textToast: 'Login fallido'
         });
         setOpenToast(true);
+        setLoading(false);
+        return;
       }
       if (e?.code === 'ERR_NETWORK') {
         setError({
@@ -62,7 +68,14 @@ export default function FormLoginSingUp(props: Props): JSX.Element {
           message: 'Servidor no disponible',
           textToast: 'Login fallido'
         });
+        setLoading(false);
+        return;
       }
+      setError({
+        error: true,
+        message: 'Login fallido',
+        textToast: 'Login fallido'
+      });
       setLoading(false);
     }
   };

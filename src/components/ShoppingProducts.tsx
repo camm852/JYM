@@ -1,4 +1,3 @@
-import React from 'react';
 import { ICartProduct, IPropsShoppingProducts } from '../vite-env';
 
 export default function ShoppingProducts({

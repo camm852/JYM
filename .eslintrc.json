@@ -19,7 +19,9 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "max-len": "off",  
+    "no-restricted-syntax": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "max-len": "off",
     "react/jsx-indent": "off",
     "operator-linebreak": "off",
     "react/jsx-curly-newline": "off",

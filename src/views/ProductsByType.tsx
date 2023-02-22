@@ -2,9 +2,9 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CardProduct from '../components/CardProduct';
 import Footer from '../components/Footer';
-import SpinnerGestion from '../components/SpinnerGestion/SpinnerGestion';
+import SpinnerGestion from '../components/SpinnerDiamond/SpinnerDiamond';
 import Toast from '../components/Toast';
-import apiUrl from '../utils/baseUrl';
+import apiUrl from '../utils/api';
 import { TProductTable } from '../vite-env';
 
 export default function ProductsByType() {

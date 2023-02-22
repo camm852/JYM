@@ -143,7 +143,6 @@ export default function Header() {
             {window.location.pathname !== '/checkout' ? (
               <button
                 className="ml-4 lg:mt-0"
-                // onClick={() => setActiveCart(!activeCart)}
                 onClick={() => dispatch(showCart(!visible))}
                 style={{
                   WebkitTapHighlightColor: 'rgb(0,0,0,0)'

@@ -1,7 +1,6 @@
-import React from 'react';
-import { IPropsButtonMenu as Props } from '../vite-env';
+import { IPropsButtonMenu } from '../vite-env';
 
-export default function ButtonMenu(props: Props): JSX.Element {
+export default function ButtonMenu(props: IPropsButtonMenu): JSX.Element {
   const { setNavBar, navBar } = props;
 
   return (
@@ -21,7 +20,11 @@ export default function ButtonMenu(props: Props): JSX.Element {
             stroke="currentColor"
             className="w-6 h-6"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         ) : (
           <svg

@@ -91,9 +91,6 @@ export default function Footer(): JSX.Element {
           <a
             className="group flex items-center gap-2 "
             href="https://wa.me/3165334337"
-            // style={{
-            //   WebkitTapHighlightColor: 'rgb(0,0,0,0)'
-            // }}
           >
             <WhatsAppIcon className="w-7 h-7 text-white group-hover:text-green-400 fill-current transition-all duration-300" />
             <p className="uppercase font-semibold text-md group-hover:text-white transition-all duration-300">

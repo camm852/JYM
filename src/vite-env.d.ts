@@ -39,7 +39,7 @@ export interface IPropsLogin {
   setLoadedImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export interface PropsIcons {
+export interface IPropsIcons {
   className: string;
 }
 
